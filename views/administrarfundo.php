@@ -27,7 +27,7 @@
                         <div class="row">
                             <div class="col-md-12 mt-3">
                                 <label for="idcategoria">Jefe de Fundo</label>
-                                <select class="form-control form-control-border" name="idcategoria" id="idcategoria" placeholder="123">
+                                <select class="form-control form-control-border" name="idcategoria" id="idcategoria" >
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">

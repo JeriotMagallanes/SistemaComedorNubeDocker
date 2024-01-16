@@ -161,6 +161,12 @@
                     </a>
                   </li>
                   <li class='nav-item'>
+                    <a href='main.php?view=administrarmotivaplicacion' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Administrar Motivo Apli.</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
                     <a href='main.php?view=ingresosistema' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Ver Ingresos al Sistema</p>
