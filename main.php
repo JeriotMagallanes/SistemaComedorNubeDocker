@@ -174,6 +174,23 @@
                   </li>
                 ";
               } 
+              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Operario')){
+                echo "
+                <li class='nav-header' style='background-color:#292929'>Operario</li>
+                <li class='nav-item'>
+                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                  <i class='fas fa-users-cog nav-icon'></i>
+                    <p>Crear Reporte</p>
+                  </a>
+                </li>
+                <li class='nav-item'>
+                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                  <i class='fas fa-users-cog nav-icon'></i>
+                    <p>Ver Estado de Reportes</p>
+                  </a>
+                </li>
+                ";
+              } 
             ?>
             <?php
               if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Calidad')){
@@ -204,25 +221,6 @@
                       <p>Ver Reportes</p>
                     </a>
                   </li>
-                ";
-              } 
-            ?>
-            <?php
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Operario')){
-                echo "
-                <li class='nav-header' style='background-color:#292929'>Operario</li>
-                <li class='nav-item'>
-                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Crear Reporte</p>
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Ver Estado de Reportes</p>
-                  </a>
-                </li>
                 ";
               } 
             ?>

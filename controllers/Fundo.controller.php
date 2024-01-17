@@ -11,7 +11,12 @@ if (isset($_GET['op'])){
     if($_GET['op'] == 'registrarFundo'){
         $Fundo->registrarFundo([
             'idcategoria' => $_GET['idcategoria'],
-            'nombreproducto' => $_GET['nombreproducto']
+            'nombreproducto' => $_GET['nombreproducto'],
+            'lote' => $_GET['lote'],
+            's_lote' => $_GET['s_lote'],
+            'hectareas' => $_GET['hectareas'],
+            'cultivo' => $_GET['cultivo'],
+            'variedad' => $_GET['variedad']
         ]);
     }
 

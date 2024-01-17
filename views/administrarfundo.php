@@ -36,15 +36,17 @@
                                 <input type="text" id="idproductomod" class="form-control form-control-border asignar" disabled>
                             </div>
                             <div class="col-md-12 mt-3">
-                                <label for="nombreproducto">Lote:</label>
-                                <input type="text" id="lote" class="form-control form-control-border">
+                                <label for="lote">Lote:</label>
+                                <select class="form-control form-control-border" name="lote" id="lote" >
+                                </select>
                             </div>
                             <div class="col-md-12 mt-3">
-                                <label for="nombreproducto">Sub Lote:</label>
-                                <input type="text" id="s_lote" class="form-control form-control-border">
+                                <label for="s_lote">Sub Lote:</label>
+                                <select class="form-control form-control-border" name="s_lote" id="s_lote" >
+                                </select>
                             </div>
                             <div class="col-md-12 mt-3">
-                                <label for="nombreproducto">Hectareas:</label>
+                                <label for="hectareas">Hectareas:</label>
                                 <input class="money form-control form-control-border" type="text"id="hectareas" >
                                 
                             </div>

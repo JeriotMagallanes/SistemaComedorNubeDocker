@@ -2,9 +2,9 @@
 
 require_once '../core/model.master.php';
 
-class Producto extends ModelMaster{
+class Motivo extends ModelMaster{
 
-  public function registrarProducto(array $data){
+  public function registrarMotivo(array $data){
       try{
         parent::execProcedure($data, "spu_motivo_aplicacion_registro", false);
       }catch(Exception $error){
@@ -12,7 +12,7 @@ class Producto extends ModelMaster{
       }
     }
     
-  public function nombreproductoYaRegistrado(array $data){
+  public function nombreMotivoYaRegistrado(array $data){
     try{
         return parent::execProcedureLogin($data, "spu_nombre_motivo_aplicacion_registrado", true);
     }
@@ -21,33 +21,25 @@ class Producto extends ModelMaster{
     }
   }
 
-  public function eliminarProducto(array $data){
+  public function modificarMotivo(array $data){
     try{
-        parent::deleteRows($data, "spu_eliminar_producto_sanidad");
-    }catch(Exception $error){
-        die($error->getMessage());
-    }
-  }
-
-  public function modificarProducto(array $data){
-    try{
-        parent::execProcedure($data, "spu_productos_sanidad_modificar", false);
+        parent::execProcedure($data, "spu_motivo_aplicacion_modificar", false);
     }catch(Exception $error){
         die($error->getMessage());
     }
   } 
 
-  public function getProducto(array $data){
+  public function getMotivo(array $data){
       try{
-          return parent::execProcedure($data, "spu_productosSanidad_getdata", true);
+          return parent::execProcedure($data,"spu_motivoAplicacion_getdata", true);
       }catch(Exception $error){
           die($error->getMessage());
       }
   }
 
-  public function listarProducto(){
+  public function listarMotivo(){
     try{
-        return parent::getRows("spu_motivvo_aplicacion_listar");
+        return parent::getRows("spu_motivo_aplicacion_listar");
     }catch(Exception $error){
         die($error->getMessage());
     }

@@ -6,16 +6,16 @@ require_once '../models/Serverside.php';
 
 if (isset($_GET['op'])){
 
-  $producto = new Producto();
+  $motivo = new Motivo();
 
-    if($_GET['op'] == 'registrarProducto'){
-        $producto->registrarProducto([
+    if($_GET['op'] == 'registrarMotivo'){
+        $motivo->registrarMotivo([
             'nombremotivo' => $_GET['nombremotivo']
         ]);
     }
 
-    if ($_GET['op'] == 'nombreproductoYaRegistrado'){
-        $datosObtenidos = $producto->nombreproductoYaRegistrado(["nombremotivo" => $_GET['nombremotivo']]);
+    if ($_GET['op'] == 'nombreMotivoYaRegistrado'){
+        $datosObtenidos = $motivo->nombreMotivoYaRegistrado(["nombremotivo" => $_GET['nombremotivo']]);
     
         if(count($datosObtenidos) == 0){
           echo 2;
@@ -27,8 +27,8 @@ if (isset($_GET['op'])){
         }
     }
 
-    if($_GET['op']  == 'ListarProductoFarmaciaPrueba'){              
-      $clave = $producto->listarProducto();
+    if($_GET['op']  == 'ListarMotivos'){              
+      $clave = $motivo->listarMotivo();
   
       if(count($clave) != 0){
         $i = 1;
@@ -51,22 +51,16 @@ if (isset($_GET['op'])){
         }
       }
     }
-
-    if($_GET['op']== 'eliminarProducto'){
-      $producto->eliminarProducto(["idproducto" => $_GET["idproducto"]]);
-    }
     
     if($_GET['op'] == 'modificarProducto'){
-      $producto->modificarProducto([
-        "id_producto" => $_GET['id_producto'],
-        "codigo_producto" => $_GET['codigo_producto'],
-        "nombre_producto" => $_GET['nombre_producto'],
-        "unidad" => $_GET['unidad'],
+      $motivo->modificarMotivo([
+        "id_motivo" => $_GET['id_motivo'],
+        "nombre_motivo" => $_GET['nombre_motivo'],
       ]);
     }
 
-    if($_GET['op'] == 'getProducto'){
-      $data = $producto->getProducto(["id_producto" => $_GET['idproducto']]);
+    if($_GET['op'] == 'getMotivo'){
+      $data = $motivo->getMotivo(["id_motivo" => $_GET['idmotivo']]);
       echo json_encode($data);
     }
 

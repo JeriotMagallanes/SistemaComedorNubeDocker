@@ -41,8 +41,9 @@
                                     <option value="">Seleccione</option>
                                     <option value="A">Administrador</option>
                                     <option value="C">Calidad</option>
-                                    <option value="S">Jefe de Fundo</option>
+                                    <option value="J">Jefe de Fundo</option>
                                     <option value="O">Operario</option>
+                                    <option value="S">Sanidad</option>
                                 </select>
                                 <input type="text" id="idusuariomod" class="form-control form-control-border asignar" disabled>
                             </div>

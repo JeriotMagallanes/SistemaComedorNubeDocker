@@ -26,6 +26,20 @@ class Categoria extends ModelMaster{
             die($error->getMessage());
         }
     }
-
+    
+    public function cargarCategoriaLote(){
+      try{
+        return parent::getRows("spu_cargar_categoria_lote");
+      }catch(Exception $error){
+        die($error->getMessage());
+      }
+    }
+    public function cargarCategoriaSubLotes(array $data){
+        try{
+            return parent::execProcedure($data, "spu_cargar_s_lotes", true);
+        }catch(Exception $error){
+            die($error->getMessage());
+        }
+    }
 }
 ?>

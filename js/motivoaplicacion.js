@@ -18,7 +18,7 @@ $(document).ready(function(){
         'fontfamily fontsize bold italic underline backcolor  forecolor | ',
     });
 
-    function registrarProducto(){
+    function registrarMotivo(){
         var nombremotivo = $("#nombremotivo").val();
 
         if(nombremotivo == ""  ){
@@ -34,7 +34,7 @@ $(document).ready(function(){
                 
                 if(result.isConfirmed){
                     var datos = {
-                        'op'                : 'registrarProducto',
+                        'op'                : 'registrarMotivo',
                         'nombremotivo'       : nombremotivo,
                     };
                     console.log(datos);
@@ -45,7 +45,7 @@ $(document).ready(function(){
                         success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioMotivoAplicacion")[0].reset();
-                            listarProductosFarmaciaPrueba();
+                            ListarMotivos();
                         }
                     });
                 }
@@ -53,16 +53,14 @@ $(document).ready(function(){
         }
     }
 
-    function nombreproductoYaExiste(){
-        // let nombreproductoYaExiste = $("#nombreproducto").val();
-        let nombreproductoYaExiste = $("#nombremotivo").val();
-
-        if(nombreproductoYaExiste == ""){
+    function nombreMotivoYaExiste(){
+        let nombreMotivoYaExiste = $("#nombremotivo").val();
+        if(nombreMotivoYaExiste == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             var datos = {
-                'op' : 'nombreproductoYaRegistrado',
-                'nombreproducto' : nombreproductoYaExiste
+                'op' : 'nombreMotivoYaRegistrado',
+                'nombremotivo' : nombreMotivoYaExiste
             };
             $.ajax({
                 type: "GET",
@@ -73,7 +71,7 @@ $(document).ready(function(){
                         mostrarAlerta("error", "¡Ya existe este producto!");
                     }
                     else if(e == 2){
-                        registrarProducto();
+                        registrarMotivo();
                     }else{
                         mostrarAlerta("error", "¡A ocurrido un error!");
                     }
@@ -83,11 +81,11 @@ $(document).ready(function(){
     }
 
 
-    function listarProductosFarmaciaPrueba(){
+    function ListarMotivos(){
         $.ajax({
             url: 'controllers/MotivoAplicacion.controller.php',
             type: 'GET',
-            data: 'op=ListarProductoFarmaciaPrueba',
+            data: 'op=ListarMotivos',
             success: function(e){
                 var tabla = $("#tablamotivoaplicacion").DataTable();
                 tabla.destroy();
@@ -106,94 +104,27 @@ $(document).ready(function(){
             }
         });
     }
-
-    function ListarProductos(){
-        var tabla = $("#tablamotivoaplicacion").DataTable();
-        tabla.destroy();
-
-        tabla = $("#tablamotivoaplicacion").DataTable({
-            "processing" : true,
-            "serverSide" : true,
-            "order"      : [[2, "asc"]],
-            "sAjaxSource": 'controllers/MotivoAplicacion.controller.php?op=ListarProductoFarmacia',
-            "pageLength" : 10,
-            "language": { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'},
-            "dom": 'Bfrtip',
-            "buttons": ['copy', 'print', 'pdf', 'excel'],
-            "columnDefs" : [
-                {
-                    "data": null,
-                    render: function(data,type,row){
-                        return `
-                            <a  href='#' data-idproducto='${data[0]}' class='btn btn-sm btn-outline-secondary modificar'>
-                                <i class='fas fa-edit'></i>
-                            </a>
-                            <a  href='#' data-idproducto='${data[0]}' class='btn btn-sm btn-outline-secondary eliminar'>
-                                <i class='fas fa-trash-alt'></i>
-                            </a>
-                        `;
-                    },
-                    "targets":5
-                }
-            ]
-        });
-    }  
-
-    $("#tablamotivoaplicacion").on("click", ".eliminar", function(){
-        let idproducto = $(this).attr('data-idproducto');
-        Swal.fire({
-            icon: 'question',
-            title: 'COMPLEJO AGROINDUSTRIAL',
-            text: 'Esta seguro de eliminar?',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Confirmar',
-        }).then((result)=>{
-            if(result.isConfirmed){
-                var datos = {
-                    'op' : 'eliminarProducto',
-                    'idproducto' : idproducto
-                };
-                $.ajax({
-                    url: 'controllers/MotivoAplicacion.controller.php',
-                    type: 'GET',
-                    data: datos,
-                    success: function(e){
-                        mostrarAlerta("success", "¡Eliminado correctamente!");
-                        listarProductosFarmaciaPrueba();
-                    }
-                });
-            }
-            });
-    });
-
+ 
     $("#tablamotivoaplicacion").on('click', ".modificar", function(){
-        let idproducto = $(this).attr('data-idproducto');
+        let idmotivo = $(this).attr('data-idproducto');
 
         var datos = {
-            'op' : 'getProducto',
-            'idproducto' : idproducto
+            'op' : 'getMotivo',
+            'idmotivo' : idmotivo
         };
-        // console.log(datos);
         $.ajax({
             url: 'controllers/MotivoAplicacion.controller.php',
             type: 'GET',
             data: datos,
             success: function(result){                        
                 if ($.trim(result) != ""){
-                    //Asignamos y quitamos la clase que muestra la caja de texto
                     $("#Aviso").html("Actualizar Producto");
                     txtProducto.classList.remove('asignar');
                     botonActualizar.classList.remove('asignar');
                     botonGuardar.classList.add('asignar');
-                    //$("#idcategoria").prop('disabled', true);
-                    // $("#descripcion").prop('disabled', true);
                     var resultado = JSON.parse(result);
-                    // console.log(resultado);
-                    $("#codigoproducto").val(resultado[0].codigo_producto);
-                    $("#nombreproducto").val(resultado[0].nombre_producto);
-                    $("#unidadproducto").val(resultado[0].unidad);
-                    txtProducto.setAttribute("data-idproducto", resultado[0].id_producto);
+                    $("#nombremotivo").val(resultado[0].nombre_motivo);
+                    txtProducto.setAttribute("data-idproducto", resultado[0].id_motivo);
                     $("#idproductomod").hide();
                 }else{
                     mostrarAlerta("warning", "¡No encontramos registros!");
@@ -211,13 +142,11 @@ $(document).ready(function(){
         $("#descripcion").prop('disabled', false);
     });
 
-    function modificarProducto(){
-        let id_producto = $("#idproductomod").attr('data-idproducto');
-        var codigo_producto = $("#codigoproducto").val();
-        var nombre_producto = $("#nombreproducto").val();
-        var unidad = $("#unidadproducto").val();
+    function modificarMotivo(){
+        let id_motivo = $("#idproductomod").attr('data-idproducto');
+        var nombre_motivo = $("#nombremotivo").val();
 
-        if(codigo_producto == "" || nombre_producto == "" || unidad == "" ){
+        if(nombre_motivo == "" ){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -229,11 +158,9 @@ $(document).ready(function(){
             }).then((result) =>{
                 if(result.isConfirmed){
                     var datos = {
-                        'op'                     : 'modificarProducto',
-                        'id_producto'            : id_producto,
-                        'codigo_producto'        : codigo_producto,
-                        'nombre_producto'        : nombre_producto, 
-                        'unidad'                 : unidad, 
+                        'op'                   : 'modificarProducto',
+                        'id_motivo'            : id_motivo,
+                        'nombre_motivo'        : nombre_motivo
                     };  
                     console.log(datos);
                     $.ajax({
@@ -242,14 +169,12 @@ $(document).ready(function(){
                         data: datos,
                         success:function(e){
                             mostrarAlerta("success", "¡Modificado con éxito!");
-
                             $("#formularioMotivoAplicacion")[0].reset();
                             $("#Aviso").html("Registrar Producto");
                             txtProducto.classList.add('asignar');
                             botonActualizar.classList.add('asignar');
                             botonGuardar.classList.remove('asignar');
-
-                            listarProductosFarmaciaPrueba();
+                            ListarMotivos();
                         }
                     });
                 }
@@ -257,7 +182,7 @@ $(document).ready(function(){
         }
     }
 
-    listarProductosFarmaciaPrueba();
-    $("#registrar").click(nombreproductoYaExiste);
-    $("#actualizar").click(modificarProducto);
+    ListarMotivos();
+    $("#registrar").click(nombreMotivoYaExiste);
+    $("#actualizar").click(modificarMotivo);
 });

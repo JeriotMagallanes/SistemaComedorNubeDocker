@@ -23,15 +23,31 @@ if (isset($_GET['op'])){
             <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
             ";
         }
-    //   echo json_encode($data);
     }
     if($_GET['op'] == 'cargarCategoriaVariedades'){
       $datosObtenidos = $categoria->cargarCategoriaVariedades(["id_cultivo" => $_GET['id_cultivo']]);
-      // echo json_encode($datosObtenidos);
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
           <option value='$valor->id_variedad'>$valor->nombre_variedad</option>
+          ";
+      }
+    }
+    if($_GET['op'] == 'cargarCategoriaLote'){
+      $datosObtenidos = $categoria->cargarCategoriaLote();
+        echo "<option value=''>Seleccione</option>";
+        foreach($datosObtenidos as $valor){
+            echo"
+            <option value='$valor->id_lote'>$valor->nombre_lote</option>
+            ";
+        }
+    }
+    if($_GET['op'] == 'cargarCategoriaSubLote'){
+      $datosObtenidos = $categoria->cargarCategoriaSubLotes(["id_lote" => $_GET['id_lote']]);
+      echo "<option value=''>Seleccione</option>";
+      foreach($datosObtenidos as $valor){
+          echo"
+          <option value='$valor->id_sub_lote '>$valor->_slote_nombre</option>
           ";
       }
     }

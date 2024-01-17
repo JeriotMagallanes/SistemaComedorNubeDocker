@@ -8,9 +8,14 @@ $(document).ready(function(){
     function registrarFundo(){
         var idcategoria = $("#idcategoria").val();
         var nombreproducto = $("#nombreproducto").val();
+        var lote = $("#lote").val();
+        var s_lote = $("#s_lote").val();
+        var hectareas = $("#hectareas").val();
+        var cultivo = $("#cultivo").val();
+        var variedad = $("#variedad").val();
 
         
-        if(idcategoria == "" || nombreproducto == "" ){
+        if(idcategoria == "" || nombreproducto == "" || lote == ""|| s_lote == ""|| hectareas == ""|| cultivo == ""|| variedad == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -26,6 +31,11 @@ $(document).ready(function(){
                         'op'                : 'registrarFundo',
                         'idcategoria'       : idcategoria,
                         'nombreproducto'    : nombreproducto,
+                        'lote'              : lote,
+                        's_lote'            : s_lote,
+                        'hectareas'         : hectareas,
+                        'cultivo'           : cultivo,
+                        'variedad'          : variedad,
                     };
                     console.log(datos);
                     $.ajax({
@@ -44,33 +54,6 @@ $(document).ready(function(){
         }
     }
 
-    function nombreproductoYaExiste(){
-        let nombreproductoYaExiste = $("#nombreproducto").val();
-
-        if(nombreproductoYaExiste == ""){
-            mostrarAlerta("warning", "¡Completar los campos necesarios!");
-        }else{
-            var datos = {
-                'op' : 'nombrefundoYaRegistrado',
-                'nombreproducto' : nombreproductoYaExiste
-            };
-            $.ajax({
-                type: "GET",
-                url:  "controllers/Fundo.controller.php",
-                data: datos,
-                success: function(e){
-                    if(e == 1){
-                        mostrarAlerta("error", "¡Ya existe este Fundo!");
-                    }
-                    else if(e == 2){
-                        registrarFundo();
-                    }else{
-                        mostrarAlerta("error", "¡A ocurrido un error!");
-                    }
-                }
-            });
-        }
-    }
 
     function cargarCategorias(select){
         var datos ={
@@ -101,7 +84,6 @@ $(document).ready(function(){
 
     $("#cultivo").change(function(){
         let cultivo=$("#cultivo").val();
-        // console.log(filtros);
         var datos={
             'op'            : 'cargarCategoriaVariedades',
             'id_cultivo'   :cultivo
@@ -115,6 +97,38 @@ $(document).ready(function(){
             }
         });
     });
+
+    function cargarCategoriaLotes(select){
+        var datos ={
+            'op': 'cargarCategoriaLote'
+        };
+        $.ajax({
+            url : 'controllers/CategoriaFundo.controller.php',
+            type: 'GET',
+            data: datos,
+            success:function(e){
+                $(select).html(e);
+            }
+        });
+    }
+    $("#lote").change(function(){
+        let lote=$("#lote").val();
+        console.log(datos);
+        var datos={
+            'op'           : 'cargarCategoriaSubLote',
+            'id_lote  '       : lote
+        }
+        console.log(datos);
+        $.ajax({
+            url: 'controllers/CategoriaFundo.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#s_lote").html(e);
+            }
+        });
+    });
+
     function listarProductosMedicosPrueba(){
         $.ajax({
             url: 'controllers/Fundo.controller.php',
@@ -212,13 +226,7 @@ $(document).ready(function(){
                     txtProducto.classList.remove('asignar');
                     botonActualizar.classList.remove('asignar');
                     botonGuardar.classList.add('asignar');
-                    //$("#idcategoria").prop('disabled', true);
-                    // $("#descripcion").prop('disabled', true);
-                    
-
                     var resultado = JSON.parse(result);
-                    // console.log(resultado);
-                    
                     $("#idcategoria").val(resultado[0].jefe_fundo);
                     $("#nombreproducto").val(resultado[0].nombre);
                     $("#lote").val(resultado[0].lote);
@@ -226,8 +234,6 @@ $(document).ready(function(){
                     $("#hectareas").val(resultado[0].hectareas);
                     $("#cultivo").val(resultado[0].cultivo);
                     $("#variedad").val(resultado[0].variedad);
-
-                    // tinymce.get("nombreproducto").setContent(resultado[0].nombre);
                     txtProducto.setAttribute("data-idproducto", resultado[0].id_fundo);
                     $("#idproductomod").hide();
                 }else{
@@ -325,10 +331,12 @@ $(document).ready(function(){
     
     listarProductosFarmaciaPrueba();
     listarProductosMedicosPrueba();
-    $("#registrar").click(nombreproductoYaExiste);
+    $("#registrar").click(registrarFundo);
     $("#actualizar").click(modificarProducto);
     cargarCategorias("#idcategoria");
     cargarCategorias("#categoriaselect");
+    cargarCategoriaLotes("#lote");
+    cargarCategoriaSubLotes("#s_lote");
     cargarCategoriaCultivos("#cultivo");
     cargarCategoriaVariedades("#variedad");
 });
