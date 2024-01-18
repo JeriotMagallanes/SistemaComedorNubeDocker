@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once '../models/Fundo.php';
+require_once '../models/Reporte.php';
 require_once '../models/Serverside.php';
 
 if (isset($_GET['op'])){

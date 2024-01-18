@@ -100,12 +100,12 @@
           </ul>
         </li>
 
-        <!-- Config -->
+        <!-- Config 
         <li class="nav-item">
           <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
             <i class="fas fa-th-large"></i>
           </a>
-        </li>
+        </li>-->
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -178,7 +178,7 @@
                 echo "
                 <li class='nav-header' style='background-color:#292929'>Operario</li>
                 <li class='nav-item'>
-                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                  <a href='main.php?view=administrarreporte' class='nav-link'>
                   <i class='fas fa-users-cog nav-icon'></i>
                     <p>Crear Reporte</p>
                   </a>
@@ -294,7 +294,7 @@
 
     <!-- Main Footer -->
     <footer class="main-footer text-sm">
-      <strong>Copyright &copy; 2022 <a href="https://www.facebook.com/Clinicafamisaludoficial/">Clínica FamiSalud</a>.</strong>
+      <strong>Copyright &copy; 2024 <a href="https://beta.com.pe">Complejo Agroindustrial Beta</a>.</strong>
     </footer>
   </div>
   <!-- ./wrapper -->

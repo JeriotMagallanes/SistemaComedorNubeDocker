@@ -39,7 +39,7 @@ $(document).ready(function(){
                     };
                     console.log(datos);
                     $.ajax({
-                        url : 'controllers/Fundo.controller.php',
+                        url : 'controllers/Reporte.controller.php',
                         type: 'GET',
                         data: datos,                        
                         success: function(result){
@@ -54,13 +54,12 @@ $(document).ready(function(){
         }
     }
 
-
     function cargarCategorias(select){
         var datos ={
             'op': 'cargarCategoria'
         };
         $.ajax({
-            url : 'controllers/CategoriaFundo.controller.php',
+            url : 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success:function(e){
@@ -73,7 +72,7 @@ $(document).ready(function(){
             'op': 'cargarCategoriaCultivos'
         };
         $.ajax({
-            url : 'controllers/CategoriaFundo.controller.php',
+            url : 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success:function(e){
@@ -89,7 +88,7 @@ $(document).ready(function(){
             'id_cultivo'   :cultivo
         }
         $.ajax({
-            url: 'controllers/CategoriaFundo.controller.php',
+            url: 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success: function(e){
@@ -103,7 +102,7 @@ $(document).ready(function(){
             'op': 'cargarCategoriaLote'
         };
         $.ajax({
-            url : 'controllers/CategoriaFundo.controller.php',
+            url : 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success:function(e){
@@ -121,7 +120,7 @@ $(document).ready(function(){
         }
         console.log(datos);
         $.ajax({
-            url: 'controllers/CategoriaFundo.controller.php',
+            url: 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success: function(e){
@@ -132,7 +131,7 @@ $(document).ready(function(){
 
     function listarProductosMedicosPrueba(){
         $.ajax({
-            url: 'controllers/Fundo.controller.php',
+            url: 'controllers/Reporte.controller.php',
             type: 'GET',
             data: 'op=ListarProductoMedicoPrueba',
             success: function(e){
@@ -156,7 +155,7 @@ $(document).ready(function(){
 
     function listarProductosFarmaciaPrueba(){
         $.ajax({
-            url: 'controllers/Fundo.controller.php',
+            url: 'controllers/Reporte.controller.php',
             type: 'GET',
             data: 'op=ListarProductoFarmaciaPrueba',
             success: function(e){
@@ -217,7 +216,7 @@ $(document).ready(function(){
         };
         
         $.ajax({
-            url: 'controllers/Fundo.controller.php',
+            url: 'controllers/Reporte.controller.php',
             type: 'GET',
             data: datos,
             success: function(result){                        
@@ -287,7 +286,7 @@ $(document).ready(function(){
                     };
                     console.log(datos);
                     $.ajax({
-                        url: 'controllers/Fundo.controller.php',
+                        url: 'controllers/Reporte.controller.php',
                         type:'GET',
                         data: datos,
                         success:function(e){
@@ -316,7 +315,7 @@ $(document).ready(function(){
         }else{
 
             $.ajax({
-                url: 'controllers/Fundo.controller.php',
+                url: 'controllers/Reporte.controller.php',
                 type: 'GET',
                 data: {
                     'op': 'filtrarCategorias',
