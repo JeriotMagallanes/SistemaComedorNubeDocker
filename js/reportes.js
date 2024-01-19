@@ -13,7 +13,8 @@ $(document).ready(function(){
         var hectareas = $("#hectareas").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-
+        //comentarrio
+        
         
         if(idcategoria == "" || nombreproducto == "" || lote == ""|| s_lote == ""|| hectareas == ""|| cultivo == ""|| variedad == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
@@ -161,7 +162,7 @@ $(document).ready(function(){
             }
         });
     });
-    
+
     function listarProductosFarmaciaPrueba(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
