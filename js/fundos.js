@@ -45,15 +45,38 @@ $(document).ready(function(){
                         success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioFundo")[0].reset();
-                            listarProductosFarmaciaPrueba();
-                            listarProductosMedicosPrueba();
+                            listarfundos();
                         }
                     });
                 }
             });
         }
     }
+    
 
+    function listarfundos(){
+        $.ajax({
+            url: 'controllers/Fundo.controller.php',
+            type: 'GET',
+            data: 'op=listarfundo',
+            success: function(e){
+                var tabla = $("#tablaProducto").DataTable();
+                tabla.destroy();
+                $("#tablaProductolistar").html(e);
+                $("#tablaProducto").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
 
     function cargarCategorias(select){
         var datos ={
@@ -129,55 +152,6 @@ $(document).ready(function(){
             }
         });
     });
-
-    function listarProductosMedicosPrueba(){
-        $.ajax({
-            url: 'controllers/Fundo.controller.php',
-            type: 'GET',
-            data: 'op=ListarProductoMedicoPrueba',
-            success: function(e){
-                var tabla = $("#tablaProductoMedico").DataTable();
-                tabla.destroy();
-                $("#tablaProductoMedicolistar").html(e);
-                $("#tablaProductoMedico").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
-            }
-        });
-    }
-
-    function listarProductosFarmaciaPrueba(){
-        $.ajax({
-            url: 'controllers/Fundo.controller.php',
-            type: 'GET',
-            data: 'op=ListarProductoFarmaciaPrueba',
-            success: function(e){
-                var tabla = $("#tablaProducto").DataTable();
-                tabla.destroy();
-                $("#tablaProductolistar").html(e);
-                $("#tablaProducto").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
-            }
-        });
-    }
-
 
     /*$("#tablaProducto").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
@@ -262,7 +236,6 @@ $(document).ready(function(){
         var hectareas = $("#hectareas").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-
         if(idcategoria == "" ||nombreproducto==""|| lote == "" || s_lote == "" || hectareas == "" || cultivo == "" || variedad == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
@@ -292,15 +265,13 @@ $(document).ready(function(){
                         data: datos,
                         success:function(e){
                             mostrarAlerta("success", "¡Modificado con éxito!");
-
                             $("#formularioFundo")[0].reset();
                             $("#Aviso").html("Registrar Producto");
                             txtProducto.classList.add('asignar');
                             botonActualizar.classList.add('asignar');
                             botonGuardar.classList.remove('asignar');
                             $("#idcategoria").prop('disabled', false);
-
-                            listarProductosFarmaciaPrueba();
+                            listarfundos();
                         }
                     });
                 }
@@ -309,10 +280,9 @@ $(document).ready(function(){
     }
 
     $("#categoriaselect").change(function(){
-        var filtros = $(this).val();
-        // console.log(filtros);
-        if(filtros==""){
-            listarProductosFarmaciaPrueba();
+        let jefe_fundo=$("#categoriaselect").val();
+        if(jefe_fundo==""){
+            listarfundos();
         }else{
 
             $.ajax({
@@ -320,18 +290,16 @@ $(document).ready(function(){
                 type: 'GET',
                 data: {
                     'op': 'filtrarCategorias',
-                    'idcategoria' : filtros
+                    'jefe_fundo' : jefe_fundo
                     },
                 success: function(result){
-                    // console.log(result);
                     $("#tablaProductolistar").html(result);
                 }
             });
         }
     });
     
-    listarProductosFarmaciaPrueba();
-    listarProductosMedicosPrueba();
+    listarfundos();
     $("#registrar").click(registrarFundo);
     $("#actualizar").click(modificarProducto);
     cargarCategorias("#idcategoria");

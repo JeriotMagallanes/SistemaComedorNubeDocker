@@ -14,33 +14,28 @@ if (isset($_GET['op'])){
         }
     }
     
-    if($_GET['op'] == 'cargarCategoriaCultivos'){
-      $datosObtenidos = $categoria->cargarCategoriaCultivos();
-        echo "<option value=''>Seleccione</option>";
-        foreach($datosObtenidos as $valor){
-            echo"
-            <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
-            ";
-        }
-    }
-    if($_GET['op'] == 'cargarCategoriaVariedades'){
-      $datosObtenidos = $categoria->cargarCategoriaVariedades(["id_cultivo" => $_GET['id_cultivo']]);
+    if($_GET['op'] == 'cargarCategoriaNombreFundo'){
+      $datosObtenidos = $categoria->cargarCategoriaNombreFundos(["jefe_fundo" => $_GET['jefe_fundo']]);
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->id_variedad'>$valor->nombre_variedad</option>
+          <option value='$valor->nombre'>$valor->nombre</option>
           ";
       }
     }
-    if($_GET['op'] == 'cargarCategoriaLote'){
-      $datosObtenidos = $categoria->cargarCategoriaLote();
-        echo "<option value=''>Seleccione</option>";
-        foreach($datosObtenidos as $valor){
-            echo"
-            <option value='$valor->id_lote'>$valor->nombre_lote</option>
-            ";
-        }
+    if($_GET['op'] == 'cargarCategoriaLoteNombreFundo'){
+      $datosObtenidos = $categoria->cargarCategoriaLoteNombreFundos([
+        "nombre" => $_GET['nombre'],
+        "jefe_fundo"=>$_GET['jefe_fundo']
+      ]);
+      echo "<option value=''>Seleccione</option>";
+      foreach($datosObtenidos as $valor){
+          echo"
+          <option value='$valor->id_lote'>$valor->nombre_lote</option>
+          ";
+      }
     }
+    
     if($_GET['op'] == 'cargarCategoriaSubLote'){
       $datosObtenidos = $categoria->cargarCategoriaSubLotes(["id_lote" => $_GET['id_lote']]);
       echo "<option value=''>Seleccione</option>";
@@ -50,5 +45,25 @@ if (isset($_GET['op'])){
           ";
       }
     }
+    
+    if($_GET['op'] == 'cargarCategoriaCultivoLote'){
+      $datosObtenidos = $categoria->cargarCategoriaCultivosLotes(["id_sub_lote" => $_GET['id_sub_lote']]);
+      echo "<option value=''>Seleccione</option>";
+      foreach($datosObtenidos as $valor){
+          echo"
+          <option value='$valor->id_cultivo '>$valor->nombre_cultivo</option>
+          ";
+      }
+    }
+    if($_GET['op'] == 'cargarCategoriaVariedadLote'){
+      $datosObtenidos = $categoria->cargarCategoriaVariedadLotes(["s_lote" => $_GET['s_lote']]);
+      echo "<option value=''>Seleccione</option>";
+      foreach($datosObtenidos as $valor){
+          echo"
+          <option value='$valor->id_variedad '>$valor->nombre_variedad</option>
+          ";
+      }
+    }
+
 }
 ?>

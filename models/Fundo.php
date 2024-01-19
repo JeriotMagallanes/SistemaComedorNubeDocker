@@ -4,7 +4,7 @@ require_once '../core/model.master.php';
 
 class Fundo extends ModelMaster{
 
-  public function registrarfundo(array $data){//yaaaaaaaaaa
+  public function registrarfundo(array $data){
       try{
         parent::execProcedure($data, "spu_fundo_registro", false);
       }catch(Exception $error){
@@ -12,7 +12,7 @@ class Fundo extends ModelMaster{
       }
     }
     
-  public function nombrefundoYaRegistrado(array $data){//yaaaaaaaaaa
+  public function nombrefundoYaRegistrado(array $data){
     try{
         return parent::execProcedureLogin($data, "spu_fundoYaRegistrado", true);
     }
@@ -37,7 +37,7 @@ class Fundo extends ModelMaster{
     }
   } 
 
-  public function getProducto(array $data){//yaaaaa
+  public function getProducto(array $data){
       try{
           return parent::execProcedure($data, "spu_fundos_getdata", true);
       }catch(Exception $error){
@@ -45,7 +45,7 @@ class Fundo extends ModelMaster{
       }
   }
 
-  public function filtrarCategoria(array $data){//yaaaaaaaaaa
+  public function filtrarCategoria(array $data){
     try{
         return parent::execProcedure($data, "spu_fundo_filtrar_categorias", true);
     }catch(Exception $error){
@@ -53,7 +53,7 @@ class Fundo extends ModelMaster{
     }
   }
 
-  public function listarProducto(){//yaaaaaaaaaa
+  public function listarfundo(){
     try{
         return parent::getRows("spu_fundos_listar");
     }catch(Exception $error){

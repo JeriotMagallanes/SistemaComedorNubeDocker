@@ -22,10 +22,11 @@
             </div>
             <!-- /.card-header -->
             <?php
-            // Obtener la fecha y hora actual
             date_default_timezone_set('America/Lima');
+            $fechaHoraActual = date('Y-m-d H:i:s'); // Formato de fecha y hora para almacenar en base de datos
             $fechaActual = date('Y-m-d');
             $horaActual = date('H:i');
+
             // Determinar el turno
             if ($horaActual >= '05:00' && $horaActual < '12:00') {
                 $turno = 'Mañana';
@@ -40,8 +41,9 @@
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12 mt-3">
-                                <label for="fechaReporte">Fecha:</label>
-                                <input type="text" id="fechaReporte" class="form-control form-control-border" value="<?php echo $fechaActual; ?>" readonly disabled>
+                                <label for="fechaReporte">Fecha y Hora:</label>
+                                <input type="text" class="form-control form-control-border" value="<?php echo $fechaActual; ?>" readonly disabled>
+                                <input type="hidden" id="fechahoraReporte" class="form-control form-control-border" value="<?php echo $fechaHoraActual; ?>" readonly disabled>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="turno">Turno:</label>

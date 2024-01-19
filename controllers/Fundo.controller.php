@@ -33,9 +33,8 @@ if (isset($_GET['op'])){
         }
     }
 
-    if($_GET['op']  == 'ListarProductoFarmaciaPrueba'){              
-      $clave = $Fundo->listarProducto();
-  
+    if($_GET['op']  == 'listarfundo'){              
+      $clave = $Fundo->listarfundo();
       if(count($clave) != 0){
         $i = 1;
         foreach($clave as $valor){
@@ -87,7 +86,7 @@ if (isset($_GET['op'])){
     }
 
     if($_GET['op'] == 'filtrarCategorias'){
-      $clave = $Fundo->filtrarCategoria(['idcategoria' => $_GET['idcategoria']]);
+      $clave = $Fundo->filtrarCategoria(['jefe_fundo' => $_GET['jefe_fundo']]);
       $i = 1;
       foreach($clave as $valor){
         echo "

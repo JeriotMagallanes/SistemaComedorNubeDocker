@@ -20,19 +20,6 @@ if (isset($_GET['op'])){
         ]);
     }
 
-    if ($_GET['op'] == 'nombrefundoYaRegistrado'){
-        $datosObtenidos = $Fundo->nombrefundoYaRegistrado(["nombreproducto" => $_GET['nombreproducto']]);
-    
-        if(count($datosObtenidos) == 0){
-          echo 2;
-          return true;
-        }
-        else{
-          echo 1;
-          return false;
-        }
-    }
-
     if($_GET['op']  == 'ListarProductoFarmaciaPrueba'){              
       $clave = $Fundo->listarProducto();
   

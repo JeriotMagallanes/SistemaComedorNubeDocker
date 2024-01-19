@@ -46,7 +46,6 @@ $(document).ready(function(){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioFundo")[0].reset();
                             listarProductosFarmaciaPrueba();
-                            listarProductosMedicosPrueba();
                         }
                     });
                 }
@@ -67,50 +66,46 @@ $(document).ready(function(){
             }
         });
     }
-    function cargarCategoriaCultivos(select){
-        var datos ={
-            'op': 'cargarCategoriaCultivos'
-        };
-        $.ajax({
-            url : 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success:function(e){
-                $(select).html(e);
-            }
-        });
-    }
-
-    $("#cultivo").change(function(){
-        let cultivo=$("#cultivo").val();
+    $("#idcategoria").change(function(){
+        let jefe_fundo=$("#idcategoria").val();
         var datos={
-            'op'            : 'cargarCategoriaVariedades',
-            'id_cultivo'   :cultivo
+            'op'            : 'cargarCategoriaNombreFundo',
+            'jefe_fundo'    :jefe_fundo
         }
         $.ajax({
             url: 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
             success: function(e){
+                $("#fundo").html(e);
+                $("#lote").html(e);
+                $("#s_lote").html(e);
+                $("#cultivo").html(e);
                 $("#variedad").html(e);
             }
         });
     });
-
-    function cargarCategoriaLotes(select){
-        var datos ={
-            'op': 'cargarCategoriaLote'
-        };
+    $("#fundo").change(function(){
+        let fundo=$("#fundo").val();
+        let jefe_fundo=$("#idcategoria").val();
+        var datos={
+            'op'            : 'cargarCategoriaLoteNombreFundo',
+            'nombre'    :fundo,
+            'jefe_fundo'    :jefe_fundo
+        }
         $.ajax({
-            url : 'controllers/CategoriaReporte.controller.php',
+            url: 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
             data: datos,
-            success:function(e){
-                $(select).html(e);
+            success: function(e){
+                $("#lote").html(e);
+                $("#s_lote").html(e);
+                $("#cultivo").html(e);
+                $("#variedad").html(e);
             }
         });
-    }
-
+    });
+    
     $("#lote").change(function(){
         let lote=$("#lote").val();
         console.log(datos);
@@ -125,34 +120,48 @@ $(document).ready(function(){
             data: datos,
             success: function(e){
                 $("#s_lote").html(e);
+                $("#cultivo").html(e);
+                $("#variedad").html(e);
             }
         });
     });
 
-    function listarProductosMedicosPrueba(){
+    $("#s_lote").change(function(){
+        let id_sub_lote=$("#s_lote").val();
+        console.log(datos);
+        var datos={
+            'op'           : 'cargarCategoriaCultivoLote',
+            'id_sub_lote'       : id_sub_lote
+        }
+        console.log(datos);
         $.ajax({
-            url: 'controllers/Reporte.controller.php',
+            url: 'controllers/CategoriaReporte.controller.php',
             type: 'GET',
-            data: 'op=ListarProductoMedicoPrueba',
+            data: datos,
             success: function(e){
-                var tabla = $("#tablaProductoMedico").DataTable();
-                tabla.destroy();
-                $("#tablaProductoMedicolistar").html(e);
-                $("#tablaProductoMedico").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
+                $("#cultivo").html(e);
             }
         });
-    }
+    });
 
+    $("#s_lote").change(function(){
+        let id_sub_lote=$("#s_lote").val();
+        console.log(datos);
+        var datos={
+            'op'           : 'cargarCategoriaVariedadLote',
+            's_lote'       : id_sub_lote
+        }
+        console.log(datos);
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#variedad").html(e);
+            }
+        });
+    });
+    
     function listarProductosFarmaciaPrueba(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
@@ -298,7 +307,6 @@ $(document).ready(function(){
                             botonActualizar.classList.add('asignar');
                             botonGuardar.classList.remove('asignar');
                             $("#idcategoria").prop('disabled', false);
-
                             listarProductosFarmaciaPrueba();
                         }
                     });
@@ -330,13 +338,11 @@ $(document).ready(function(){
     });
     
     listarProductosFarmaciaPrueba();
-    listarProductosMedicosPrueba();
     $("#registrar").click(registrarFundo);
     $("#actualizar").click(modificarProducto);
-    cargarCategorias("#idcategoria");
     cargarCategorias("#categoriaselect");
-    cargarCategoriaLotes("#lote");
-    cargarCategoriaCultivos("#cultivo");
-    cargarCategoriaSubLotes("#s_lote");
-    cargarCategoriaVariedades("#variedad");
+    cargarCategorias("#idcategoria");
+    cargarCategoriaNombreFundos("#fundo");
+    cargarCategoriaLoteNombreFundos("#lote");
+    cargarCategoriaCultivosLotes("#s_lote");
 });
