@@ -37,7 +37,7 @@
             }
             ?>
             <div class="card-body">
-                <form action="" id="formularioFundo">
+                <form action="" id="formularioReporte">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12 mt-3">
@@ -59,7 +59,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="encAlmacen">Encargado de Almacen:</label>
-                                <input type="text" id="encSanidad" class="form-control form-control-border">
+                                <input type="text" id="encAlmacen" class="form-control form-control-border">
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="idcategoria">Jefe de Fundo</label>
@@ -108,31 +108,43 @@
         <div  class=" card card-outline card-info">
             <div class="card-header">
                 <div class="row col-md-12">
-                    <div class="col-md-9">
+                    <div class="col-md-6">
                         <p class="card-title" style="font-size: 22px">Lista de Reportes</p>
                     </div>
-                    <div class="col-md-3">
-                        <select name="categoriaselect" id="categoriaselect" class="form-control float-right">
-                        </select>
+                    <div class="col-md-6 display">
+                        <div class="row">
+                            <div class="col-md-5 text-center">
+                                <p class="card-title " style="font-size: 16px">Desde:</p>
+                                <input type="date" id="fechainicial" class="form-control">
+                            </div>
+                            <div class="col-md-5">
+                                <p class="card-title " style="font-size: 16px">Hasta:</p>
+                                <input type="date" id="fechafinal" class="form-control">
+                            </div>
+                            <div class="col-md-1">
+                                <br>
+                                <button type="button" id="bfecha" class="btn btn-secondary">
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablaProducto">
+                <table class="table text-center" id="tablareporte">
                     <thead>
                         <tr>
-                            <th class="text-center">N°</th>
-                            <th class="text-center">Nombre</th>
+                            <th class="text-center">Codigo</th>
+                            <th class="text-center">Feccha y Hora</th>
                             <th class="text-center">Jefe de Fundo</th>
+                            <th class="text-center">Fundo</th>
                             <th class="text-center">Lote</th>
                             <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Hectareas</th>
-                            <th class="text-center">Cultivo</th>
-                            <th class="text-center">Variedad</th>
-                            <th class="text-center">Modificar</th>
+                            <th class="text-center">Ver Detalle</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablaProductolistar">
+                    <tbody class="table" id="tablareportelistar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>

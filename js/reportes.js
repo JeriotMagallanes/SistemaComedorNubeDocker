@@ -1,22 +1,22 @@
 $(document).ready(function(){
-    $('.money').mask("#,##0.00", {reverse: true});
     idproducto = "";
     var txtProducto = document.querySelector("#idproductomod");
     var botonActualizar = document.querySelector("#actualizar");
     var botonGuardar = document.querySelector("#registrar");
 
-    function registrarFundo(){
+    function registrarReporte(){
+        var fechahoraReporte = $("#fechahoraReporte").val();
+        var turno = $("#turno").val();
+        var encSanidad = $("#encSanidad").val();
+        var encQA = $("#encQA").val();
+        var encAlmacen = $("#encAlmacen").val();
         var idcategoria = $("#idcategoria").val();
-        var nombreproducto = $("#nombreproducto").val();
+        var fundo = $("#fundo").val();
         var lote = $("#lote").val();
         var s_lote = $("#s_lote").val();
-        var hectareas = $("#hectareas").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-        //comentarrio
-        
-        
-        if(idcategoria == "" || nombreproducto == "" || lote == ""|| s_lote == ""|| hectareas == ""|| cultivo == ""|| variedad == ""){
+        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -29,14 +29,18 @@ $(document).ready(function(){
                 
                 if(result.isConfirmed){
                     var datos = {
-                        'op'                : 'registrarFundo',
-                        'idcategoria'       : idcategoria,
-                        'nombreproducto'    : nombreproducto,
-                        'lote'              : lote,
-                        's_lote'            : s_lote,
-                        'hectareas'         : hectareas,
-                        'cultivo'           : cultivo,
-                        'variedad'          : variedad,
+                        'op'                     : 'registrarReporte',
+                        'fechahoraReporte'       : fechahoraReporte,
+                        'turno'                  : turno,
+                        'encSanidad'             : encSanidad,
+                        'encQA'                  : encQA,
+                        'encAlmacen'             : encAlmacen,
+                        'idcategoria'            : idcategoria,
+                        'fundo'                  : fundo,
+                        'lote'                   : lote,
+                        's_lote'                 : s_lote,
+                        'cultivo'                : cultivo,
+                        'variedad'               : variedad,
                     };
                     console.log(datos);
                     $.ajax({
@@ -45,8 +49,8 @@ $(document).ready(function(){
                         data: datos,                        
                         success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
-                            $("#formularioFundo")[0].reset();
-                            listarProductosFarmaciaPrueba();
+                            $("#formularioReporte")[0].reset();
+                            ListarReportes();
                         }
                     });
                 }
@@ -163,16 +167,16 @@ $(document).ready(function(){
         });
     });
 
-    function listarProductosFarmaciaPrueba(){
+    function ListarReportes(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
             type: 'GET',
-            data: 'op=ListarProductoFarmaciaPrueba',
+            data: 'op=ListarReportes',
             success: function(e){
-                var tabla = $("#tablaProducto").DataTable();
+                var tabla = $("#tablareporte").DataTable();
                 tabla.destroy();
-                $("#tablaProductolistar").html(e);
-                $("#tablaProducto").DataTable({
+                $("#tablareportelistar").html(e);
+                $("#tablareporte").DataTable({
                     language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
                     columnDefs: [
                     {
@@ -188,7 +192,7 @@ $(document).ready(function(){
     }
 
 
-    /*$("#tablaProducto").on("click", ".eliminar", function(){
+    /*$("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
         Swal.fire({
             icon: 'question',
@@ -217,7 +221,7 @@ $(document).ready(function(){
             });
     });*/
 
-    $("#tablaProducto").on('click', ".modificar", function(){
+    $("#tablareporte").on('click', ".modificar", function(){
         let idproducto = $(this).attr('data-idproducto');
         
         var datos = {
@@ -308,7 +312,7 @@ $(document).ready(function(){
                             botonActualizar.classList.add('asignar');
                             botonGuardar.classList.remove('asignar');
                             $("#idcategoria").prop('disabled', false);
-                            listarProductosFarmaciaPrueba();
+                            ListarReportes();
                         }
                     });
                 }
@@ -316,34 +320,35 @@ $(document).ready(function(){
         }
     }
 
-    $("#categoriaselect").change(function(){
-        var filtros = $(this).val();
-        // console.log(filtros);
-        if(filtros==""){
-            listarProductosFarmaciaPrueba();
-        }else{
-
-            $.ajax({
-                url: 'controllers/Reporte.controller.php',
-                type: 'GET',
-                data: {
-                    'op': 'filtrarCategorias',
-                    'idcategoria' : filtros
-                    },
-                success: function(result){
-                    // console.log(result);
-                    $("#tablaProductolistar").html(result);
-                }
-            });
-        }
-    });
+    function buscarFecha(){
+    var fechafinal = $("#fechafinal").val();
+    var fechainicial = $("#fechainicial").val();
+    if((fechafinal=="")&&(fechainicial="")){
+        ListarReportes();
+    }else{
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: {
+                'op': 'filtrarFechas',
+                'fechainicial' : fechainicial,
+                'fechafinal'   : fechafinal
+                },
+            success: function(result){
+                // console.log(result);
+                $("#tablareportelistar").html(result);
+            }
+        });
+    }
+    }
     
-    listarProductosFarmaciaPrueba();
-    $("#registrar").click(registrarFundo);
+    ListarReportes();
+    $("#registrar").click(registrarReporte);
     $("#actualizar").click(modificarProducto);
-    cargarCategorias("#categoriaselect");
+    $("#bfecha").click(buscarFecha);
     cargarCategorias("#idcategoria");
     cargarCategoriaNombreFundos("#fundo");
     cargarCategoriaLoteNombreFundos("#lote");
     cargarCategoriaCultivosLotes("#s_lote");
+    cargarCategoriaVariedades("#variedad");
 });

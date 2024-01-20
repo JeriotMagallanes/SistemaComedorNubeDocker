@@ -352,6 +352,9 @@
       s=checkTime(s);
       document.getElementById('reloj').innerHTML=h+":"+m+":"+s;
       t=setTimeout('startTime()',500);
+    date_default_timezone_set('America/Lima');
+
+
     }
     function checkTime(i){
       if (i<10) {i="0" + i;}return i;

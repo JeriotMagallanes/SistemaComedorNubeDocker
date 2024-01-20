@@ -2,17 +2,17 @@
 
 require_once '../core/model.master.php';
 
-class Fundo extends ModelMaster{
+class Reporte extends ModelMaster{
 
-  public function registrarfundo(array $data){//yaaaaaaaaaa
+  public function registrarReporte(array $data){
       try{
-        parent::execProcedure($data, "spu_fundo_registro", false);
+        parent::execProcedure($data, "spu_reporte_registro", false);
       }catch(Exception $error){
         die($error->getMessage());
       }
     }
     
-  public function nombrefundoYaRegistrado(array $data){//yaaaaaaaaaa
+  public function nombrefundoYaRegistrado(array $data){
     try{
         return parent::execProcedureLogin($data, "spu_fundoYaRegistrado", true);
     }
@@ -37,7 +37,7 @@ class Fundo extends ModelMaster{
     }
   } 
 
-  public function getProducto(array $data){//yaaaaa
+  public function getProducto(array $data){
       try{
           return parent::execProcedure($data, "spu_fundos_getdata", true);
       }catch(Exception $error){
@@ -45,17 +45,17 @@ class Fundo extends ModelMaster{
       }
   }
 
-  public function filtrarCategoria(array $data){//yaaaaaaaaaa
+  public function filtrarFecha(array $data){
     try{
-        return parent::execProcedure($data, "spu_fundo_filtrar_categorias", true);
+        return parent::execProcedure($data, "spu_fundo_filtrar_fecha_reportes", true);
     }catch(Exception $error){
         die($error->getMessage());
     }
   }
 
-  public function listarProducto(){//yaaaaaaaaaa
+  public function listarReporte(){
     try{
-        return parent::getRows("spu_fundos_listar");
+        return parent::getRows("spu_reporte_listar");
     }catch(Exception $error){
         die($error->getMessage());
     }
