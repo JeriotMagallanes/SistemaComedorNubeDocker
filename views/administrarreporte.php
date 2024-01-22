@@ -44,6 +44,7 @@
                                 <label for="fechaReporte">Fecha y Hora:</label>
                                 <input type="text" class="form-control form-control-border" value="<?php echo $fechaActual; ?>" readonly disabled>
                                 <input type="hidden" id="fechahoraReporte" class="form-control form-control-border" value="<?php echo $fechaHoraActual; ?>" readonly disabled>
+                                <input type="text" id="idproductomod" class="form-control form-control-border asignar" disabled>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="turno">Turno:</label>
@@ -136,12 +137,18 @@
                     <thead>
                         <tr>
                             <th class="text-center">Codigo</th>
-                            <th class="text-center">Feccha y Hora</th>
+                            <th class="text-center">Fecha y Hora</th>
                             <th class="text-center">Jefe de Fundo</th>
                             <th class="text-center">Fundo</th>
                             <th class="text-center">Lote</th>
                             <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Ver Detalle</th>
+                            <th class="text-center">Ver Productos</th>
+                            <?php 
+                            if(($_SESSION['nivelacceso'] == 'Administrador')){
+                            echo
+                            "<th class='text-center'>Editar</th>
+                            <th class='ext-center'>Eliminar</th>";
+                            }?>
                         </tr>
                     </thead>
                     <tbody class="table" id="tablareportelistar">
@@ -152,6 +159,23 @@
         </div>
     </div>
 </div>
+<div class="modal" tabindex="-1" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Modal body text goes here.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 <script src="js/reportes.js"></script>
 
 

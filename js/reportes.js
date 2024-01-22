@@ -95,7 +95,7 @@ $(document).ready(function(){
         let jefe_fundo=$("#idcategoria").val();
         var datos={
             'op'            : 'cargarCategoriaLoteNombreFundo',
-            'nombre'    :fundo,
+            'nombre'        :fundo,
             'jefe_fundo'    :jefe_fundo
         }
         $.ajax({
@@ -135,7 +135,7 @@ $(document).ready(function(){
         let id_sub_lote=$("#s_lote").val();
         console.log(datos);
         var datos={
-            'op'           : 'cargarCategoriaCultivoLote',
+            'op'                : 'cargarCategoriaCultivoLote',
             'id_sub_lote'       : id_sub_lote
         }
         console.log(datos);
@@ -191,8 +191,7 @@ $(document).ready(function(){
         });
     }
 
-
-    /*$("#tablareporte").on("click", ".eliminar", function(){
+    $("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
         Swal.fire({
             icon: 'question',
@@ -204,31 +203,51 @@ $(document).ready(function(){
         }).then((result)=>{
             if(result.isConfirmed){
                 var datos = {
-                    'op' : 'eliminarProducto',
+                    'op' : 'eliminarReporte',
                     'idproducto' : idproducto
                 };
                 $.ajax({
-                    url: 'controllers/Producto.controller.php',
+                    url: 'controllers/Reporte.controller.php',
                     type: 'GET',
                     data: datos,
                     success: function(e){
-                        mostrarAlerta("success", "¡Eliminado correctamente!");
-                        listarProductosFarmaciaPrueba();
-                        listarProductosMedicosPrueba();
+                        mostrarAlerta("success","¡Eliminado correctamente!");
+                        ListarReportes();
                     }
                 });
             }
             });
-    });*/
+    });
+
+    $("#tablareporte").on("click", ".detalle", function(){
+        let idreporte = $(this).data('idproducto');
+    
+        // Realiza una solicitud AJAX para obtener los detalles del reporte
+        $.ajax({
+            url: 'administrardetallereporte.php',  // Reemplaza 'tu_archivo_php.php' con la ruta correcta
+            type: 'POST',
+            data: {
+                'op'           : 'envio_id_reporte',
+                'idreporte'    : idreporte
+            },
+            success: function(response) {
+                
+            },
+            error: function(error) {
+                console.error(error);
+            }
+        });
+    });
+    
 
     $("#tablareporte").on('click', ".modificar", function(){
-        let idproducto = $(this).attr('data-idproducto');
+        //let id_reporte = $(this).attr('data-idproducto');
         
+        let id_reporte = $(this).data('idproducto');
         var datos = {
-            'op' : 'getProducto',
-            'idproducto' : idproducto
+            'op' : 'getReporte',
+            'id_reporte' : id_reporte
         };
-        
         $.ajax({
             url: 'controllers/Reporte.controller.php',
             type: 'GET',
@@ -241,14 +260,18 @@ $(document).ready(function(){
                     botonActualizar.classList.remove('asignar');
                     botonGuardar.classList.add('asignar');
                     var resultado = JSON.parse(result);
+                    $("#fechahoraReporte").val(resultado[0].fecha_hora);
+                    $("#turno").val(resultado[0].turno);
+                    $("#encSanidad").val(resultado[0].enc_sanidad);
+                    $("#encQA").val(resultado[0].enc_QA);
+                    $("#encAlmacen").val(resultado[0].enc_almacen);
                     $("#idcategoria").val(resultado[0].jefe_fundo);
-                    $("#nombreproducto").val(resultado[0].nombre);
-                    $("#lote").val(resultado[0].lote);
-                    $("#s_lote").val(resultado[0].s_lote);
-                    $("#hectareas").val(resultado[0].hectareas);
-                    $("#cultivo").val(resultado[0].cultivo);
-                    $("#variedad").val(resultado[0].variedad);
-                    txtProducto.setAttribute("data-idproducto", resultado[0].id_fundo);
+                    $("#fundo").val(resultado[0].nom_fundo);
+                    $("#lote").val(resultado[0].nombre_lote);
+                    $("#s_lote").val(resultado[0]._slote_nombre);
+                    $("#cultivo").val(resultado[0].nombre_cultivo);
+                    $("#variedad").val(resultado[0].nombre_variedad);
+                    txtProducto.setAttribute("data-idproducto", resultado[0].id_reporte);
                     $("#idproductomod").hide();
                 }else{
                     mostrarAlerta("warning", "¡No encontramos registros!");
@@ -257,8 +280,9 @@ $(document).ready(function(){
         });
     });
     
+
     $("#cancelar").click(function(){
-        $("#formularioFundo")[0].reset();
+        $("#formularioReporte")[0].reset();
         $("#Aviso").html("Registrar Producto");
         txtProducto.classList.add('asignar');
         botonActualizar.classList.add('asignar');
@@ -267,16 +291,18 @@ $(document).ready(function(){
     });
 
     function modificarProducto(){
-        let idproducto = $("#idproductomod").attr('data-idproducto');
+        let idreporte = $("#idproductomod").attr('data-idproducto');
+        var encSanidad = $("#encSanidad").val();
+        var encQA = $("#encQA").val();
+        var encAlmacen = $("#encAlmacen").val();
         var idcategoria = $("#idcategoria").val();
-        var nombreproducto = $("#nombreproducto").val();
+        var fundo = $("#fundo").val();
         var lote = $("#lote").val();
         var s_lote = $("#s_lote").val();
-        var hectareas = $("#hectareas").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
 
-        if(idcategoria == "" ||nombreproducto==""|| lote == "" || s_lote == "" || hectareas == "" || cultivo == "" || variedad == ""){
+        if(idcategoria == "" || fundo==""|| variedad == "" ||encSanidad == "" || encQA==""|| encAlmacen == "" ){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -288,13 +314,15 @@ $(document).ready(function(){
             }).then((result) =>{
                 if(result.isConfirmed){
                     var datos = {
-                        'op'                     : 'modificarProducto',
-                        'idproducto'             : idproducto,
+                        'op'                     : 'modificarReporte',
+                        'idreporte'              : idreporte,
+                        'encSanidad'             : encSanidad,
+                        'encQA'                  : encQA, 
+                        'encAlmacen'             : encAlmacen,
                         'idcategoria'            : idcategoria,
-                        'nombreproducto'         : nombreproducto,
-                        'lote'                   : lote, 
+                        'fundo'                  : fundo,
+                        'lote'                   : lote,
                         's_lote'                 : s_lote,
-                        'hectareas'              : hectareas,
                         'cultivo'                : cultivo,
                         'variedad'               : variedad
                     };
@@ -305,8 +333,7 @@ $(document).ready(function(){
                         data: datos,
                         success:function(e){
                             mostrarAlerta("success", "¡Modificado con éxito!");
-
-                            $("#formularioFundo")[0].reset();
+                            $("#formularioReporte")[0].reset();
                             $("#Aviso").html("Registrar Producto");
                             txtProducto.classList.add('asignar');
                             botonActualizar.classList.add('asignar');
@@ -339,6 +366,9 @@ $(document).ready(function(){
                 $("#tablareportelistar").html(result);
             }
         });
+    }
+    if(fechafinal<fechainicial){
+        mostrarAlerta("warning", "¡Rango de fechas invalidos!");
     }
     }
     

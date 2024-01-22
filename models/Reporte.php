@@ -11,35 +11,26 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
       }
     }
-    
-  public function nombrefundoYaRegistrado(array $data){
-    try{
-        return parent::execProcedureLogin($data, "spu_fundoYaRegistrado", true);
-    }
-    catch (Exception $error){
-        die($error->getMessage());
-    }
-  }
 
-  public function eliminarProducto(array $data){
+  public function eliminarReportes(array $data){
     try{
-        parent::deleteRows($data, "spu_eliminar_fundo");
+        parent::deleteRows($data, "spu_eliminar_reporte");
     }catch(Exception $error){
         die($error->getMessage());
     }
   }
 
-  public function modificarProducto(array $data){
+  public function modificarReporte(array $data){
     try{
-        parent::execProcedure($data, "spu_fundo_modificar", false);
+        parent::execProcedure($data, "spu_reporte_modificar", false);
     }catch(Exception $error){
         die($error->getMessage());
     }
   } 
 
-  public function getProducto(array $data){
+  public function getReporte(array $data){
       try{
-          return parent::execProcedure($data, "spu_fundos_getdata", true);
+          return parent::execProcedure($data, "spu_reporte_getdata", true);
       }catch(Exception $error){
           die($error->getMessage());
       }
@@ -47,7 +38,7 @@ class Reporte extends ModelMaster{
 
   public function filtrarFecha(array $data){
     try{
-        return parent::execProcedure($data, "spu_fundo_filtrar_fecha_reportes", true);
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes", true);
     }catch(Exception $error){
         die($error->getMessage());
     }

@@ -342,7 +342,7 @@
         $("#contenido").load('views/' + content + '.php');
       }
     });
-
+    
     function startTime(){
       today=new Date();
       h=today.getHours();
@@ -352,7 +352,6 @@
       s=checkTime(s);
       document.getElementById('reloj').innerHTML=h+":"+m+":"+s;
       t=setTimeout('startTime()',500);
-    date_default_timezone_set('America/Lima');
 
 
     }
