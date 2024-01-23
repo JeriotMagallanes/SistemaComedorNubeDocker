@@ -219,26 +219,21 @@ $(document).ready(function(){
             });
     });
 
-    $("#tablareporte").on("click", ".detalle", function(){
+    $("#tablareporte").on("click", ".detalle", function(e) {
+        e.preventDefault(); // Evita que el enlace siga su href normal
+    
+        // Obtiene el ID almacenado en el atributo 'data-idproducto' del enlace
         let idreporte = $(this).data('idproducto');
-    
-        // Realiza una solicitud AJAX para obtener los detalles del reporte
-        $.ajax({
-            url: 'administrardetallereporte.php',  // Reemplaza 'tu_archivo_php.php' con la ruta correcta
-            type: 'POST',
-            data: {
-                'op'           : 'envio_id_reporte',
-                'idreporte'    : idreporte
-            },
-            success: function(response) {
-                
-            },
-            error: function(error) {
-                console.error(error);
-            }
-        });
+        console.log(idreporte);
+        // Redirige a la Vista2.php pasando el ID como parámetro en la URL
+        window.location.href = 'main.php?view=administrardetallereporte.php?id=' + idreporte;
+        console.log(idreporte);
+        pasaridDetalleListar(idreporte);
     });
-    
+    function pasaridDetalleListar(idreporte) {
+        // Hacer algo con el ID en este archivo
+        console.log("Función en otro archivo JavaScript. ID del reporte:", idreporte);
+    }
 
     $("#tablareporte").on('click', ".modificar", function(){
         //let id_reporte = $(this).attr('data-idproducto');

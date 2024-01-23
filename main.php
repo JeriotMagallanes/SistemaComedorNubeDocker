@@ -143,31 +143,31 @@
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Administrador</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=usuariosadministrar' class='nav-link'>
+                    <a href='main.php?view=usuariosadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Administrar Usuarios</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=administrarfundo' class='nav-link'>
+                    <a href='main.php?view=administrarfundo.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Administrar Fundos</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=administrarproductosanidad' class='nav-link'>
+                    <a href='main.php?view=administrarproductosanidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Administrar Productos</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=administrarmotivaplicacion' class='nav-link'>
+                    <a href='main.php?view=administrarmotivaplicacion.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Administrar Motivo Apli.</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=ingresosistema' class='nav-link'>
+                    <a href='main.php?view=ingresosistema.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Ver Ingresos al Sistema</p>
                     </a>
@@ -178,13 +178,13 @@
                 echo "
                 <li class='nav-header' style='background-color:#292929'>Operario</li>
                 <li class='nav-item'>
-                  <a href='main.php?view=administrarreporte' class='nav-link'>
+                  <a href='main.php?view=administrarreporte.php' class='nav-link'>
                   <i class='fas fa-users-cog nav-icon'></i>
                     <p>Crear Reporte</p>
                   </a>
                 </li>
                 <li class='nav-item'>
-                  <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                  <a href='main.php?view=farmaciaadministrar.php' class='nav-link'>
                   <i class='fas fa-users-cog nav-icon'></i>
                     <p>Ver Estado de Reportes</p>
                   </a>
@@ -197,7 +197,7 @@
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Calidad</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                    <a href='main.php?view=farmaciaadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Ver Reportes Generales</p>
                     </a>
@@ -210,13 +210,13 @@
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Sanidad</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                    <a href='main.php?view=farmaciaadministra.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Aprobar Reportes</p>
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=farmaciaadministrar' class='nav-link'>
+                    <a href='main.php?view=farmaciaadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Ver Reportes</p>
                     </a>
@@ -339,7 +339,7 @@
       if(content == false){
         $("#contenido").load('views/home.php');
       }else{
-        $("#contenido").load('views/' + content + '.php');
+        $("#contenido").load('views/' + content );
       }
     });
     

@@ -39,7 +39,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center'>
-                <a  href='main.php?view=administrardetallereporte' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>";
@@ -104,7 +104,7 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center'>
-              <a  href='main.php?view=administrardetallereporte' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                 <i class='fas fa-bars'></i>
               </a>
             </td>

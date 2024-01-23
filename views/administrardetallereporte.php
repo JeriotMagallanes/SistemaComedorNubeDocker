@@ -7,26 +7,8 @@
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
     }
-    var_dump($_POST);
-    if (isset($_POST['op'])) {
-        $Reporte = new Reporte();
     
-        if ($_POST['op'] == 'envio_id_reporte') {
-            // Verifica si se proporcionó el ID del reporte
-            if (isset($_POST['idreporte'])) {
-                $idReporte = $_POST['idreporte'];
-                
-                // Ahora puedes utilizar $idReporte en tu lógica, por ejemplo:
-                // $Reporte->registrarReporte($idReporte);
-    
-                // Envía una respuesta (puedes personalizar según tus necesidades)
-                echo 'ID del reporte recibido correctamente: ' . $idReporte;
-            } else {
-                // Si no se proporciona el ID del reporte, devuelve un mensaje de error
-                echo 'Error: No se proporcionó el ID del reporte.';
-            }
-        }
-    }
+// Verificar si el parámetro id está presente en la URL
     
 ?>
 
@@ -111,8 +93,15 @@
         <div  class=" card card-outline card-info">
             <div class="card-header">
                 <div class="row col-md-12">
-                    <div class="col-md-6">
-                        <p class="card-title" style="font-size: 22px">Lista de detalle del Reporte
+                    <div class="col-md-12">
+                        <p class="card-title" style="font-size: 22px">Lista de detalle del Reporte con codigo N°
+                        <?php
+                            if (isset($_GET['id'])) {
+                                // Obtener el valor de id
+                                $id_reporte = $_GET['id'];
+                                echo $id_reporte;
+                            }
+                        ?>
                     </p>
                     </div>
                 </div>
@@ -121,19 +110,17 @@
                 <table class="table text-center" id="tablareporte">
                     <thead>
                         <tr>
-                            <th class="text-center">Codigo</th>
-                            <th class="text-center">Fecha y Hora</th>
-                            <th class="text-center">Jefe de Fundo</th>
-                            <th class="text-center">Fundo</th>
-                            <th class="text-center">Lote</th>
-                            <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Ver Productos</th>
-                            <?php 
-                            if(($_SESSION['nivelacceso'] == 'Administrador')){
-                            echo
-                            "<th class='text-center'>Editar</th>
-                            <th class='ext-center'>Eliminar</th>";
-                            }?>
+                            <th class="text-center">Motivo</th>
+                            <th class="text-center">Producto</th>
+                            <th class="text-center">Carencia (dias)</th>
+                            <th class="text-center">Dosis CIL</th>
+                            <th class="text-center">N° CIL</th>
+                            <th class="text-center">Dosis Tanque</th>
+                            <th class="text-center">Total Producto</th>
+                            <th class="text-center">Dosis/HA</th>
+                            <th class="text-center">HA Aplicad</th>
+                            <th class="text-center">H20/HA</th>
+                            <th class="text-center">Eliminar</th>
                         </tr>
                     </thead>
                     <tbody class="table" id="tablareportelistar">
@@ -144,6 +131,6 @@
         </div>
     </div>
 </div>
-<script src="js/reportes.js"></script>
+<script src="js/detalle.js"></script>
 
 
