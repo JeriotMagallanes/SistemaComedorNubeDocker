@@ -2,35 +2,27 @@
 
 require_once '../core/model.master.php';
 
-class Fundo extends ModelMaster{
+class Detalle extends ModelMaster{
 
-  public function registrarfundo(array $data){
+  public function registrardetalles(array $data){
       try{
-        parent::execProcedure($data, "spu_fundo_registro", false);
+        parent::execProcedure($data, "spu_detalle_registro", false);
       }catch(Exception $error){
         die($error->getMessage());
       }
     }
     
-  public function eliminarProducto(array $data){
+  public function eliminarDetalle(array $data){
     try{
-        parent::deleteRows($data, "spu_eliminar_fundo");
+        parent::deleteRows($data, "spu_eliminar_detalle");
     }catch(Exception $error){
         die($error->getMessage());
     }
   }
 
-  public function filtrarCategoria(array $data){
+  public function listardetalle(array $data){
     try{
-        return parent::execProcedure($data, "spu_fundo_filtrar_categorias", true);
-    }catch(Exception $error){
-        die($error->getMessage());
-    }
-  }
-
-  public function listarfundo(){
-    try{
-        return parent::getRows("spu_fundos_listar");
+        return parent::execProcedure($data, "spu_listar_detalle", true);
     }catch(Exception $error){
         die($error->getMessage());
     }

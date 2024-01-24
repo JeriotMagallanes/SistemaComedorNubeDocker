@@ -190,6 +190,53 @@ $(document).ready(function(){
             }
         });
     }
+    
+    function ListarReportesOperario(){
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarReportesOperario',
+            success: function(e){
+                var tabla = $("#tablareporteOperario").DataTable();
+                tabla.destroy();
+                $("#tablareporteOperarioListar").html(e);
+                $("#tablareporteOperario").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
+    function ListarReportesJFundo(){
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarReportesJFundo',
+            success: function(e){
+                var tabla = $("#tablareporteJfundo").DataTable();
+                tabla.destroy();
+                $("#tablareporteJFundoListar").html(e);
+                $("#tablareporteJfundo").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
 
     $("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
@@ -219,21 +266,56 @@ $(document).ready(function(){
             });
     });
 
+    $("#tablareporteJfundo").on("click", ".aprobar", function(){
+        let id_reporte = $(this).attr('data-idproducto');
+        Swal.fire({
+            icon: 'question',
+            title: 'AGROINDUSTRIAL BETA',
+            text: 'Esta seguro de Aprobar el Reporte N°'+id_reporte+'?',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
+        }).then((result)=>{
+            if(result.isConfirmed){
+                var datos = {
+                    'op' : 'aprobarreporteJfundo',
+                    'idproducto' : id_reporte
+                };
+                $.ajax({
+                    url: 'controllers/Reporte.controller.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function(e){
+                        mostrarAlerta("success","¡Aprobado correctamente!");
+                        ListarReportesJFundo();
+                    }
+                });
+            }
+            });
+    });
+
     $("#tablareporte").on("click", ".detalle", function(e) {
-        e.preventDefault(); // Evita que el enlace siga su href normal
-    
-        // Obtiene el ID almacenado en el atributo 'data-idproducto' del enlace
+        e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
         console.log(idreporte);
-        // Redirige a la Vista2.php pasando el ID como parámetro en la URL
         window.location.href = 'main.php?view=administrardetallereporte.php?id=' + idreporte;
         console.log(idreporte);
-        pasaridDetalleListar(idreporte);
     });
-    function pasaridDetalleListar(idreporte) {
-        // Hacer algo con el ID en este archivo
-        console.log("Función en otro archivo JavaScript. ID del reporte:", idreporte);
-    }
+
+    $("#tablareporteOperario").on("click", ".detalle", function(e) {
+        e.preventDefault(); 
+        let idreporte = $(this).data('idproducto');
+        console.log(idreporte);
+        window.location.href = 'main.php?view=vistaDetalle.php?id=' + idreporte;
+        console.log(idreporte);
+    });
+    $("#tablareporteJfundo").on("click", ".detalle", function(e) {
+        e.preventDefault(); 
+        let idreporte = $(this).data('idproducto');
+        console.log(idreporte);
+        window.location.href = 'main.php?view=vistaDetalleJFundo.php?id=' + idreporte;
+        console.log(idreporte);
+    });
 
     $("#tablareporte").on('click', ".modificar", function(){
         //let id_reporte = $(this).attr('data-idproducto');
@@ -356,21 +438,73 @@ $(document).ready(function(){
                 'fechainicial' : fechainicial,
                 'fechafinal'   : fechafinal
                 },
-            success: function(result){
-                // console.log(result);
-                $("#tablareportelistar").html(result);
-            }
+                success: function(e){
+                    var tabla = $("#tablareporte").DataTable();
+                    tabla.destroy();
+                    $("#tablareportelistar").html(e);
+                    $("#tablareporte").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
         });
     }
-    if(fechafinal<fechainicial){
-        mostrarAlerta("warning", "¡Rango de fechas invalidos!");
-    }
+        if(fechafinal<fechainicial){
+            mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+        }
     }
     
+    function buscarFechaOperario(){
+        var fechafinal = $("#fechafinal").val();
+        var fechainicial = $("#fechainicial").val();
+        if((fechafinal=="")&&(fechainicial="")){
+            ListarReportes();
+        }else{
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'filtrarFechasOperario',
+                    'fechainicial' : fechainicial,
+                    'fechafinal'   : fechafinal
+                    },
+                    success: function(e){
+                        var tabla = $("#tablareporteOperario").DataTable();
+                        tabla.destroy();
+                        $("#tablareporteOperarioListar").html(e);
+                        $("#tablareporteOperario").DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                            columnDefs: [
+                            {
+                                visible: true,
+                                searchable: true
+                            }
+                            ],
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'print', 'pdf', 'excel']
+                        });
+                    }
+            });
+        }
+            if(fechafinal<fechainicial){
+                mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+            }
+        }
+    
     ListarReportes();
+    ListarReportesOperario();
+    ListarReportesJFundo();
     $("#registrar").click(registrarReporte);
     $("#actualizar").click(modificarProducto);
     $("#bfecha").click(buscarFecha);
+    $("#bfecha").click(buscarFechaOperario);
     cargarCategorias("#idcategoria");
     cargarCategoriaNombreFundos("#fundo");
     cargarCategoriaLoteNombreFundos("#lote");

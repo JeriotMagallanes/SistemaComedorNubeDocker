@@ -19,7 +19,13 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }
-
+  public function aprobarReporteJFundo(array $data){
+    try{
+        parent::deleteRows($data, "spu_aprobar_reporteJFundo");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
   public function modificarReporte(array $data){
     try{
         parent::execProcedure($data, "spu_reporte_modificar", false);

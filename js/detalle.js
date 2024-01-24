@@ -4,22 +4,21 @@ $(document).ready(function(){
     var botonActualizar = document.querySelector("#actualizar");
     var botonGuardar = document.querySelector("#registrar");
 
-    function pasaridDetalleListar(idreporte) {
-        // Hacer algo con el ID en este archivo
-        console.log("Función en otro archivo JavaScript. ID del reporte:", idreporte);
-    }
-    function registrarFundo(){
-        var idcategoria = $("#idcategoria").val();
-        var nombreproducto = $("#nombreproducto").val();
-        var lote = $("#lote").val();
-        var s_lote = $("#s_lote").val();
-        var hectareas = $("#hectareas").val();
-        var cultivo = $("#cultivo").val();
-        var variedad = $("#variedad").val();
-
-        
-        
-        if(idcategoria == "" || nombreproducto == "" || lote == ""|| s_lote == ""|| hectareas == ""|| cultivo == ""|| variedad == ""){
+    function registrardetalle(){
+        var motaplicacion = $("#motaplicacion").val();
+        var producto_san = $("#producto_san").val();
+        var unidad = $("#unidad").val();
+        var diascarencia = $("#diascarencia").val();
+        var dosiscil = $("#dosiscil").val();
+        var ncil = $("#ncil").val();
+        var dosistanque = $("#dosistanque").val();
+        var tproducto = $("#tproducto").val();
+        var dosisha = $("#dosisha").val();
+        var haaplicada = $("#haaplicada").val();
+        var gastoh20 = $("#gastoh20").val();
+        var id_reporte = $("#id_reporte").val();
+        if(motaplicacion==""||producto_san==""||unidad==""||diascarencia==""||dosiscil==""||ncil==""||dosistanque==""||tproducto == ""|| dosiscil == ""|| dosisha == ""|| haaplicada == ""|| gastoh20
+        == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -31,25 +30,30 @@ $(document).ready(function(){
             }).then((result) => {
                 
                 if(result.isConfirmed){
-                    var datos = {
-                        'op'                : 'registrarFundo',
-                        'idcategoria'       : idcategoria,
-                        'nombreproducto'    : nombreproducto,
-                        'lote'              : lote,
-                        's_lote'            : s_lote,
-                        'hectareas'         : hectareas,
-                        'cultivo'           : cultivo,
-                        'variedad'          : variedad,
+                    var datos = { 
+                        'op'                : 'registrarDetalle',
+                        'motaplicacion'     : motaplicacion,
+                        'producto_san'      : producto_san,
+                        'unidad'            : unidad,
+                        'diascarencia'      : diascarencia,
+                        'dosiscil'          : dosiscil,
+                        'ncil'              : ncil,
+                        'dosistanque'       : dosistanque,
+                        'tproducto'         : tproducto,
+                        'dosisha'           : dosisha,
+                        'haaplicada'        : haaplicada,
+                        'gastoh20'          : gastoh20,
+                        'id_reporte'        : id_reporte,
                     };
                     console.log(datos);
                     $.ajax({
-                        url : 'controllers/Fundo.controller.php',
+                        url : 'controllers/Detalle.controller.php',
                         type: 'GET',
                         data: datos,                        
                         success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
-                            $("#formularioFundo")[0].reset();
-                            listarfundos();
+                            $("#formularioDetalle")[0].reset();
+                            listardetalles();
                         }
                     });
                 }
@@ -59,15 +63,20 @@ $(document).ready(function(){
     
 
     function listardetalles(){
+        let id_reporte=$("#id_reporte").val();
+        console.log(id_reporte);
         $.ajax({
             url: 'controllers/Detalle.controller.php',
             type: 'GET',
-            data: 'op=listarfundo',
-            success: function(e){
-                var tabla = $("#tablaProducto").DataTable();
+            data: {
+                'op': 'listardetalles',
+                'id_reporte' : id_reporte
+                },
+                success: function(e){
+                var tabla = $("#tablaDetalle").DataTable();
                 tabla.destroy();
-                $("#tablaProductolistar").html(e);
-                $("#tablaProducto").DataTable({
+                $("#tablaDetallelistar").html(e);
+                $("#tablaDetalle").DataTable({
                     language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
                     columnDefs: [
                     {
@@ -81,9 +90,86 @@ $(document).ready(function(){
             }
         });
     }
+    
+    function listardetallesOperario(){
+        let id_reporte=$("#id_reporte").val();
+        console.log(id_reporte);
+        $.ajax({
+            url: 'controllers/Detalle.controller.php',
+            type: 'GET',
+            data: {
+                'op': 'listardetallesOperario',
+                'id_reporte' : id_reporte
+                },
+                success: function(e){
+                var tabla = $("#tablaDetalleOperario").DataTable();
+                tabla.destroy();
+                $("#tablaDetallelistarOperario").html(e);
+                $("#tablaDetalleOperario").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
+    
+    function cargarMotivoAplicacion(select){
+        var datos ={
+            'op': 'cargarMotivoAplicacion'
+        };
+        $.ajax({
+            url : 'controllers/Categoriadetalle.controller.php',
+            type: 'GET',
+            data: datos,
+            success:function(e){
+                $(select).html(e);
+            }
+        });
+    }
+    function cargarProducto(select){
+        var datos ={
+            'op': 'cargarProducto'
+        };
+        $.ajax({
+            url : 'controllers/Categoriadetalle.controller.php',
+            type: 'GET',
+            data: datos,
+            success:function(e){
+                $(select).html(e);
+            }
+        });
+    }
 
-    $("#tablaProducto").on("click", ".eliminar", function(){
-        let idproducto = $(this).attr('data-idproducto');
+    $("#producto_san").change(function(){
+        let producto_san = $("#producto_san").val();
+        var datos = {
+            'op': 'cargarUnidad',
+            'id_producto': producto_san
+        }
+        $.ajax({
+            url: 'controllers/Categoriadetalle.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(result){                        
+                if ($.trim(result) != ""){
+                    var resultado = JSON.parse(result);
+                    $("#unidad").val(resultado[0].unidad);
+                    console.log(resultado[0].unidad);
+                }
+            }
+        });
+    });
+
+    $("#tablaDetalle").on("click", ".eliminar", function(){
+        let id_detalle = $(this).attr('data-idproducto');
+        console.log(id_detalle);
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
@@ -94,17 +180,16 @@ $(document).ready(function(){
         }).then((result)=>{
             if(result.isConfirmed){
                 var datos = {
-                    'op' : 'eliminarProducto',
-                    'idproducto' : idproducto
+                    'op' : 'eliminarDetalles',
+                    'id_detallereporte' : id_detalle
                 };
                 $.ajax({
-                    url: 'controllers/Producto.controller.php',
+                    url: 'controllers/Detalle.controller.php',
                     type: 'GET',
                     data: datos,
                     success: function(e){
                         mostrarAlerta("success", "¡Eliminado correctamente!");
-                        listarProductosFarmaciaPrueba();
-                        listarProductosMedicosPrueba();
+                        listardetalles();
                     }
                 });
             }
@@ -112,14 +197,8 @@ $(document).ready(function(){
     });
  
     listardetalles();
-    /*$("#registrar").click(registrarFundo);
-    $("#actualizar").click(modificarProducto);
-    cargarCategorias("#idcategoria");
-    cargarCategorias("#categoriaselect");
-    cargarCategoriaLotes("#lote");
-    cargarCategoriaCultivos("#cultivo");
-    cargarCategoriaSubLotes("#s_lote");
-    cargarCategoriaVariedades("#variedad");*/
+    listardetallesOperario();
+    cargarMotivoAplicacion("#motaplicacion");
+    cargarProducto("#producto_san");
+    $("#registrar").click(registrardetalle);
 });
-
-<script src="reporte.js"></script>

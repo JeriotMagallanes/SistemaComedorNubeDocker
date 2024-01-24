@@ -153,35 +153,6 @@ $(document).ready(function(){
         });
     });
 
-    /*$("#tablaProducto").on("click", ".eliminar", function(){
-        let idproducto = $(this).attr('data-idproducto');
-        Swal.fire({
-            icon: 'question',
-            title: 'AGROINDUSTRIAL BETA',
-            text: 'Esta seguro de eliminar?',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonText: 'Confirmar',
-        }).then((result)=>{
-            if(result.isConfirmed){
-                var datos = {
-                    'op' : 'eliminarProducto',
-                    'idproducto' : idproducto
-                };
-                $.ajax({
-                    url: 'controllers/Producto.controller.php',
-                    type: 'GET',
-                    data: datos,
-                    success: function(e){
-                        mostrarAlerta("success", "¡Eliminado correctamente!");
-                        listarProductosFarmaciaPrueba();
-                        listarProductosMedicosPrueba();
-                    }
-                });
-            }
-            });
-    });*/
-
     $("#tablaProducto").on('click', ".modificar", function(){
         let idproducto = $(this).attr('data-idproducto');
         
@@ -292,13 +263,26 @@ $(document).ready(function(){
                     'op': 'filtrarCategorias',
                     'jefe_fundo' : jefe_fundo
                     },
-                success: function(result){
-                    $("#tablaProductolistar").html(result);
+                success: function(e){
+                    var tabla = $("#tablaProducto").DataTable();
+                    tabla.destroy();
+                    $("#tablaProductolistar").html(e);
+                    $("#tablaProducto").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
                 }
             });
         }
     });
-    
+
     listarfundos();
     $("#registrar").click(registrarFundo);
     $("#actualizar").click(modificarProducto);

@@ -27,7 +27,7 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form action="" id="formularioReporte">
+                <form action="" id="formularioDetalle">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12 mt-3">
@@ -37,12 +37,19 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="producto">Producto</label>
-                                <select class="form-control form-control-border" name="producto" id="producto" >
+                                <select class="form-control form-control-border" name="producto_san" id="producto_san" >
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="unidad">Unidad:</label>
                                 <input type="text" id="unidad" class="form-control form-control-border" disabled>
+                                <input type="hidden" id="id_reporte" class="form-control form-control-border" value="<?php
+                            if (isset($_GET['id'])) {
+                                // Obtener el valor de id
+                                $id_reporte = $_GET['id'];
+                                echo $id_reporte;
+                            }
+                        ?>" >
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="diascarencia">Dias de carencia</label>
@@ -92,22 +99,23 @@
     <div class="col-md-9">
         <div  class=" card card-outline card-info">
             <div class="card-header">
-                <div class="row col-md-12">
-                    <div class="col-md-12">
+                <div class="row ">
+                    <div class="col-md-10">
                         <p class="card-title" style="font-size: 22px">Lista de detalle del Reporte con codigo N°
                         <?php
-                            if (isset($_GET['id'])) {
-                                // Obtener el valor de id
-                                $id_reporte = $_GET['id'];
-                                echo $id_reporte;
-                            }
+                            echo $id_reporte;
                         ?>
                     </p>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='main.php?view=administrarreporte.php'">
+                            Regresar <i class="fas fa-undo ml-2"></i>
+                        </button>
                     </div>
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablareporte">
+                <table class="table text-center" id="tablaDetalle">
                     <thead>
                         <tr>
                             <th class="text-center">Motivo</th>
@@ -123,7 +131,7 @@
                             <th class="text-center">Eliminar</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablareportelistar">
+                    <tbody class="table" id="tablaDetallelistar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>
