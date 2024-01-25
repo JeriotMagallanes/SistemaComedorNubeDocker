@@ -77,17 +77,6 @@ if (isset($_GET['op'])){
     header('Location:../');
   }
 
-  if ($_GET['op'] == 'registrarUsuario'){
-    $usuario->registrarUsuario([
-      "nombres"       => $_GET["nombres"],
-      "apellidos"     => $_GET["apellidos"],
-      "nombreusuario" => $_GET["nombreusuario"],
-      "nivelacceso"   => $_GET["nivelacceso"],
-      "email"         => $_GET["email"],
-
-    ]);
-  }
-
   if($_GET['op']  == 'reporteAsistencia'){              
     $clave = $usuario->reporteAsistencia();
 
@@ -169,18 +158,9 @@ if (isset($_GET['op'])){
     ]);
   }
 
-  if($_GET['op'] == 'modificarUsuario'){
-    $usuario->modificarUsuario([
-      "idusuario" => $_GET['idusuario'],
-      "nombreusuario" => $_GET['nombreusuario'],
-      "nivelacceso" => $_GET['nivelacceso'],
-      "email" => $_GET['email']
-    ]);
-  }
 
   if($_GET['op'] == 'getUsuario'){
     $data = $usuario->getUsuario(["idusuario" => $_GET['idusuario']]);
-
     echo json_encode($data);
   }
 
@@ -241,4 +221,42 @@ if (isset($_GET['op'])){
       }
   }
 }
+
+if(isset($_POST['op'])){
+  $usuario = new Usuario();
+  if($_POST['op'] == 'registrarUsuario'){
+    $nombre = "";
+    if ($_FILES['sello']['tmp_name'] != ''){
+      $nombre = date('YmdhGs') . ".jpg";
+      if (move_uploaded_file($_FILES['sello']['tmp_name'], "../sellos/" . $nombre)){
+        $usuario->registrarUsuario([
+          'nombres' => $_POST['nombres'],
+          'apellidos' => $_POST['apellidos'],
+          'nombreusuario' => $_POST['nombreusuario'],
+          'nivelacceso' => $_POST['nivelacceso'],
+          'sello' => $nombre,
+          'email' => $_POST['email']
+        ]);
+      }
+    }
+  }
+
+  if($_POST['op'] == 'modificarUsuario'){
+    $nombre="";
+    if ($_FILES['sello']['tmp_name'] != ''){
+      $nombre = date('YmdhGs') . ".jpg";
+      if (move_uploaded_file($_FILES['sello']['tmp_name'], "../sellos/" . $nombre)){
+        $usuario->modificarUsuario([
+          'idusuario' => $_POST['idusuario'],
+          'nombreusuario' => $_POST['nombreusuario'],
+          'nivelacceso' => $_POST['nivelacceso'],
+          'sello' => $nombre,
+          'email' => $_POST['email']
+        ]);
+      }
+    }
+  }
+
+}
+
 ?>

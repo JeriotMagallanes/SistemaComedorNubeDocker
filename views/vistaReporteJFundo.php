@@ -59,7 +59,7 @@
                             <th class="text-center">Fundo</th>
                             <th class="text-center">Lote</th>
                             <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Aprob. Fundo</th>
+                            <th class="text-center col-2">Aprob. Fundo</th>
                             <th class="text-center">Ver Productos</th>
                             <th class="text-center">Aprobar</th>
                         </tr>

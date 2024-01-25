@@ -167,9 +167,9 @@
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=ingresosistema.php' class='nav-link'>
+                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Ingresos al Sistema</p>
+                      <p>Registros Totales</p>
                     </a>
                   </li>
                 ";
@@ -217,15 +217,9 @@
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Sanidad</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=farmaciaadministra.php' class='nav-link'>
+                    <a href='main.php?view=vistaReporteSanidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Aprobar Reportes</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=farmaciaadministrar.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Reportes</p>
                     </a>
                   </li>
                 ";

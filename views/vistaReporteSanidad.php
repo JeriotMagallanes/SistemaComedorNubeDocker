@@ -45,12 +45,12 @@
                 <table class="table text-center" id="tablareporteSanidad">
                     <thead>
                         <tr>
-                            <th class="text-center col-1">Codigo</th>
-                            <th class="text-center col-2">Fecha y Hora</th>
-                            <th class="text-center col-1">Jefe de Fundo</th>
-                            <th class="text-center col-1">Fundo</th>
-                            <th class="text-center col-1">Lote</th>
-                            <th class="text-center col-1">Sub Lote</th>
+                            <th class="text-center">Codigo</th>
+                            <th class="text-center">Fecha y Hora</th>
+                            <th class="text-center">Jefe de Fundo</th>
+                            <th class="text-center">Fundo</th>
+                            <th class="text-center">Lote</th>
+                            <th class="text-center">Sub Lote</th>
                             <th class="text-center col-2">Aprob. Fundo</th>
                             <th class="text-center col-2">Aprob. Sanidad</th>
                             <th class="text-center ">Ver Productos</th>

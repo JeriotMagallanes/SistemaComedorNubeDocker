@@ -10,7 +10,9 @@ $(document).ready(function(){
         let apellidos = $("#apellidos").val();
         let nombreusuario = $("#nombreusuario").val();
         let nivelacceso = $("#nivelacceso").val();
+        var sello = $("#sello")[0].files[0];
         let email = $("#email").val();
+        console.log(sello);
         if(nombres == "" || apellidos == "" || nombreusuario == "" || nivelacceso == "" || email == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
@@ -22,20 +24,22 @@ $(document).ready(function(){
                 confirmButtonText:'Aceptar'
             }).then((result) =>{
                 if(result.isConfirmed){
-                    var datos = {
-                        'op'                    : 'registrarUsuario',
-                        'nombres'               : nombres, 
-                        'apellidos'             : apellidos, 
-                        'nombreusuario'         : nombreusuario, 
-                        'nivelacceso'           : nivelacceso,
-                        'email'                 : email
-                    };
-
+                    var formData = new FormData();
+                    formData.append('op', 'registrarUsuario');
+                    formData.append('nombres', nombres);
+                    formData.append('apellidos', apellidos);
+                    formData.append('nombreusuario', nombreusuario);
+                    formData.append('nivelacceso', nivelacceso);
+                    formData.append('sello', sello);
+                    formData.append('email', email);
                     $.ajax({
                         url: 'controllers/Usuario.controller.php',
-                        type:'GET',
-                        data: datos,
-                        success:function(e){
+                        type: 'POST',
+                        data: formData,   
+                        contentType: false,
+                        processData: false,
+                        cache: false,                     
+                        success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioUsuario")[0].reset();
                             listarUsuarios();
@@ -44,29 +48,6 @@ $(document).ready(function(){
                 }
             });
         }
-    }
-    function reporteAsistencia(){
-        $.ajax({
-            url: 'controllers/Usuario.controller.php',
-            type: 'GET',
-            data: 'op=reporteAsistencia',
-            success: function(e){
-                var tabla = $("#tablareporte").DataTable();
-                tabla.destroy();
-                $("#datosreporte").html(e);
-                $("#tablareporte").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
-            }
-        });
     }
     function listarUsuarios(){
         $.ajax({
@@ -97,7 +78,6 @@ $(document).ready(function(){
             'op' : tipo,
             'idusuario' : valor
         };
-        console.log(datos);
         $.ajax({
             url: 'controllers/Usuario.controller.php',
             type: 'GET',
@@ -120,7 +100,6 @@ $(document).ready(function(){
 
     $("#tablaUsuario").on('click', ".modificar", function(){
         var idusuario = $(this).attr('data-idusuariomod');
-
         $.ajax({
             url: 'controllers/Usuario.controller.php',
             type: 'GET',
@@ -137,9 +116,7 @@ $(document).ready(function(){
                     botonGuardar.classList.add('asignar');
                     $("#nombres").prop('disabled', true);
                     $("#apellidos").prop('disabled', true);
-
                     var resultado = JSON.parse(result);
-
                     $("#apellidos").val(resultado[0].apellidos);
                     $("#nombres").val(resultado[0].nombres);
                     $("#nombreusuario").val(resultado[0].nombreusuario);
@@ -148,7 +125,6 @@ $(document).ready(function(){
                     txtUsuario.setAttribute("data-idusuario", resultado[0].idusuario);
                     $("#idusuariomod").hide();
                 }else{
-                    
                     mostrarAlerta("warning", "¡No encontramos registros!");
                 }
             }
@@ -160,10 +136,13 @@ $(document).ready(function(){
         let idusuario = $("#idusuariomod").attr('data-idusuario');
         let nombreusuario = $("#nombreusuario").val();
         let nivelacceso = $("#nivelacceso").val();
+        var sello = $("#sello")[0].files[0];
         let email = $("#email").val();
         if(nombreusuario == "" || nivelacceso == undefined || email == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
+            console.log("aca esta id");
+            console.log(idusuario);
             Swal.fire({
                 icon:'question',
                 title:'¿Está seguro de modificar?',
@@ -172,21 +151,25 @@ $(document).ready(function(){
                 confirmButtonText:'Aceptar'
             }).then((result) =>{
                 if(result.isConfirmed){
-                    var datos = {
-                        'op'              : 'modificarUsuario',
-                        'idusuario'       : idusuario,
-                        'nombreusuario'   : nombreusuario, 
-                        'nivelacceso'     : nivelacceso,
-                        'email'           : email
-                    };
-                    console.log(datos);
+                    var formData = new FormData();
+                    formData.append('op', 'modificarUsuario');
+                    formData.append('idusuario', idusuario);
+                    formData.append('nombreusuario', nombreusuario);
+                    formData.append('nivelacceso', nivelacceso);
+                    formData.append('sello', sello);
+                    formData.append('email', email);
+                    console.log("id:")
+                    console.log(idusuario);
+                    console.log(sello);
                     $.ajax({
                         url: 'controllers/Usuario.controller.php',
-                        type:'GET',
-                        data: datos,
+                        type: 'POST',
+                        data: formData,   
+                        contentType: false,
+                        processData: false,
+                        cache: false,   
                         success:function(e){
                             mostrarAlerta("success", "¡Modificado con éxito!");
-
                             $("#formularioUsuario")[0].reset();
                             $("#Aviso").html("Registrar Usuario");
                             txtUsuario.classList.add('asignar');
@@ -293,5 +276,4 @@ $(document).ready(function(){
     $("#registrar").click(nombreusuarioYaExiste);
     $("#actualizar").click(modificarUsuarios);
     listarUsuarios();
-    reporteAsistencia();
 });

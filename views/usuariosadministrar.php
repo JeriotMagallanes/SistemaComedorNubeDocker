@@ -20,12 +20,13 @@
             </div>
             <!-- /.card-header -->
             <div class="card-body">
-                <form action="" id="formularioUsuario">
+                <form action="" id="formularioUsuario" enctype="multipart/form-data">
                     <div class="form-group">
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="nombres">Nombres:</label>
                                 <input id="nombres" class="form-control form-control-border">
+                                <input type="text" id="idusuariomod" class="form-control form-control-border asignar" disabled>
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="apellidos">Apellidos:</label>
@@ -37,7 +38,7 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="nivelacceso">Nivel de acceso:</label>
-                                <select id="nivelacceso" class="form-control form-control-border">
+                                <select id="nivelacceso" class="form-control form-control-border" onchange="mostrarOcultarInput()">
                                     <option value="">Seleccione</option>
                                     <option value="A">Administrador</option>
                                     <option value="C">Calidad</option>
@@ -45,7 +46,11 @@
                                     <option value="O">Operario</option>
                                     <option value="S">Sanidad</option>
                                 </select>
-                                <input type="text" id="idusuariomod" class="form-control form-control-border asignar" disabled>
+                            </div>
+
+                            <div class="col-md-12 mt-3" id="contenedorSello" style="display: none;">
+                                <label for="sello">Sello:</label>
+                                <input type="file" id="sello" class="form-control form-control-border">
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="email">Email:</label>
@@ -92,4 +97,15 @@
 </div>
 
 <script src="js/usuarios.js"></script>
+<script>
+    function mostrarOcultarInput() {
+        var nivelAcceso = document.getElementById("nivelacceso").value;
+        var contenedorSello = document.getElementById("contenedorSello");
+        if (nivelAcceso === "J" || nivelAcceso === "S") {
+            contenedorSello.style.display = "block";
+        } else {
+            contenedorSello.style.display = "none";
+        }
+    }
+</script>
 
