@@ -1,15 +1,9 @@
 <?php
     require_once 'datatable.php';
     require_once 'acceso-seguro.php';
-    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Jefe de Fundo')){
+    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Sanidad')){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
-    }
-    $idusuario=($_SESSION['idusuario']);
-    if(($_SESSION['nivelacceso'])=='Jefe de Fundo'){
-        $usuario=1;
-    }else{
-        $usuario=0;
     }
 ?>
 
@@ -25,9 +19,7 @@
             <div class="card-header">
                 <div class="row col-md-12">
                     <div class="col-md-6">
-                        <p class="card-title" style="font-size: 22px">Lista de Reportes Jefe de Fundo</p>
-                                <input type="hidden" id="idusuario" class="form-control" value="<?php echo $idusuario; ?>">
-                                <input type="hidden" id="estadousuario" class="form-control" value="<?php echo $usuario; ?>">
+                        <p class="card-title" style="font-size: 22px">Lista de Reportes Sanidad</p>
                     </div>
                     <div class="col-md-6 display">
                         <div class="row">
@@ -50,21 +42,22 @@
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablareporteJfundo">
+                <table class="table text-center" id="tablareporteSanidad">
                     <thead>
                         <tr>
-                            <th class="text-center">Codigo</th>
-                            <th class="text-center">Fecha y Hora</th>
-                            <th class="text-center">Jefe de Fundo</th>
-                            <th class="text-center">Fundo</th>
-                            <th class="text-center">Lote</th>
-                            <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Aprob. Fundo</th>
-                            <th class="text-center">Ver Productos</th>
-                            <th class="text-center">Aprobar</th>
+                            <th class="text-center col-1">Codigo</th>
+                            <th class="text-center col-2">Fecha y Hora</th>
+                            <th class="text-center col-1">Jefe de Fundo</th>
+                            <th class="text-center col-1">Fundo</th>
+                            <th class="text-center col-1">Lote</th>
+                            <th class="text-center col-1">Sub Lote</th>
+                            <th class="text-center col-2">Aprob. Fundo</th>
+                            <th class="text-center col-2">Aprob. Sanidad</th>
+                            <th class="text-center ">Ver Productos</th>
+                            <th class="text-center ">Aprobar</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablareporteJFundoListar">
+                    <tbody class="table" id="tablareporteSanidadListar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>
