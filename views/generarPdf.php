@@ -9,8 +9,6 @@ use Dompdf\Options;
 $reporteId = $_POST['reporte_id'] ?? null;
 $nombrelogoBeta = "../images/logobetaPDF.png";
 $imagenlogobetaBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombrelogoBeta));
-$nombresello_jsanidad = "../images/sello_jefe_sanidad.png";
-$imagensello_jsanidadBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombresello_jsanidad));
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -31,6 +29,22 @@ $conn->next_result();
 $sql2 = "CALL spu_listar_detalle($reporteId)";
 $resultsql2 = $conn->query($sql2);
 
+$conn->next_result();
+
+$sql3 = "CALL spu_selloPdfJefeFundo($reporteId)";
+$resultsql3 = $conn->query($sql3);
+$repordatajefefundo = $resultsql3->fetch_assoc();
+$nombrsello_jfundo= "../sellos/{$repordatajefefundo['sello_fundo']}";
+$imagensello_jfundo64 = "data:image/png;base64," . base64_encode(file_get_contents($nombrsello_jfundo));
+$conn->next_result();
+
+$sql4 = "CALL spu_selloPdfJefeSanidad($reporteId)";
+$resultsql4 = $conn->query($sql4);
+$reporteDatajefesanidad = $resultsql4->fetch_assoc();
+$nombresello_jsanidad = "../sellos/{$reporteDatajefesanidad['sello_sanidad']}";
+$imagensello_jsanidadBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombresello_jsanidad));
+
+
 if ($reporteId !== null && $resultsql1 && $resultsql2) {
     // Obtener los resultados como un array asociativo
     $reporteData = $resultsql1->fetch_assoc();
@@ -39,9 +53,7 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
     $options = new Options();
     $options->set('isHtml5ParserEnabled', true);
     $options->set('isPhpEnabled', true);
-    
-$nombrsello_jfundo= "../sellos/{$reporteData['sello']}";
-$imagensello_jfundo64 = "data:image/png;base64," . base64_encode(file_get_contents($nombrsello_jfundo));
+
     $dompdf = new Dompdf($options);
 
     // Construir el HTML con los datos obtenidos del procedimiento almacenado

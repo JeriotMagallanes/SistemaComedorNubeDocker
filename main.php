@@ -195,7 +195,7 @@
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Calidad</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=vistaReporte.php' class='nav-link'>
+                    <a href='main.php?view=vistaReporteCalidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Ver Reportes Generales</p>
                     </a>

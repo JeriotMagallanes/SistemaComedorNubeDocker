@@ -62,6 +62,7 @@
                             <th class="text-center col-2">Aprob. Fundo</th>
                             <th class="text-center">Ver Productos</th>
                             <th class="text-center">Aprobar</th>
+                            <th class="text-center">Reporte Autorizado</th>
                         </tr>
                     </thead>
                     <tbody class="table" id="tablareporteJFundoListar">

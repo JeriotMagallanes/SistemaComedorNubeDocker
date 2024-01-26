@@ -142,7 +142,7 @@
                             <th class="text-center">Fundo</th>
                             <th class="text-center">Lote</th>
                             <th class="text-center">Sub Lote</th>
-                            <th class="text-center">Ver Productos</th>
+                            <th class="text-center">Editar Productos</th>
                             <?php 
                             if(($_SESSION['nivelacceso'] == 'Administrador')){
                             echo

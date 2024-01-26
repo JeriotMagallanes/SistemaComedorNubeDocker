@@ -33,7 +33,10 @@ if (isset($_GET['op'])){
     }
 
     if($_GET['op']== 'aprobarreporteSanidad'){
-      $Reporte->aprobarreporteSanidad(["idproducto" => $_GET["idproducto"]]);
+      $Reporte->aprobarreporteSanidad([
+        "idproducto" => $_GET["idproducto"],
+        "id_jefe_sanidad" => $_GET["id_jefe_sanidad"]
+      ]);
     }
     
     if($_GET['op'] == 'modificarReporte'){
@@ -55,40 +58,70 @@ if (isset($_GET['op'])){
       $data = $Reporte->getReporte(["id_reporte" => $_GET['id_reporte']]);
       echo json_encode($data);
     }
+    
+    if($_GET['op']  == 'ListardatosReporte'){              
+      $clave = $Reporte->listardatosReporte();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          echo "
+          <tr>
+              <th class='text- mb-2'>Jef</th>
+              <th class='text- mb-2'>Fundo:</th>
+          </tr>
+          <tr>
+              <th class='text- mb-2'>Lote:</th>
+              <th class='text- mb-2'>Sub-Lote:</th>
+          </tr>
+          <tr>
+              <th class='text- mb-2'>Cultivo:</th>
+              <th class='text- mb-2'>Variedad:</th>
+          </tr>
+          ";
+          $i++;
+        }
+      }
+    }
     if($_GET['op']  == 'ListarReportes'){              
       $clave = $Reporte->listarReporte();
       if(count($clave) != 0){
         $i = 1;
         foreach($clave as $valor){
-          echo "
-            <tr>
-              <td class='text-center'>$valor->id_reporte</td>
-              <td class='text-center'>$valor->fecha_hora</td>
-              <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
-              <td class='text-center'>$valor->nombre_lote</td>
-              <td class='text-center'>$valor->_slote_nombre</td>
-              <td class='text-center'>
+              echo "
+              <tr>
+                <td class='text-center'>$valor->id_reporte</td>
+                <td class='text-center'>$valor->fecha_hora</td>
+                <td class='text-center'>$valor->jefe_fundo</td>
+                <td class='text-center'>$valor->nom_fundo</td>
+                <td class='text-center'>$valor->nombre_lote</td>
+                <td class='text-center'>$valor->_slote_nombre</td>";
+                if(($_SESSION['nivelacceso'] == 'Operario')&&($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado')){
+                echo "
+                <td class='text-center'>
                 <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
-              </td>";
-              if(($_SESSION['nivelacceso'] == 'Administrador')){
-                echo
-                "
-              <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
-                  <i class='fas fa-edit'></i>
-                </a>
-              </td>
-              <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
-                  <i class='fas fa-trash-alt'></i>
-                </a>
-              </td> 
-              ";}
-            echo "</tr>
-          ";
+                </td>";}
+                if(($_SESSION['nivelacceso'] == 'Administrador')){
+                  echo
+                  "
+                <td class='text-center'>
+                  <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                    <i class='fas fa-bars'></i>
+                  </a>
+                </td>
+                <td class='text-center'>
+                  <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
+                    <i class='fas fa-edit'></i>
+                  </a>
+                </td>
+                <td class='text-center'>
+                  <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
+                    <i class='fas fa-trash-alt'></i>
+                  </a>
+                </td> 
+                ";}
+            echo "</tr>";
           $i++;
         }
       }
@@ -162,6 +195,61 @@ if (isset($_GET['op'])){
           <td class='text-center'>$valor->gastoH2O</td>
           </tr>"
       ;
+        $i++;
+      }
+    }
+    if($_GET['op'] == 'filtrarFechasCalidad'){
+      $clave = $Reporte->filtrarFecha([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+    ]);
+      $i = 1;
+      foreach($clave as $valor){
+        if($valor->aprob_jefefundo=='Aprobado'){
+          $colorjefe='c3e6cb';
+        }else{
+          $colorjefe='dc3545';
+        }
+        if($valor->aprob_jefesanidad=='Aprobado'){
+          $colorsanidad='c3e6cb';
+        }else{
+          $colorsanidad='dc3545';
+        }
+        echo "
+          <tr>
+            <td class='text-center'>$valor->id_reporte</td>
+            <td class='text-center'>$valor->fecha_hora</td>
+            <td class='text-center'>$valor->jefe_fundo</td>
+            <td class='text-center'>$valor->nom_fundo</td>
+            <td class='text-center'>$valor->nombre_lote</td>
+            <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center align-middle'>
+            <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
+                $valor->aprob_jefefundo
+            </div>
+            </td>
+            <td class='text-center align-middle'>
+                <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
+                    $valor->aprob_jefesanidad
+                </div>
+            </td>
+            <td class='text-center'>
+              <a  style='margin-top: 20px; href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <i class='fas fa-bars'></i>
+              </a>
+            </td>
+            <td class='text-center'>";
+              if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                echo "
+                <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                  <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                  <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                </form>";
+              }
+              echo "
+            </td>
+            </tr>
+        ";
         $i++;
       }
     }
@@ -242,17 +330,26 @@ if (isset($_GET['op'])){
             </div>
             </td>
             <td class='text-center'>
-              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                 <i class='fas fa-bars'></i>
               </a>
             </td>
             <td class='text-center'>
-              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+              <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
                 <i class='fas fa-check'></i>
               </a>
             </td>
-            ";
-          echo "</tr>
+            <td class='text-center'>";
+              if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                echo "
+                <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                  <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                  <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                </form>";
+              }
+              echo "
+            </td>
+            </tr>
         ";
         $i++;
       }
@@ -294,16 +391,26 @@ if (isset($_GET['op'])){
                 </div>
             </td>
             <td class='text-center'>
-              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <a  style='margin-top: 20px; href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                 <i class='fas fa-bars'></i>
               </a>
             </td>
             <td class='text-center'>
-              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+              <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
                 <i class='fas fa-check'></i>
               </a>
-            </td>";
-          echo "</tr>
+            </td>
+            <td class='text-center'>";
+              if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                echo "
+                <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                  <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                  <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                </form>";
+              }
+              echo "
+            </td>
+            </tr>
         ";
         $i++;
       }
@@ -373,16 +480,67 @@ if (isset($_GET['op'])){
                   </div>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <a  style='margin-top: 20px;' href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>
-              <td class='text-center'>
-              <form id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
-              <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
-              <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
-          </form>
+              </tr>"
+          ;
+          $i++;
+        }
+      }
+    }
+    
+    if($_GET['op']  == 'ListarReportesCalidad'){              
+      $clave = $Reporte->listarReporte();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          if($valor->aprob_jefefundo=='Aprobado'){
+            $colorjefe='c3e6cb';
+          }else{
+            $colorjefe='dc3545';
+          }
+          if($valor->aprob_jefesanidad=='Aprobado'){
+            $colorsanidad='c3e6cb';
+          }else{
+            $colorsanidad='dc3545';
+          }
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center align-middle'>
+                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
+                      $valor->aprob_jefefundo
+                  </div>
               </td>
+              <td class='text-center align-middle'>
+                  <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
+                      $valor->aprob_jefesanidad
+                  </div>
+              </td>
+              <td class='text-center'>
+                <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                  <i class='fas fa-bars'></i>
+                </a>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
+              </td>
+              ";
+            echo "
               </tr>"
           ;
           $i++;
@@ -413,14 +571,24 @@ if (isset($_GET['op'])){
                   </div>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
                   <i class='fas fa-check'></i>
                 </a>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
               </td>
               </tr>"
           ;
@@ -458,14 +626,24 @@ if (isset($_GET['op'])){
               </div>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
                   <i class='fas fa-check'></i>
                 </a>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
               </td>
               ";
             echo "</tr>
@@ -474,9 +652,9 @@ if (isset($_GET['op'])){
         }
     }
     
-    if($_GET['op']  == 'ListarReportesSanidad'){              
+    
+    if($_GET['op']  == 'ListarReportesSanidadAdministrador'){              
       $clave = $Reporte->listarReporte();
-  
       if(count($clave) != 0){
         $i = 1;
         foreach($clave as $valor){
@@ -509,15 +687,90 @@ if (isset($_GET['op'])){
                   </div>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>
               <td class='text-center'>
-                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
                   <i class='fas fa-check'></i>
                 </a>
               </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
+              </td>
+              ";
+            echo "
+              </tr>"
+          ;
+          $i++;
+        }
+      }
+    }
+    if($_GET['op']  == 'ListarReportesSanidad'){              
+      $clave = $Reporte->listarReporte();
+      $id_jefe_sanidad = $_GET['id_jefe_sanidad'];
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          if($valor->aprob_jefefundo=='Aprobado'){
+            $colorjefe='c3e6cb';
+          }else{
+            $colorjefe='dc3545';
+          }
+          if($valor->aprob_jefesanidad=='Aprobado'){
+            $colorsanidad='c3e6cb';
+          }else{
+            $colorsanidad='dc3545';
+          }
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center align-middle'>
+                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
+                      $valor->aprob_jefefundo
+                  </div>
+              </td>
+              <td class='text-center align-middle'>
+                  <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
+                      $valor->aprob_jefesanidad
+                  </div>
+              </td>
+              <td class='text-center'>
+                <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                  <i class='fas fa-bars'></i>
+                </a>
+              </td>
+              <td class='text-center'>
+                <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                  <i class='fas fa-check'></i>
+                </a>
+                <input type='hidden' id='id_jefe_sanidad' value='$id_jefe_sanidad'>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
+              </td>
+              ";
+            echo "
               </tr>"
           ;
           $i++;

@@ -1,5 +1,6 @@
 $(document).ready(function(){
     idproducto = "";
+    jefe_fundo="";
     var txtProducto = document.querySelector("#idproductomod");
     var botonActualizar = document.querySelector("#actualizar");
     var botonGuardar = document.querySelector("#registrar");
@@ -169,28 +170,28 @@ $(document).ready(function(){
 
     function ListarReportes(){
         $.ajax({
-            url: 'controllers/Reporte.controller.php',
-            type: 'GET',
-            data: 'op=ListarReportes',
-            success: function(e){
-                var tabla = $("#tablareporte").DataTable();
-                tabla.destroy();
-                $("#tablareportelistar").html(e);
-                $("#tablareporte").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
-            }
-        });
+        url: 'controllers/Reporte.controller.php',
+        type: 'GET',
+        data: 'op=ListarReportes',
+        success: function(e){
+            var tabla = $("#tablareporte").DataTable();
+            tabla.destroy();
+            $("#tablareportelistar").html(e);
+            $("#tablareporte").DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                columnDefs: [
+                {
+                    visible: true,
+                    searchable: true
+                }
+                ],
+                dom: 'Bfrtip',
+                buttons: ['copy', 'print', 'pdf', 'excel']
+            });
+        }
+    });
     }
-
+    
     function ListarReportesGeneralAdministrador(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
@@ -238,11 +239,32 @@ $(document).ready(function(){
             }
         });
     }
+    function ListarReportesCalidad(){
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarReportesCalidad',
+            success: function(e){
+                var tabla = $("#tablareporteCalidad").DataTable();
+                tabla.destroy();
+                $("#tablareporteCalidadListar").html(e);
+                $("#tablareporteCalidad").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
     function ListarReportesJFundo(){
         var idusuario = $("#idusuario").val();
         var estadousuario = $("#estadousuario").val();
-        console.log(idusuario);
-        console.log(estadousuario);
         if(estadousuario==0){
             $.ajax({
                 url: 'controllers/Reporte.controller.php',
@@ -295,27 +317,57 @@ $(document).ready(function(){
     }
     
     function ListarReportesSanidad(){
-        $.ajax({
-            url: 'controllers/Reporte.controller.php',
-            type: 'GET',
-            data: 'op=ListarReportesSanidad',
-            success: function(e){
-                var tabla = $("#tablareporteSanidad").DataTable();
-                tabla.destroy();
-                $("#tablareporteSanidadListar").html(e);
-                $("#tablareporteSanidad").DataTable({
-                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                    columnDefs: [
-                    {
-                        visible: true,
-                        searchable: true
-                    }
-                    ],
-                    dom: 'Bfrtip',
-                    buttons: ['copy', 'print', 'pdf', 'excel']
-                });
-            }
-        });
+        var idusuario = $("#idusuariosanidad").val();
+        var estadousuario = $("#estadousuariosanidad").val();
+        if(estadousuario==0){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: 'op=ListarReportesSanidadAdministrador',
+                success: function(e){
+                    var tabla = $("#tablareporteSanidad").DataTable();
+                    tabla.destroy();
+                    $("#tablareporteSanidadListar").html(e);
+                    $("#tablareporteSanidad").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
+        }
+        if(estadousuario==1){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'ListarReportesSanidad',
+                    'id_jefe_sanidad' : idusuario
+                    },
+                success: function(e){
+                    var tabla = $("#tablareporteSanidad").DataTable();
+                    tabla.destroy();
+                    $("#tablareporteSanidadListar").html(e);
+                    $("#tablareporteSanidad").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
+        }
     }
 
     $("#tablareporte").on("click", ".eliminar", function(){
@@ -376,6 +428,7 @@ $(document).ready(function(){
 
     $("#tablareporteSanidad").on("click", ".aprobar", function(){
         let id_reporte = $(this).attr('data-idproducto');
+        var id_jefe_sanidad = $("#id_jefe_sanidad").val();
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
@@ -387,7 +440,8 @@ $(document).ready(function(){
             if(result.isConfirmed){
                 var datos = {
                     'op' : 'aprobarreporteSanidad',
-                    'idproducto' : id_reporte
+                    'idproducto' : id_reporte,
+                    'id_jefe_sanidad' : id_jefe_sanidad
                 };
                 $.ajax({
                     url: 'controllers/Reporte.controller.php',
@@ -412,6 +466,12 @@ $(document).ready(function(){
         e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
         window.location.href = 'main.php?view=vistaDetalle.php?id=' + idreporte;
+    });
+    
+    $("#tablareporteCalidad").on("click", ".detalle", function(e) {
+        e.preventDefault(); 
+        let idreporte = $(this).data('idproducto');
+        window.location.href = 'main.php?view=vistaDetalleCalidad.php?id=' + idreporte;
     });
     $("#tablareporteJfundo").on("click", ".detalle", function(e) {
         e.preventDefault(); 
@@ -605,6 +665,42 @@ $(document).ready(function(){
             }
         }
     
+        function buscarFechaCalidad(){
+            var fechafinal = $("#fechafinal").val();
+            var fechainicial = $("#fechainicial").val();
+            if((fechafinal=="")&&(fechainicial="")){
+                ListarReportesCalidad();
+            }else{
+                $.ajax({
+                    url: 'controllers/Reporte.controller.php',
+                    type: 'GET',
+                    data: {
+                        'op': 'filtrarFechasSanidad',
+                        'fechainicial' : fechainicial,
+                        'fechafinal'   : fechafinal
+                        },
+                        success: function(e){
+                            var tabla = $("#tablareporteSanidad").DataTable();
+                            tabla.destroy();
+                            $("#tablareporteSanidadListar").html(e);
+                            $("#tablareporteSanidad").DataTable({
+                                language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                                columnDefs: [
+                                {
+                                    visible: true,
+                                    searchable: true
+                                }
+                                ],
+                                dom: 'Bfrtip',
+                                buttons: ['copy', 'print', 'pdf', 'excel']
+                            });
+                        }
+                });
+            }
+            if(fechafinal<fechainicial){
+                mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+            }
+        }
     function buscarFechaOperario(){
         var fechafinal = $("#fechafinal").val();
         var fechainicial = $("#fechainicial").val();
@@ -615,15 +711,15 @@ $(document).ready(function(){
                 url: 'controllers/Reporte.controller.php',
                 type: 'GET',
                 data: {
-                    'op': 'filtrarFechasOperario',
+                    'op': 'filtrarFechasCalidad',
                     'fechainicial' : fechainicial,
                     'fechafinal'   : fechafinal
                     },
                     success: function(e){
-                        var tabla = $("#tablareporteOperario").DataTable();
+                        var tabla = $("#tablareporteCalidad").DataTable();
                         tabla.destroy();
-                        $("#tablareporteOperarioListar").html(e);
-                        $("#tablareporteOperario").DataTable({
+                        $("#tablareporteCalidadListar").html(e);
+                        $("#tablareporteCalidad").DataTable({
                             language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
                             columnDefs: [
                             {
@@ -678,6 +774,7 @@ $(document).ready(function(){
             mostrarAlerta("warning", "¡Rango de fechas invalidos!");
         }
     }
+
     function buscarFechaSanidad(){
         var fechafinal = $("#fechafinal").val();
         var fechainicial = $("#fechainicial").val();
@@ -714,9 +811,9 @@ $(document).ready(function(){
             mostrarAlerta("warning", "¡Rango de fechas invalidos!");
         }
     }
-
     ListarReportes();
     ListarReportesGeneralAdministrador();
+    ListarReportesCalidad();
     ListarReportesOperario();
     ListarReportesJFundo();
     ListarReportesSanidad();
@@ -724,12 +821,9 @@ $(document).ready(function(){
     $("#actualizar").click(modificarProducto);
     $("#bfecha").click(buscarFecha);
     $("#bfecha").click(buscarFechaAdministrador);
+    $("#bfecha").click(buscarFechaCalidad);
     $("#bfecha").click(buscarFechaOperario);
     $("#bfecha").click(buscarFechaJFundo);
     $("#bfecha").click(buscarFechaSanidad);
     cargarCategorias("#idcategoria");
-    cargarCategoriaNombreFundos("#fundo");
-    cargarCategoriaLoteNombreFundos("#lote");
-    cargarCategoriaCultivosLotes("#s_lote");
-    cargarCategoriaVariedades("#variedad");
 });

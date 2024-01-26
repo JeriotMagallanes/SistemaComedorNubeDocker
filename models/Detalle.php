@@ -20,6 +20,13 @@ class Detalle extends ModelMaster{
     }
   }
 
+  public function listardatosreporte(array $data){
+    try{
+        return parent::execProcedure($data, "spu_listar_datos_reporte", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
   public function listardetalle(array $data){
     try{
         return parent::execProcedure($data, "spu_listar_detalle", true);

@@ -113,6 +113,18 @@
                         </button>
                     </div>
                 </div>
+            <div class="table-responsive">
+                <table class="table text-" id="tablaDatosReporte">
+                    <thead>
+                        <tr>
+                            <th class="text- mb-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="table" id="tablaDatosReporteListar">
+                        <!-- Se carga de manera dinámica -->
+                    </tbody>
+                </table>
+            </div>
             </div>
             <div class="card-body table-responsive">
                 <table class="table text-center" id="tablaDetalle">

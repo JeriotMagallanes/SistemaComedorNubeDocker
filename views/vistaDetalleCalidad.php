@@ -3,7 +3,7 @@
     require_once 'acceso-seguro.php';
     require_once '../models/Reporte.php';
     require_once '../models/Serverside.php';
-    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Jefe de Fundo')){
+    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Operario')&&($_SESSION['nivelacceso'] != 'Calidad')){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
     }
@@ -37,7 +37,7 @@
                     </p>
                     </div>
                     <div class="col-md-2">
-                        <button type="button" class="btn btn-secondary" onclick="window.location.href='main.php?view=vistaReporteJFundo.php'">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='main.php?view=vistaReporteCalidad.php'">
                             Regresar <i class="fas fa-undo ml-2"></i>
                         </button>
                     </div>

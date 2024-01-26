@@ -90,7 +90,22 @@ $(document).ready(function(){
             }
         });
     }
-    
+    function listarDatosReporte(){
+        let id_reporte=$("#id_reporte").val();
+        $.ajax({
+            url: 'controllers/Detalle.controller.php',
+            type: 'GET',
+            data: {
+                'op': 'listardatosReporte',
+                'id_reporte' : id_reporte
+                },
+                success: function(e){
+                var tabla = $("#tablaDatosReporte").DataTable();
+                tabla.destroy();
+                $("#tablaDatosReporteListar").html(e);
+            }
+        });
+    }
     function listardetallesOperario(){
         let id_reporte=$("#id_reporte").val();
         console.log(id_reporte);
@@ -197,6 +212,7 @@ $(document).ready(function(){
     });
  
     listardetalles();
+    listarDatosReporte();
     listardetallesOperario();
     cargarMotivoAplicacion("#motaplicacion");
     cargarProducto("#producto_san");

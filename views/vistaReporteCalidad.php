@@ -1,15 +1,9 @@
 <?php
     require_once 'datatable.php';
     require_once 'acceso-seguro.php';
-    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Sanidad')){
+    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Operario')&&($_SESSION['nivelacceso'] != 'Calidad')){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
-    }
-    $idusuario=($_SESSION['idusuario']);
-    if(($_SESSION['nivelacceso'])=='Sanidad'){
-        $usuario=1;
-    }else{
-        $usuario=0;
     }
 ?>
 
@@ -25,9 +19,7 @@
             <div class="card-header">
                 <div class="row col-md-12">
                     <div class="col-md-6">
-                        <p class="card-title" style="font-size: 22px">Lista de Reportes Sanidad</p>
-                        <input type="hidden" id="idusuariosanidad" class="form-control" value="<?php echo $idusuario; ?>">
-                        <input type="hidden" id="estadousuariosanidad" class="form-control" value="<?php echo $usuario; ?>">
+                        <p class="card-title" style="font-size: 22px">Lista de Reportes</p>
                     </div>
                     <div class="col-md-6 display">
                         <div class="row">
@@ -50,7 +42,7 @@
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablareporteSanidad">
+                <table class="table text-center" id="tablareporteCalidad">
                     <thead>
                         <tr>
                             <th class="text-center">Codigo</th>
@@ -61,12 +53,11 @@
                             <th class="text-center">Sub Lote</th>
                             <th class="text-center col-2">Aprob. Fundo</th>
                             <th class="text-center col-2">Aprob. Sanidad</th>
-                            <th class="text-center ">Ver Productos</th>
-                            <th class="text-center ">Aprobar</th>
-                            <th class="text-center ">Reporte Autorizado</th>
+                            <th class="text-center">Ver Productos</th>
+                            <th class="text-center">Reporte Autorizacion</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablareporteSanidadListar">
+                    <tbody class="table" id="tablareporteCalidadListar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>
@@ -75,4 +66,5 @@
     </div>
 </div>
 <script src="js/reportes.js"></script>
+
 
