@@ -90,10 +90,10 @@
             </li>
             <!-- Menu Footer-->
             <li class="user-footer row-flex">
-              <div class="pull-left">
+              <!--<div class="pull-left">
                 <a href="main.php?view=usuariocambiarcontrasena" class="btn btn-default btn-flat">Contraseña</a>
-              </div>
-              <div class="pull-right">
+              </div> -->
+              <div >
                 <a href="controllers/Usuario.controller.php?op=cerrar-sesion" class="btn btn-default btn-flat">Cerrar sesión</a>
               </div>
             </li>
@@ -141,7 +141,7 @@
             <?php
               if($_SESSION['nivelacceso'] == 'Administrador'){
                 echo "
-                  <li class='nav-header' style='background-color:#292929'>Administrador</li>
+                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
                   <li class='nav-item'>
                     <a href='main.php?view=usuariosadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
@@ -172,6 +172,12 @@
                       <p>Registros Totales</p>
                     </a>
                   </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaReporteSanidad.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Aprobar Reportes</p>
+                    </a>
+                  </li>
                 ";
               } 
               if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Operario')){
@@ -200,6 +206,12 @@
                       <p>Ver Reportes Generales</p>
                     </a>
                   </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Registros Totales</p>
+                    </a>
+                  </li>
                 ";
               }
               if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Jefe de Fundo')){
@@ -211,17 +223,6 @@
                     <p>Aprobar Reporte</p>
                   </a>
                 </li>
-                ";
-              }  
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Sanidad')){
-                echo "
-                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaReporteSanidad.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Aprobar Reportes</p>
-                    </a>
-                  </li>
                 ";
               } 
             ?>

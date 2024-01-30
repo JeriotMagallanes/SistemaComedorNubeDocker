@@ -44,21 +44,18 @@
                                     <option value="C">Calidad</option>
                                     <option value="J">Jefe de Fundo</option>
                                     <option value="O">Operario</option>
-                                    <option value="S">Sanidad</option>
                                 </select>
-                            </div>
-
-                            <div class="col-md-12 mt-3" id="contenedorSello" style="display: none;">
-                                <label for="sello">Sello:</label>
-                                <input type="file" id="sello" class="form-control form-control-border">
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="email">Email:</label>
                                 <input id="email" class="form-control form-control-border">
                             </div>
+                            <div class="col-md-12 mt-3">
+                                <label for="password">Contraseña:</label>
+                                <input id="password" class="form-control form-control-border">
+                            </div>
                         </div>
                     </div>
-                    <p>Nota: La contraseña por defecto será 123456</p>
                 </form>
             </div>
             <!-- /.card-body -->
@@ -97,15 +94,5 @@
 </div>
 
 <script src="js/usuarios.js"></script>
-<script>
-    function mostrarOcultarInput() {
-        var nivelAcceso = document.getElementById("nivelacceso").value;
-        var contenedorSello = document.getElementById("contenedorSello");
-        if (nivelAcceso === "J" || nivelAcceso === "S") {
-            contenedorSello.style.display = "block";
-        } else {
-            contenedorSello.style.display = "none";
-        }
-    }
-</script>
+
 

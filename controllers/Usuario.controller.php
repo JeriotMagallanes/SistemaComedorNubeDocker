@@ -36,10 +36,6 @@ if (isset($_GET['op'])){
         $_SESSION['nombreusuario'] = $registro['nombreusuario'];
         $_SESSION['clave'] = $registro['clave'];
         $_SESSION['nivelacceso'] = $registro['nivelacceso'];
-        $_SESSION['ingreso'] = $registro['ingreso'];
-        $conexion = mysqli_connect("127.0.0.1", "root","", "sistemasanidad");
-        $query = "UPDATE usuarios SET ingreso=ingreso+1 WHERE idusuario=$id";
-        $resultado = mysqli_query($conexion, $query);
         echo "";
 
       }else{
@@ -67,8 +63,32 @@ if (isset($_GET['op'])){
       $_SESSION['clave'] = '';
       $_SESSION['nivelacceso'] = '';
 
+
       echo "El usuario no existe";
     }
+  }
+
+  if ($_GET['op'] == 'registrarUsuario'){
+    $usuario->registrarUsuario([
+      "nombres"       => $_GET["nombres"],
+      "apellidos"     => $_GET["apellidos"],
+      "nombreusuario" => $_GET["nombreusuario"],
+      "nivelacceso"   => $_GET["nivelacceso"],
+      "email"         => $_GET["email"],
+      "password" => password_hash($_GET['password'], PASSWORD_BCRYPT)
+
+    ]);
+  }
+
+  
+  if($_GET['op'] == 'modificarUsuario'){
+    $usuario->modificarUsuario([
+      "idusuario" => $_GET['idusuario'],
+      "nombreusuario" => $_GET['nombreusuario'],
+      "nivelacceso" => $_GET['nivelacceso'],
+      "email" => $_GET['email'],
+      "password" => password_hash($_GET['password'], PASSWORD_BCRYPT)
+    ]);
   }
 
   if ($_GET['op'] == 'cerrar-sesion'){
@@ -77,26 +97,6 @@ if (isset($_GET['op'])){
     header('Location:../');
   }
 
-  if($_GET['op']  == 'reporteAsistencia'){              
-    $clave = $usuario->reporteAsistencia();
-
-    if(count($clave) != 0){
-      $i = 1;
-      foreach($clave as $valor){
-        $estado="";
-        echo "
-          <tr>
-            <td class='text-center'>$i</td>
-            <td class='text-center'>$valor->nombres</td>
-            <td class='text-center'>$valor->apellidos</td>
-            <td class='text-center'>$valor->nombreusuario</td>
-            <td class='text-center'>$valor->ingreso</td>
-          </tr>
-        ";
-        $i++;
-      }
-    }
-  }
 
   if($_GET['op']  == 'listarUsuarios'){
     $clave = $usuario->listarUsuarios();
@@ -221,42 +221,4 @@ if (isset($_GET['op'])){
       }
   }
 }
-
-if(isset($_POST['op'])){
-  $usuario = new Usuario();
-  if($_POST['op'] == 'registrarUsuario'){
-    $nombre = "";
-    if ($_FILES['sello']['tmp_name'] != ''){
-      $nombre = date('YmdhGs') . ".jpg";
-      if (move_uploaded_file($_FILES['sello']['tmp_name'], "../sellos/" . $nombre)){
-        $usuario->registrarUsuario([
-          'nombres' => $_POST['nombres'],
-          'apellidos' => $_POST['apellidos'],
-          'nombreusuario' => $_POST['nombreusuario'],
-          'nivelacceso' => $_POST['nivelacceso'],
-          'sello' => $nombre,
-          'email' => $_POST['email']
-        ]);
-      }
-    }
-  }
-
-  if($_POST['op'] == 'modificarUsuario'){
-    $nombre="";
-    if ($_FILES['sello']['tmp_name'] != ''){
-      $nombre = date('YmdhGs') . ".jpg";
-      if (move_uploaded_file($_FILES['sello']['tmp_name'], "../sellos/" . $nombre)){
-        $usuario->modificarUsuario([
-          'idusuario' => $_POST['idusuario'],
-          'nombreusuario' => $_POST['nombreusuario'],
-          'nivelacceso' => $_POST['nivelacceso'],
-          'sello' => $nombre,
-          'email' => $_POST['email']
-        ]);
-      }
-    }
-  }
-
-}
-
 ?>

@@ -3,7 +3,7 @@
     require_once 'acceso-seguro.php';
     require_once '../models/Reporte.php';
     require_once '../models/Serverside.php';
-    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Sanidad')){
+    if(($_SESSION['nivelacceso'] != 'Administrador')){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
     }

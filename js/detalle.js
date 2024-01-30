@@ -1,8 +1,6 @@
 $(document).ready(function(){
     idproducto = "";
-    var txtProducto = document.querySelector("#idproductomod");
-    var botonActualizar = document.querySelector("#actualizar");
-    var botonGuardar = document.querySelector("#registrar");
+    diascarencia= "";
 
     function registrardetalle(){
         var motaplicacion = $("#motaplicacion").val();
@@ -17,7 +15,7 @@ $(document).ready(function(){
         var haaplicada = $("#haaplicada").val();
         var gastoh20 = $("#gastoh20").val();
         var id_reporte = $("#id_reporte").val();
-        if(motaplicacion==""||producto_san==""||unidad==""||diascarencia==""||dosiscil==""||ncil==""||dosistanque==""||tproducto == ""|| dosiscil == ""|| dosisha == ""|| haaplicada == ""|| gastoh20
+        if(motaplicacion==""||producto_san==""||unidad==""||dosiscil==""||ncil==""||dosistanque==""||tproducto == ""|| dosiscil == ""|| dosisha == ""|| haaplicada == ""|| gastoh20
         == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
@@ -210,7 +208,6 @@ $(document).ready(function(){
             }
             });
     });
- 
     listardetalles();
     listarDatosReporte();
     listardetallesOperario();

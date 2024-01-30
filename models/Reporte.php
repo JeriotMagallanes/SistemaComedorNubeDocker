@@ -59,6 +59,20 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }  
+  public function filtrarFechaJFundoAdmiinistrar(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes_jfundoAdministrador", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
+  public function filtrarFechaJFundo(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes_jfundo", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
   public function filtrarFechaAdministrador(array $data){
     try{
         return parent::execProcedure($data, "spu_filtrar_fecha_reportes_administrador", true);

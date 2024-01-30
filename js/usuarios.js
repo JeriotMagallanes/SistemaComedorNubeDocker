@@ -10,10 +10,9 @@ $(document).ready(function(){
         let apellidos = $("#apellidos").val();
         let nombreusuario = $("#nombreusuario").val();
         let nivelacceso = $("#nivelacceso").val();
-        var sello = $("#sello")[0].files[0];
         let email = $("#email").val();
-        console.log(sello);
-        if(nombres == "" || apellidos == "" || nombreusuario == "" || nivelacceso == "" || email == ""){
+        let password = $("#password").val();
+        if(nombres == "" || apellidos == "" || nombreusuario == "" || nivelacceso == "" || email == "" ||password==""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -24,22 +23,21 @@ $(document).ready(function(){
                 confirmButtonText:'Aceptar'
             }).then((result) =>{
                 if(result.isConfirmed){
-                    var formData = new FormData();
-                    formData.append('op', 'registrarUsuario');
-                    formData.append('nombres', nombres);
-                    formData.append('apellidos', apellidos);
-                    formData.append('nombreusuario', nombreusuario);
-                    formData.append('nivelacceso', nivelacceso);
-                    formData.append('sello', sello);
-                    formData.append('email', email);
+                    var datos = {
+                        'op'                    : 'registrarUsuario',
+                        'nombres'               : nombres, 
+                        'apellidos'             : apellidos, 
+                        'nombreusuario'         : nombreusuario, 
+                        'nivelacceso'           : nivelacceso,
+                        'email'                 : email,
+                        'password'              : password
+                    };
+
                     $.ajax({
                         url: 'controllers/Usuario.controller.php',
-                        type: 'POST',
-                        data: formData,   
-                        contentType: false,
-                        processData: false,
-                        cache: false,                     
-                        success: function(result){
+                        type:'GET',
+                        data: datos,
+                        success:function(e){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioUsuario")[0].reset();
                             listarUsuarios();
@@ -131,18 +129,15 @@ $(document).ready(function(){
         });
     });
 
-    
     function modificarUsuarios(){
         let idusuario = $("#idusuariomod").attr('data-idusuario');
         let nombreusuario = $("#nombreusuario").val();
         let nivelacceso = $("#nivelacceso").val();
-        var sello = $("#sello")[0].files[0];
         let email = $("#email").val();
+        let password = $("#password").val();
         if(nombreusuario == "" || nivelacceso == undefined || email == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
-            console.log("aca esta id");
-            console.log(idusuario);
             Swal.fire({
                 icon:'question',
                 title:'¿Está seguro de modificar?',
@@ -151,23 +146,18 @@ $(document).ready(function(){
                 confirmButtonText:'Aceptar'
             }).then((result) =>{
                 if(result.isConfirmed){
-                    var formData = new FormData();
-                    formData.append('op', 'modificarUsuario');
-                    formData.append('idusuario', idusuario);
-                    formData.append('nombreusuario', nombreusuario);
-                    formData.append('nivelacceso', nivelacceso);
-                    formData.append('sello', sello);
-                    formData.append('email', email);
-                    console.log("id:")
-                    console.log(idusuario);
-                    console.log(sello);
+                    var datos = {
+                        'op'              : 'modificarUsuario',
+                        'idusuario'       : idusuario,
+                        'nombreusuario'   : nombreusuario, 
+                        'nivelacceso'     : nivelacceso,
+                        'email'           : email,
+                        'password'        : password
+                    };
                     $.ajax({
                         url: 'controllers/Usuario.controller.php',
-                        type: 'POST',
-                        data: formData,   
-                        contentType: false,
-                        processData: false,
-                        cache: false,   
+                        type:'GET',
+                        data: datos,
                         success:function(e){
                             mostrarAlerta("success", "¡Modificado con éxito!");
                             $("#formularioUsuario")[0].reset();
@@ -177,7 +167,6 @@ $(document).ready(function(){
                             botonGuardar.classList.remove('asignar');
                             $("#nombres").prop('disabled', false);
                             $("#apellidos").prop('disabled', false);
-
                             listarUsuarios();
                         }
                     });

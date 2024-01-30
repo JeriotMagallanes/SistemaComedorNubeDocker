@@ -1,7 +1,7 @@
 <?php
     require_once 'datatable.php';
     require_once 'acceso-seguro.php';
-    if($_SESSION['nivelacceso'] == 'Médico'){
+    if($_SESSION['nivelacceso'] != 'Administrador'){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
     }

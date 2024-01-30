@@ -1,18 +1,19 @@
 <?php
 
 require '../vendor/autoload.php';
-
+require_once '../config/database.php';
 use Dompdf\Dompdf;
 use Dompdf\Options;
+
 
 // Obtener el valor del id desde el formulario
 $reporteId = $_POST['reporte_id'] ?? null;
 $nombrelogoBeta = "../images/logobetaPDF.png";
 $imagenlogobetaBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombrelogoBeta));
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "sistemasanidad";
+$servername = HOST; 
+$username = USER;
+$password = PASS;
+$dbname = DATABASE;
 $conn = new mysqli($servername, $username, $password, $dbname);
 
 if ($conn->connect_error) {
@@ -34,14 +35,14 @@ $conn->next_result();
 $sql3 = "CALL spu_selloPdfJefeFundo($reporteId)";
 $resultsql3 = $conn->query($sql3);
 $repordatajefefundo = $resultsql3->fetch_assoc();
-$nombrsello_jfundo= "../sellos/{$repordatajefefundo['sello_fundo']}";
+$nombrsello_jfundo= "../images/sello_jefe_fundo.png";
 $imagensello_jfundo64 = "data:image/png;base64," . base64_encode(file_get_contents($nombrsello_jfundo));
 $conn->next_result();
 
 $sql4 = "CALL spu_selloPdfJefeSanidad($reporteId)";
 $resultsql4 = $conn->query($sql4);
 $reporteDatajefesanidad = $resultsql4->fetch_assoc();
-$nombresello_jsanidad = "../sellos/{$reporteDatajefesanidad['sello_sanidad']}";
+$nombresello_jsanidad = "../images/sello_jefe_sanidad.png";
 $imagensello_jsanidadBase64 = "data:image/png;base64," . base64_encode(file_get_contents($nombresello_jsanidad));
 
 
