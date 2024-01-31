@@ -96,7 +96,17 @@ if (isset($_GET['op'])){
     }
 
     if($_GET['op']== 'eliminarDetalles'){
-      $Detalle->eliminarDetalle(["id_detallereporte" => $_GET["id_detallereporte"]]);
+      $nombres = $_SESSION['nombres'];
+      $apellidos = $_SESSION['apellidos'];
+      $nombreapellido = $nombres . ' ' . $apellidos; // Concatenación de nombres y apellidos
+      $Detalle->eliminarDetalle([
+      'id_detallereporte' => $_GET['id_detallereporte']
+      ]); 
+      $Detalle->registrarEliminacionDetalle([
+      'id_detallereporte' => $_GET['id_detallereporte'],
+      'observacion' => $_GET['observacion'],
+      'nombreapellido' => $nombreapellido
+      ]);
     }
     
 

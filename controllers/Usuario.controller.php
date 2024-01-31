@@ -153,9 +153,7 @@ if (isset($_GET['op'])){
   }
 
   if($_GET['op'] == 'reactivarUsuario'){
-    $usuario->reactivarUsuario([
-      "idusuario" => $_GET['idusuario']
-    ]);
+    $usuario->reactivarUsuario(["idusuario" => $_GET['idusuario']]);
   }
 
 

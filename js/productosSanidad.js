@@ -91,7 +91,7 @@ $(document).ready(function(){
         $.ajax({
             url: 'controllers/ProductoSanidad.controller.php',
             type: 'GET',
-            data: 'op=ListarProductoFarmaciaPrueba',
+            data: 'op=ListarProductos',
             success: function(e){
                 var tabla = $("#tablaProducto").DataTable();
                 tabla.destroy();
@@ -260,7 +260,32 @@ $(document).ready(function(){
             });
         }
     }
+    
+    function GestionProducto(tipo, valor, icono, mensaje){
+        var datos = {
+            'op' : tipo,
+            'producto_estado' : valor
+        };
+        $.ajax({
+            url: 'controllers/ProductoSanidad.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                mostrarAlerta(icono, mensaje);
+            }
+        });
+    }
 
+    $('#tablaProductolistar').on('change',"#on",function(){
+        var productoEstado = $(this).attr('data-productoEstado');
+        if(this.checked){
+            GestionProducto("reactivarProducto", productoEstado, "success", "¡Restaurado con éxito!");
+        }
+        else{
+            GestionProducto("eliminarProducto", productoEstado, "success", "¡Eliminado con éxito!");
+        }
+    });
+    
     listarProductosFarmaciaPrueba();
     $("#registrar").click(nombreproductoYaExiste);
     $("#actualizar").click(modificarProducto);

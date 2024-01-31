@@ -23,11 +23,19 @@ class Producto extends ModelMaster{
 
   public function eliminarProducto(array $data){
     try{
-        parent::deleteRows($data, "spu_eliminar_producto_sanidad");
+        parent::execProcedure($data,"spu_eliminar_producto_sanidad",false);
     }catch(Exception $error){
         die($error->getMessage());
     }
   }
+  
+  public function reactivarProducto(array $data){
+    try{
+        parent::execProcedure($data,"spu_reactivar_producto_sanidad", false);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+}
 
   public function modificarProducto(array $data){
     try{

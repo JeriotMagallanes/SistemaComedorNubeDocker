@@ -19,6 +19,14 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }
+  
+  public function registrarEliminacionReporte(array $data){
+    try{
+        parent::execProcedure($data, "Spu_eliminar_reporte_seguimiento", false);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
 
   public function aprobarReporteJFundo(array $data){
     try{
@@ -39,6 +47,13 @@ class Reporte extends ModelMaster{
   public function modificarReporte(array $data){
     try{
         parent::execProcedure($data, "spu_reporte_modificar", false);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
+  public function registrarModificacionReporte(array $data){
+    try{
+        parent::execProcedure($data, "Spu_modificar_reporte_seguimiento", false);
     }catch(Exception $error){
         die($error->getMessage());
     }

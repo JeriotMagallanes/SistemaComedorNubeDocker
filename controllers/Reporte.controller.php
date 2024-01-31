@@ -6,8 +6,8 @@ require_once '../models/Serverside.php';
 
 if (isset($_GET['op'])){
 
-  $Reporte = new Reporte();
-  //Op para registrar reportes 
+    $Reporte = new Reporte();
+    //Op para registrar reportes 
     if($_GET['op'] == 'registrarReporte'){
         $Reporte->registrarReporte([
             'fechahoraReporte' => $_GET['fechahoraReporte'],
@@ -24,9 +24,19 @@ if (isset($_GET['op'])){
         ]);
     }
     //op para eliminar un reporte, opcion solo para sanidad
-    if($_GET['op']== 'eliminarReporte'){
-      $Reporte->eliminarReportes(["idproducto" => $_GET["idproducto"]]);
-    } 
+    if ($_GET['op'] == 'eliminarReporte') {
+      $nombres = $_SESSION['nombres'];
+      $apellidos = $_SESSION['apellidos'];
+      $nombreapellido = $nombres . ' ' . $apellidos; // Concatenación de nombres y apellidos
+      $Reporte->eliminarReportes([
+          'idproducto' => $_GET['idproducto'],
+      ]);
+      $Reporte->registrarEliminacionReporte([
+          'idproducto' => $_GET['idproducto'],
+          'observacion' => $_GET['observacion'],
+          'nombreapellido' => $nombreapellido
+      ]);
+    }
     //op para que el jefe de fundo pueda aprobar un reporte 
     if($_GET['op']== 'aprobarreporteJfundo'){
       $Reporte->aprobarReporteJFundo(["idproducto" => $_GET["idproducto"]]);
@@ -40,6 +50,9 @@ if (isset($_GET['op'])){
     }
     //op para modificar un reporte, opcion solo para sanidad
     if($_GET['op'] == 'modificarReporte'){
+      $nombres = $_SESSION['nombres'];
+      $apellidos = $_SESSION['apellidos'];
+      $nombreapellido = $nombres . ' ' . $apellidos; // Concatenación de nombres y apellidos
       $Reporte->modificarReporte([
         "idreporte" => $_GET['idreporte'],
         "encSanidad" => $_GET['encSanidad'],
@@ -51,7 +64,13 @@ if (isset($_GET['op'])){
         "s_lote" => $_GET['s_lote'], 
         "cultivo" => $_GET['cultivo'],
         "variedad" => $_GET['variedad'],
+      ]); 
+      $Reporte->registrarModificacionReporte([
+          'idreporte' => $_GET['idreporte'],
+          'observacion' => $_GET['observacion'],
+          'nombreapellido' => $nombreapellido
       ]);
+      echo $_GET['observacion'];
     }
     //op para traer los datos de un reporte, opcion solo para sanidad
     if($_GET['op'] == 'getReporte'){

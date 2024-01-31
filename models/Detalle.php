@@ -18,6 +18,13 @@ class Detalle extends ModelMaster{
     }catch(Exception $error){
         die($error->getMessage());
     }
+  }  
+  public function registrarEliminacionDetalle(array $data){
+    try{
+        parent::deleteRows($data, "Spu_eliminar_detalle_seguimiento");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
   }
 
   public function listardatosreporte(array $data){

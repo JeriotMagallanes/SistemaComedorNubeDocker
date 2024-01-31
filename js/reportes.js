@@ -60,30 +60,42 @@ $(document).ready(function(){
 
     $("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
+        var observacionInput = '<label>¿Esta seguro de elminar el reporte?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
-            text: 'Esta seguro de eliminar?',
+            html: observacionInput,
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Confirmar',
+            preConfirm: () => {
+                var observacion = Swal.getPopup().querySelector('#observacion').value;
+                if (!observacion) {
+                    Swal.showValidationMessage('¡La observación es obligatoria!');
+                }
+                return { observacion: observacion };
+            }
         }).then((result)=>{
             if(result.isConfirmed){
+                var observacion = result.value.observacion;
+    
                 var datos = {
                     'op' : 'eliminarReporte',
-                    'idproducto' : idproducto
+                    'idproducto' : idproducto,
+                    'observacion' : observacion
                 };
+    
                 $.ajax({
                     url: 'controllers/Reporte.controller.php',
                     type: 'GET',
                     data: datos,
                     success: function(e){
-                        mostrarAlerta("success","¡Eliminado correctamente!");
+                        mostrarAlerta("success", "¡Eliminado correctamente!");
                         ListarReportes();
                     }
                 });
             }
-            });
+        });
     });
 
     $("#tablareporteJfundo").on("click", ".aprobar", function(){
@@ -143,8 +155,8 @@ $(document).ready(function(){
             }
             });
     });
-
-    function modificarProducto(){
+    
+    function modificarProducto() {
         let idreporte = $("#idproductomod").attr('data-idproducto');
         var encSanidad = $("#encSanidad").val();
         var encQA = $("#encQA").val();
@@ -155,55 +167,58 @@ $(document).ready(function(){
         var s_lote = $("#s_lote").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-
-        if(idcategoria == "" || fundo==""|| variedad == "" ||encSanidad == "" || encQA==""|| encAlmacen == "" ){
+        if (encQA=="" || encSanidad=="" ||encAlmacen==""|| variedad == null ) {
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
-        }else{
+        } else {
             Swal.fire({
-                icon:'question',
-                title:'¿Está seguro de modificar?',
+                icon: 'question',
+                title: '¿Está seguro de modificar?',
                 showCancelButton: true,
-                cancelButtonText:'Cancelar',
-                confirmButtonText:'Aceptar'
-            }).then((result) =>{
-                if(result.isConfirmed){
-                    var datos = {
-                        'op'                     : 'modificarReporte',
-                        'idreporte'              : idreporte,
-                        'encSanidad'             : encSanidad,
-                        'encQA'                  : encQA, 
-                        'encAlmacen'             : encAlmacen,
-                        'idcategoria'            : idcategoria,
-                        'fundo'                  : fundo,
-                        'lote'                   : lote,
-                        's_lote'                 : s_lote,
-                        'cultivo'                : cultivo,
-                        'variedad'               : variedad
-                    };
-                    console.log(datos);
-                    $.ajax({
-                        url: 'controllers/Reporte.controller.php',
-                        type:'GET',
-                        data: datos,
-                        success:function(e){
-                            mostrarAlerta("success", "¡Modificado con éxito!");
-                            $("#formularioReporte")[0].reset();
-                            $("#Aviso").html("Registrar Producto");
-                            txtProducto.classList.add('asignar');
-                            botonActualizar.classList.add('asignar');
-                            botonGuardar.classList.remove('asignar');
-                            $("#idcategoria").prop('disabled', false);
-                            ListarReportes();
-                        }
-                    });
+                cancelButtonText: 'Cancelar',
+                confirmButtonText: 'Aceptar',
+                html: '<input type="text" id="observacion" class="swal2-input" placeholder="Observación">'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var observacion = $('#observacion').val();
+                    if (observacion.trim() !== "") {
+                        var datos = {
+                            'op': 'modificarReporte',
+                            'idreporte': idreporte,
+                            'encSanidad': encSanidad,
+                            'encQA': encQA,
+                            'encAlmacen': encAlmacen,
+                            'idcategoria': idcategoria,
+                            'fundo': fundo,
+                            'lote': lote,
+                            's_lote': s_lote,
+                            'cultivo': cultivo,
+                            'variedad': variedad,
+                            'observacion': observacion
+                        };
+                        $.ajax({
+                            url: 'controllers/Reporte.controller.php',
+                            type: 'GET',
+                            data: datos,
+                            success: function (e) {
+                                mostrarAlerta("success", "¡Modificado con éxito!");
+                                $("#formularioReporte")[0].reset();
+                                $("#Aviso").html("Registrar Producto");
+                                txtProducto.classList.add('asignar');
+                                botonActualizar.classList.add('asignar');
+                                botonGuardar.classList.remove('asignar');
+                                $("#idcategoria").prop('disabled', false);
+                                ListarReportes();
+                            }
+                        });
+                    } else {
+                        mostrarAlerta("warning", "¡La observación es obligatoria para la modificación!");
+                    }
                 }
             });
         }
     }
-
+    
     $("#tablareporte").on('click', ".modificar", function(){
-        //let id_reporte = $(this).attr('data-idproducto');
-        
         let id_reporte = $(this).data('idproducto');
         var datos = {
             'op' : 'getReporte',
@@ -300,6 +315,30 @@ $(document).ready(function(){
             if(fechafinal<fechainicial){
                 mostrarAlerta("warning", "¡Rango de fechas invalidos!");
             }
+    }
+
+    function ListarReportesGeneralAdministrador(){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: 'op=ListarReportesGeneralAdministrador',
+                success: function(e){
+                    var tabla = $("#tablareporteGeneralAdministrador").DataTable();
+                    tabla.destroy();
+                    $("#tablareporteGeneralAdministradorListar").html(e);
+                    $("#tablareporteGeneralAdministrador").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
     }
     
     function buscarFechaAdministrador(){
@@ -551,130 +590,6 @@ $(document).ready(function(){
             mostrarAlerta("warning", "¡Rango de fechas invalidos!");
         }
     }
-    
-        function ListarReportesGeneralAdministrador(){
-            $.ajax({
-                url: 'controllers/Reporte.controller.php',
-                type: 'GET',
-                data: 'op=ListarReportesGeneralAdministrador',
-                success: function(e){
-                    var tabla = $("#tablareporteGeneralAdministrador").DataTable();
-                    tabla.destroy();
-                    $("#tablareporteGeneralAdministradorListar").html(e);
-                    $("#tablareporteGeneralAdministrador").DataTable({
-                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                        columnDefs: [
-                        {
-                            visible: true,
-                            searchable: true
-                        }
-                        ],
-                        dom: 'Bfrtip',
-                        buttons: ['copy', 'print', 'pdf', 'excel']
-                    });
-                }
-            });
-        }
-    
-    function cargarCategorias(select){
-        var datos ={
-            'op': 'cargarCategoria'
-        };
-        $.ajax({
-            url : 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success:function(e){
-                $(select).html(e);
-            }
-        });
-    }
-
-    $("#idcategoria").change(function(){
-        let jefe_fundo=$("#idcategoria").val();
-        var datos={
-            'op'            : 'cargarCategoriaNombreFundo',
-            'jefe_fundo'    :jefe_fundo
-        }
-        $.ajax({
-            url: 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#fundo").html(e);
-            }
-        });
-    });
-    $("#fundo").change(function(){
-        let fundo=$("#fundo").val();
-        let jefe_fundo=$("#idcategoria").val();
-        var datos={
-            'op'            : 'cargarCategoriaLoteNombreFundo',
-            'nombre'        :fundo,
-            'jefe_fundo'    :jefe_fundo
-        }
-        $.ajax({
-            url: 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#lote").html(e);
-            }
-        });
-    });
-    
-    $("#lote").change(function(){
-        let lote=$("#lote").val();
-        console.log(datos);
-        var datos={
-            'op'           : 'cargarCategoriaSubLote',
-            'id_lote'       : lote
-        }
-        console.log(datos);
-        $.ajax({
-            url: 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#s_lote").html(e);
-            }
-        });
-    });
-
-    $("#s_lote").change(function(){
-        let id_sub_lote=$("#s_lote").val();
-        console.log(datos);
-        var datos={
-            'op'                : 'cargarCategoriaCultivoLote',
-            'id_sub_lote'       : id_sub_lote
-        }
-        $.ajax({
-            url: 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#cultivo").html(e);
-            }
-        });
-    });
-
-    $("#s_lote").change(function(){
-        let id_sub_lote=$("#s_lote").val();
-        console.log(datos);
-        var datos={
-            'op'           : 'cargarCategoriaVariedadLote',
-            's_lote'       : id_sub_lote
-        }
-        console.log(datos);
-        $.ajax({
-            url: 'controllers/CategoriaReporte.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#variedad").html(e);
-            }
-        });
-    });
 
     function ListarReportesSanidad(){
         var idusuario = $("#idusuariosanidad").val();
@@ -729,11 +644,112 @@ $(document).ready(function(){
             });
         }
     }
+    
+    function cargarCategorias(select){
+        var datos ={
+            'op': 'cargarCategoria'
+        };
+        $.ajax({
+            url : 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success:function(e){
+                $(select).html(e);
+            }
+        });
+    }
+
+    $("#idcategoria").change(function(){
+        let jefe_fundo=$("#idcategoria").val();
+        var datos={
+            'op'            : 'cargarCategoriaNombreFundo',
+            'jefe_fundo'    :jefe_fundo
+        }
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#fundo").html(e);
+            }
+        });
+    });
+    $("#fundo").change(function(){
+        let fundo=$("#fundo").val();
+        let jefe_fundo=$("#idcategoria").val();
+        var datos={
+            'op'            : 'cargarCategoriaLoteNombreFundo',
+            'nombre'        :fundo,
+            'jefe_fundo'    :jefe_fundo
+        }
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#lote").html(e);
+            }
+        });
+    });
+    $("#lote").change(function(){
+        let lote=$("#lote").val();
+        console.log(datos);
+        var datos={
+            'op'           : 'cargarCategoriaSubLote',
+            'id_lote'       : lote
+        }
+        console.log(datos);
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#s_lote").html(e);
+            }
+        });
+    });
+    $("#s_lote").change(function(){
+        let id_sub_lote=$("#s_lote").val();
+        console.log(datos);
+        var datos={
+            'op'                : 'cargarCategoriaCultivoLote',
+            'id_sub_lote'       : id_sub_lote
+        }
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#cultivo").html(e);
+            }
+        });
+    });
+    $("#s_lote").change(function(){
+        let id_sub_lote=$("#s_lote").val();
+        console.log(datos);
+        var datos={
+            'op'           : 'cargarCategoriaVariedadLote',
+            's_lote'       : id_sub_lote
+        }
+        console.log(datos);
+        $.ajax({
+            url: 'controllers/CategoriaReporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#variedad").html(e);
+            }
+        });
+    });
 
     $("#tablareporte").on("click", ".detalle", function(e) {
         e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
         window.location.href = 'main.php?view=administrardetallereporte.php?id=' + idreporte;
+    });
+
+    $("#tablareporte").on("click", ".alerta_aprobado", function(e) {
+        mostrarAlerta("warning", "¡Reporte ya aprobado!");
     });
 
     $("#tablareporteOperario").on("click", ".detalle", function(e) {
@@ -747,6 +763,7 @@ $(document).ready(function(){
         let idreporte = $(this).data('idproducto');
         window.location.href = 'main.php?view=vistaDetalleCalidad.php?id=' + idreporte;
     });
+
     $("#tablareporteJfundo").on("click", ".detalle", function(e) {
         e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
@@ -768,43 +785,6 @@ $(document).ready(function(){
         $("#descripcion").prop('disabled', false);
     });
 
-
-    function buscarFechaSanidad(){
-        var fechafinal = $("#fechafinal").val();
-        var fechainicial = $("#fechainicial").val();
-        if((fechafinal=="")&&(fechainicial="")){
-            ListarReportesSanidad();
-        }else{
-            $.ajax({
-                url: 'controllers/Reporte.controller.php',
-                type: 'GET',
-                data: {
-                    'op': 'filtrarFechasSanidad',
-                    'fechainicial' : fechainicial,
-                    'fechafinal'   : fechafinal
-                    },
-                    success: function(e){
-                        var tabla = $("#tablareporteSanidad").DataTable();
-                        tabla.destroy();
-                        $("#tablareporteSanidadListar").html(e);
-                        $("#tablareporteSanidad").DataTable({
-                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                            columnDefs: [
-                            {
-                                visible: true,
-                                searchable: true
-                            }
-                            ],
-                            dom: 'Bfrtip',
-                            buttons: ['copy', 'print', 'pdf', 'excel']
-                        });
-                    }
-            });
-        }
-        if(fechafinal<fechainicial){
-            mostrarAlerta("warning", "¡Rango de fechas invalidos!");
-        }
-    }
     ListarReportes();
     ListarReportesGeneralAdministrador();
     ListarReportesCalidad();
@@ -818,6 +798,5 @@ $(document).ready(function(){
     $("#bfecha").click(buscarFechaCalidad);
     $("#bfecha").click(buscarFechaOperario);
     $("#bfecha").click(buscarFechaJFundo);
-    $("#bfecha").click(buscarFechaSanidad);
     cargarCategorias("#idcategoria");
 });

@@ -33,6 +33,12 @@ if (isset($_GET['op'])){
       if(count($clave) != 0){
         $i = 1;
         foreach($clave as $valor){
+          $estado="";
+          if($valor->estado=="A"){
+            $estado="<label class='switch'><input id='on'data-motivoEstado='$valor->id_motivo' type='checkbox' checked><div class='slider round'></label>";
+          }else{
+            $estado="<label class='switch'><input id='on'data-motivoEstado='$valor->id_motivo' type='checkbox'><div class='slider round'></label>";
+          }
           echo "
             <tr>
               <td class='text-center'>$i</td>
@@ -45,6 +51,7 @@ if (isset($_GET['op'])){
                   <i class='fas fa-trash-alt'></i>
                 </a>-->
               </td>
+              <td class='text-center'>{$estado}</td>
             </tr>
           ";
           $i++;

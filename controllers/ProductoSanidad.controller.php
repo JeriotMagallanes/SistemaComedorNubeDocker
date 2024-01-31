@@ -17,7 +17,7 @@ if (isset($_GET['op'])){
     }
 
     if ($_GET['op'] == 'nombreproductoYaRegistrado'){
-        $datosObtenidos = $producto->nombreproductoYaRegistrado(["nombreproducto" => $_GET['nombreproducto']]);
+        $datosObtenidos = $producto->nombreproductoaRegistrado(["nombreproducto" => $_GET['nombreproducto']]);
     
         if(count($datosObtenidos) == 0){
           echo 2;
@@ -29,18 +29,24 @@ if (isset($_GET['op'])){
         }
     }
 
-    if($_GET['op']  == 'ListarProductoFarmaciaPrueba'){              
+    if($_GET['op']  == 'ListarProductos'){              
       $clave = $producto->listarProducto();
   
       if(count($clave) != 0){
         $i = 1;
-        foreach($clave as $valor){
+        foreach($clave as $valor){ 
+          $estado="";
+          if($valor->estado=="A"){
+            $estado="<label class='switch'><input id='on'data-productoEstado='$valor->id_producto' type='checkbox' checked><div class='slider round'></label>";
+          }else{
+            $estado="<label class='switch'><input id='on'data-productoEstado='$valor->id_producto' type='checkbox'><div class='slider round'></label>";
+          }
           echo "
             <tr>
               <td class='text-center'>$i</td>
-                <td class='text-center'>$valor->codigo_producto</td>
-                <td class='text-center'>$valor->nombre_producto</td>
-                <td class='text-center'>$valor->unidad</td>
+              <td class='text-center'>$valor->codigo_producto</td>
+              <td class='text-center'>$valor->nombre_producto</td>
+              <td class='text-center'>$valor->unidad</td>
               <td class='text-center'>
                 <a  href='#' data-idproducto='{$valor->id_producto}' class='btn btn-sm btn-outline-secondary modificar'>
                   <i class='fas fa-edit'></i>
@@ -49,6 +55,7 @@ if (isset($_GET['op'])){
                   <i class='fas fa-trash-alt'></i>
                 </a>-->
               </td>
+              <td class='text-center'>{$estado}</td>
             </tr>
           ";
           $i++;
@@ -57,7 +64,11 @@ if (isset($_GET['op'])){
     }
 
     if($_GET['op']== 'eliminarProducto'){
-      $producto->eliminarProducto(["idproducto" => $_GET["idproducto"]]);
+      $producto->eliminarProducto(["producto_estado" => $_GET["producto_estado"]]);
+    }
+    
+    if($_GET['op'] == 'reactivarProducto'){
+      $producto->reactivarProducto(["producto_estado" => $_GET['producto_estado']]);
     }
     
     if($_GET['op'] == 'modificarProducto'){

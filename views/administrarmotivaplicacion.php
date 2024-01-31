@@ -59,9 +59,10 @@
                             <th class="text-center">N°</th>
                             <th class="text-center">Nombre</th>
                             <th class="text-center">Modificar</th>
+                            <th class="text-center">Estado</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablaProductolistar">
+                    <tbody class="table" id="tablaMotivolistar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>

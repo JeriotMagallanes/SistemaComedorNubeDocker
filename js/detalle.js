@@ -182,20 +182,31 @@ $(document).ready(function(){
 
     $("#tablaDetalle").on("click", ".eliminar", function(){
         let id_detalle = $(this).attr('data-idproducto');
-        console.log(id_detalle);
+    
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
-            text: 'Esta seguro de eliminar?',
+            html: '<label>¿Está seguro de eliminar?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observación">',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Confirmar',
-        }).then((result)=>{
+            preConfirm: () => {
+                var observacion = Swal.getPopup().querySelector('#observacion').value;
+                if (!observacion) {
+                    Swal.showValidationMessage('¡La observación es obligatoria!');
+                }
+                return { observacion: observacion };
+            }
+        }).then((result) => {
             if(result.isConfirmed){
+                var observacion = result.value.observacion;
+    
                 var datos = {
                     'op' : 'eliminarDetalles',
-                    'id_detallereporte' : id_detalle
+                    'id_detallereporte' : id_detalle,
+                    'observacion' : observacion
                 };
+    
                 $.ajax({
                     url: 'controllers/Detalle.controller.php',
                     type: 'GET',
@@ -206,8 +217,9 @@ $(document).ready(function(){
                     }
                 });
             }
-            });
+        });
     });
+    
     listardetalles();
     listarDatosReporte();
     listardetallesOperario();

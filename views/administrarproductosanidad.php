@@ -69,6 +69,7 @@
                             <th class="text-center">Nombre</th>
                             <th class="text-center">Unidad</th>
                             <th class="text-center">Modificar</th>
+                            <th class="text-center">Estado</th>
                         </tr>
                     </thead>
                     <tbody class="table" id="tablaProductolistar">

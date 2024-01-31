@@ -89,7 +89,7 @@ $(document).ready(function(){
             success: function(e){
                 var tabla = $("#tablamotivoaplicacion").DataTable();
                 tabla.destroy();
-                $("#tablaProductolistar").html(e);
+                $("#tablaMotivolistar").html(e);
                 $("#tablamotivoaplicacion").DataTable({
                     language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
                     columnDefs: [
@@ -104,7 +104,32 @@ $(document).ready(function(){
             }
         });
     }
- 
+        
+    function GestionMotivo(tipo, valor, icono, mensaje){
+        var datos = {
+            'op' : tipo,
+            'motivo_estado' : valor
+        };
+        $.ajax({
+            url: 'controllers/MotivoAplicacion.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                mostrarAlerta(icono, mensaje);
+            }
+        });
+    }
+
+    $('#tablaMotivolistar').on('change',"#on",function(){
+        var MotivoEstado = $(this).attr('data-motivoEstado');
+        if(this.checked){
+            GestionMotivo("reactivarMotivo", MotivoEstado, "success", "¡Restaurado con éxito!");
+        }
+        else{
+            GestionMotivo("eliminarMotivo", MotivoEstado, "success", "¡Eliminado con éxito!");
+        }
+    });
+
     $("#tablamotivoaplicacion").on('click', ".modificar", function(){
         let idmotivo = $(this).attr('data-idproducto');
 
