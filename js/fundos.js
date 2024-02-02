@@ -255,7 +255,6 @@ $(document).ready(function(){
         if(jefe_fundo==""){
             listarfundos();
         }else{
-
             $.ajax({
                 url: 'controllers/Fundo.controller.php',
                 type: 'GET',

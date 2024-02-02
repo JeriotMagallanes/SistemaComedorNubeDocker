@@ -9,8 +9,11 @@
     if(($_SESSION['nivelacceso'])=='Jefe de Fundo'){
         $usuario=1;
     }
-    if((($_SESSION['nivelacceso'])=='Administrador')||(($_SESSION['nivelacceso'])=='Jefe de Operaciones')){
+    if((($_SESSION['nivelacceso'])=='Administrador')){
         $usuario=0;
+    }
+    if((($_SESSION['nivelacceso'])=='Jefe de Operaciones')){
+        $usuario=2;
     }
 ?>
 
@@ -60,7 +63,7 @@
                             <th class="text-center">Fundo</th>
                             <th class="text-center">Lote</th>
                             <th class="text-center">Sub Lote</th>
-                            <th class="text-center col-2">Aprob. Fundo</th>
+                            <th class="text-center ">Aprob. Fundo</th>
                             <th class="text-center">Ver Productos</th>
                             <th class="text-center">Aprobar</th>
                             <th class="text-center">Reporte Autorizado</th>

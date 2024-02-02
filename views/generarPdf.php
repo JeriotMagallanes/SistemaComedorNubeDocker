@@ -88,7 +88,7 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
         </tr>
         <tr>
             <td  style='width: 100px;'>Fundo:</td>
-            <td>{$reporteData['nom_fundo']}</td>
+            <td>{$reporteData['nombre_fundo']}</td>
         </tr>
         <tr>
             <td  style='width: 100px;'>Lote:</td>

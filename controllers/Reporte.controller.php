@@ -20,7 +20,11 @@ if (isset($_GET['op'])){
             'lote' => $_GET['lote'],
             's_lote' => $_GET['s_lote'],
             'cultivo' => $_GET['cultivo'],
-            'variedad' => $_GET['variedad']
+            'variedad' => $_GET['variedad'],
+            'nreserva' => $_GET['nreserva'],
+            'ninstructivo' => $_GET['ninstructivo'],
+            'pep' => $_GET['pep'],
+            'etcultivo' => $_GET['etcultivo']
         ]);
     }
     //op para eliminar un reporte, opcion solo para sanidad
@@ -450,14 +454,14 @@ if (isset($_GET['op'])){
         $i = 1;
         foreach($clave as $valor){
           if($valor->aprob_jefefundo=='Aprobado'){
-            $colorjefe='c3e6cb';
+            $estadojefefundo='aprobado.png';
           }else{
-            $colorjefe='dc3545';
+            $estadojefefundo='no_aprobado.png';
           }
           if($valor->aprob_jefesanidad=='Aprobado'){
-            $colorsanidad='c3e6cb';
+            $estadojefesanidad='aprobado.png';
           }else{
-            $colorsanidad='dc3545';
+            $estadojefesanidad='no_aprobado.png';
           }
           echo "
             <tr>
@@ -468,14 +472,10 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefefundo
-                  </div>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefesanidad
-                  </div>
+              <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -507,14 +507,14 @@ if (isset($_GET['op'])){
       $i = 1;
       foreach($clave as $valor){
         if($valor->aprob_jefefundo=='Aprobado'){
-          $colorjefe='c3e6cb';
+          $estadojefefundo='aprobado.png';
         }else{
-          $colorjefe='dc3545';
+          $estadojefefundo='no_aprobado.png';
         }
         if($valor->aprob_jefesanidad=='Aprobado'){
-          $colorsanidad='c3e6cb';
+          $estadojefesanidad='aprobado.png';
         }else{
-          $colorsanidad='dc3545';
+          $estadojefesanidad='no_aprobado.png';
         }
         echo "
           <tr>
@@ -525,14 +525,10 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
-            <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                $valor->aprob_jefefundo
-            </div>
+            <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
             </td>
             <td class='text-center align-middle'>
-                <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
-                    $valor->aprob_jefesanidad
-                </div>
+            <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
             </td>
             <td class='text-center'>
               <a  style='margin-top: 20px; href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -563,14 +559,14 @@ if (isset($_GET['op'])){
         $i = 1;
         foreach($clave as $valor){
           if($valor->aprob_jefefundo=='Aprobado'){
-            $colorjefe='c3e6cb';
+            $estadojefefundo='aprobado.png';
           }else{
-            $colorjefe='dc3545';
+            $estadojefefundo='no_aprobado.png';
           }
           if($valor->aprob_jefesanidad=='Aprobado'){
-            $colorsanidad='c3e6cb';
+            $estadojefesanidad='aprobado.png';
           }else{
-            $colorsanidad='dc3545';
+            $estadojefesanidad='no_aprobado.png';
           }
           echo "
             <tr>
@@ -581,14 +577,10 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefefundo
-                  </div>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefesanidad
-                  </div>
+              <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a  style='margin-top: 20px;' href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -619,9 +611,9 @@ if (isset($_GET['op'])){
         $i = 1;
         foreach($clave as $valor){
           if($valor->aprob_jefefundo=='Aprobado'){
-            $colorjefe='c3e6cb';
+            $estadojefefundo='aprobado.png';
           }else{
-            $colorjefe='dc3545';
+            $estadojefefundo='no_aprobado.png';
           }
           echo "
             <tr>
@@ -632,9 +624,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefefundo
-                  </div>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -670,14 +660,9 @@ if (isset($_GET['op'])){
         $i = 1;
         foreach($clave as $valor){
           if($valor->aprob_jefefundo=='Aprobado'){
-            $colorjefe='c3e6cb';
+            $estadojefefundo='aprobado.png';
           }else{
-            $colorjefe='dc3545';
-          }
-          if($valor->aprob_jefesanidad=='Aprobado'){
-            $colorsanidad='c3e6cb';
-          }else{
-            $colorsanidad='dc3545';
+            $estadojefefundo='no_aprobado.png';
           }
           echo "
             <tr>
@@ -688,9 +673,56 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
-              <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                  $valor->aprob_jefefundo
-              </div>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
+              </td>
+              <td class='text-center'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                  <i class='fas fa-bars'></i>
+                </a>
+              </td>
+              <td class='text-center'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                  <i class='fas fa-check'></i>
+                </a>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
+              </td>
+              ";
+            echo "</tr>
+          ";
+          $i++;
+        }
+    }
+
+    if($_GET['op']  == 'ListarPorJefeReportesJOperaciones'){  
+      $clave = $Reporte->ListarPorJefeReportesJOperaciones([
+        'id_jefe_operaciones' => $_GET['id_jefe_operaciones'],
+      ]);
+        $i = 1;
+        foreach($clave as $valor){
+          if($valor->aprob_jefefundo=='Aprobado'){
+            $estadojefefundo='aprobado.png';
+          }else{
+            $estadojefefundo='no_aprobado.png';
+          }
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center align-middle'>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -733,17 +765,24 @@ if (isset($_GET['op'])){
         'id_jefefundo' => $id_jefefundo
         ]);
       }
+      if($nivelacceso=='Jefe de Operaciones'){
+        $clave = $Reporte->filtrarFechaJOperaciones([
+          'fechainicial' => $_GET['fechainicial'],
+          'fechafinal' => $_GET['fechafinal'],
+          'id_jefeOperaciones' => $id_jefefundo
+          ]);
+        }
       $i = 1;
       foreach($clave as $valor){
         if($valor->aprob_jefefundo=='Aprobado'){
-          $colorjefe='c3e6cb';
+          $estadojefefundo='aprobado.png';
         }else{
-          $colorjefe='dc3545';
+          $estadojefefundo='no_aprobado.png';
         }
         if($valor->aprob_jefesanidad=='Aprobado'){
-          $colorsanidad='c3e6cb';
+          $estadojefesanidad='aprobado.png';
         }else{
-          $colorsanidad='dc3545';
+          $estadojefesanidad='no_aprobado.png';
         }
         echo "
           <tr>
@@ -754,10 +793,8 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
-            <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                $valor->aprob_jefefundo
-            </div>
-            </td>{
+            <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
+            </td>
             <td class='text-center'>
               <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                 <i class='fas fa-bars'></i>
@@ -790,14 +827,14 @@ if (isset($_GET['op'])){
         $i = 1;
         foreach($clave as $valor){
           if($valor->aprob_jefefundo=='Aprobado'){
-            $colorjefe='c3e6cb';
+            $estadojefefundo='aprobado.png';
           }else{
-            $colorjefe='dc3545';
+            $estadojefefundo='no_aprobado.png';
           }
           if($valor->aprob_jefesanidad=='Aprobado'){
-            $colorsanidad='c3e6cb';
+            $estadojefesanidad='aprobado.png';
           }else{
-            $colorsanidad='dc3545';
+            $estadojefesanidad='no_aprobado.png';
           }
           echo "
             <tr>
@@ -808,14 +845,10 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefefundo
-                  </div>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
               <td class='text-center align-middle'>
-                  <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
-                      $valor->aprob_jefesanidad
-                  </div>
+              <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
@@ -854,14 +887,14 @@ if (isset($_GET['op'])){
       $i = 1;
       foreach($clave as $valor){
         if($valor->aprob_jefefundo=='Aprobado'){
-          $colorjefe='c3e6cb';
+          $estadojefefundo='aprobado.png';
         }else{
-          $colorjefe='dc3545';
+          $estadojefefundo='no_aprobado.png';
         }
         if($valor->aprob_jefesanidad=='Aprobado'){
-          $colorsanidad='c3e6cb';
+          $estadojefesanidad='aprobado.png';
         }else{
-          $colorsanidad='dc3545';
+          $estadojefesanidad='no_aprobado.png';
         }
         echo "
           <tr>
@@ -872,14 +905,10 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
-            <div style='border: 4px solid #$colorjefe; border-radius: 5px; padding: 5px;'>
-                $valor->aprob_jefefundo
-            </div>
+            <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
             </td>
             <td class='text-center align-middle'>
-                <div style='border: 4px solid #$colorsanidad; border-radius: 5px; padding: 5px;'>
-                    $valor->aprob_jefesanidad
-                </div>
+            <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
             </td>
             <td class='text-center'>
               <a  style='margin-top: 20px; href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>

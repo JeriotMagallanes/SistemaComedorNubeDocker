@@ -41,5 +41,6 @@ class Categoria extends ModelMaster{
             die($error->getMessage());
         }
     }
+   
 }
 ?>

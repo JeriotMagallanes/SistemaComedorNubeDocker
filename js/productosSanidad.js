@@ -49,7 +49,7 @@ $(document).ready(function(){
                         success: function(result){
                             mostrarAlerta("success", "¡Registrado con éxito!");
                             $("#formularioProductos")[0].reset();
-                            listarProductosFarmaciaPrueba();
+                            ListarProducto();
                         }
                     });
                 }
@@ -87,7 +87,7 @@ $(document).ready(function(){
     }
 
 
-    function listarProductosFarmaciaPrueba(){
+    function ListarProducto(){
         $.ajax({
             url: 'controllers/ProductoSanidad.controller.php',
             type: 'GET',
@@ -111,37 +111,6 @@ $(document).ready(function(){
         });
     }
 
-    function ListarProductos(){
-        var tabla = $("#tablaProducto").DataTable();
-        tabla.destroy();
-
-        tabla = $("#tablaProducto").DataTable({
-            "processing" : true,
-            "serverSide" : true,
-            "order"      : [[2, "asc"]],
-            "sAjaxSource": 'controllers/ProductoSanidad.controller.php?op=ListarProductoFarmacia',
-            "pageLength" : 10,
-            "language": { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json'},
-            "dom": 'Bfrtip',
-            "buttons": ['copy', 'print', 'pdf', 'excel'],
-            "columnDefs" : [
-                {
-                    "data": null,
-                    render: function(data,type,row){
-                        return `
-                            <a  href='#' data-idproducto='${data[0]}' class='btn btn-sm btn-outline-secondary modificar'>
-                                <i class='fas fa-edit'></i>
-                            </a>
-                            <a  href='#' data-idproducto='${data[0]}' class='btn btn-sm btn-outline-secondary eliminar'>
-                                <i class='fas fa-trash-alt'></i>
-                            </a>
-                        `;
-                    },
-                    "targets":5
-                }
-            ]
-        });
-    }  
 
     $("#tablaProducto").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
@@ -164,7 +133,7 @@ $(document).ready(function(){
                     data: datos,
                     success: function(e){
                         mostrarAlerta("success", "¡Eliminado correctamente!");
-                        listarProductosFarmaciaPrueba();
+                        ListarProducto();
                     }
                 });
             }
@@ -253,7 +222,7 @@ $(document).ready(function(){
                             botonActualizar.classList.add('asignar');
                             botonGuardar.classList.remove('asignar');
 
-                            listarProductosFarmaciaPrueba();
+                            ListarProducto();
                         }
                     });
                 }
@@ -286,7 +255,7 @@ $(document).ready(function(){
         }
     });
     
-    listarProductosFarmaciaPrueba();
+    ListarProducto();
     $("#registrar").click(nombreproductoYaExiste);
     $("#actualizar").click(modificarProducto);
 });

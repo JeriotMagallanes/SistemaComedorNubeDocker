@@ -91,6 +91,13 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   } 
+  public function filtrarFechaJOperaciones(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes_joperaciones", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
 
   public function filtrarFechaAdministrador(array $data){
     try{
@@ -115,6 +122,14 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }  
+  
+  public function ListarPorJefeReportesJOperaciones(array $data){
+    try{
+        return parent::execProcedure($data, "spu_listar_reportes_porJefeOperaciones", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
 
   public function listarReporteAdministrador(){
     try{

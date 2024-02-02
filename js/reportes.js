@@ -17,7 +17,11 @@ $(document).ready(function(){
         var s_lote = $("#s_lote").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""){
+        var nreserva = $("#nreserva").val();
+        var ninstructivo = $("#ninstructivo").val();
+        var pep = $("#pep").val();
+        var etcultivo = $("#etcultivo").val();
+        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""||nreserva== ""|| ninstructivo == ""||pep== ""||etcultivo== ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -42,6 +46,10 @@ $(document).ready(function(){
                         's_lote'                 : s_lote,
                         'cultivo'                : cultivo,
                         'variedad'               : variedad,
+                        'nreserva'               : nreserva,
+                        'ninstructivo'           : ninstructivo,
+                        'pep'                    : pep,
+                        'etcultivo'              : etcultivo
                     };
                     $.ajax({
                         url : 'controllers/Reporte.controller.php',
@@ -688,6 +696,32 @@ $(document).ready(function(){
                 data: {
                     'op': 'ListarPorJefeReportesJFundo',
                     'id_jefe_fundo' : idusuario
+                    },
+                    success: function(e){
+                        var tabla = $("#tablareporteJfundo").DataTable();
+                        tabla.destroy();
+                        $("#tablareporteJFundoListar").html(e);
+                        $("#tablareporteJfundo").DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                            columnDefs: [
+                            {
+                                visible: true,
+                                searchable: true
+                            }
+                            ],
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'print', 'pdf', 'excel']
+                        });
+                    }
+            });
+        }
+        if(estadousuario==2){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'ListarPorJefeReportesJOperaciones',
+                    'id_jefe_operaciones' : idusuario
                     },
                     success: function(e){
                         var tabla = $("#tablareporteJfundo").DataTable();
