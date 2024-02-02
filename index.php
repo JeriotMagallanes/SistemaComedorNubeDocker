@@ -57,12 +57,12 @@
 						<span class="label-input100">Contraseña</span>
 					</div>
 			
-					<div class="flex-sb-m w-full p-t-3 mb-3">
+					<!--<div class="flex-sb-m w-full p-t-3 mb-3">
 						<div></div>
 						<div>
 							<button href="#" style="color:#545454" id="recuperaracceso" data-toggle="modal" data-target="#modelId" class="text1">¿Olvidaste tu contraseña?</button>
 						</div>
-					</div>
+					</div>-->
 
 					<div class="container-login100-form-btn">
 						<a type="btn" class="login100-form-btn" style="background-color:#648BE4; color: white" id="login">Ingresar</a>

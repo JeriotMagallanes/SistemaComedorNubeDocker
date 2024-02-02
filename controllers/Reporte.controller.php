@@ -70,12 +70,209 @@ if (isset($_GET['op'])){
           'observacion' => $_GET['observacion'],
           'nombreapellido' => $nombreapellido
       ]);
-      echo $_GET['observacion'];
     }
     //op para traer los datos de un reporte, opcion solo para sanidad
     if($_GET['op'] == 'getReporte'){
       $data = $Reporte->getReporte(["id_reporte" => $_GET['id_reporte']]);
       echo json_encode($data);
+    }
+
+    if($_GET['op']  == 'listarReporteAmodificar'){
+      $id_reporte = $_GET['id_reporte'];              
+      $clave = $Reporte->listarReporte();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+              if ($valor->id_reporte == $id_reporte){
+                echo "
+                <tr class='table-primary'>
+                  <td class='text-center'>$valor->id_reporte</td>
+                  <td class='text-center'>$valor->fecha_hora</td>
+                  <td class='text-center'>$valor->jefe_fundo</td>
+                  <td class='text-center'>$valor->nombre_fundo</td>
+                  <td class='text-center'>$valor->nombre_lote</td>
+                  <td class='text-center'>$valor->_slote_nombre</td>";
+                  if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
+                  echo "
+                  <td class='text-center'>
+                  <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                    <i class='fas fa-bars'></i>
+                  </a>
+                  </td>";}
+                  if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='Aprobado')||($valor->aprob_jefesanidad=='Aprobado'))){
+                    echo "
+                    <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary alerta_aprobado'>
+                      <i class='fas fa-check'></i>
+                    </a>
+                    </td>";}
+                  if(($_SESSION['nivelacceso'] == 'Administrador')){
+                    echo
+                    "
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                      <i class='fas fa-bars'></i>
+                    </a>
+                  </td>
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
+                      <i class='fas fa-edit'></i>
+                    </a>
+                  </td>
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
+                      <i class='fas fa-trash-alt'></i>
+                    </a>
+                  </td> 
+                  ";}
+              echo "</tr>";
+              }else{
+                echo "
+                <tr >
+                  <td class='text-center'>$valor->id_reporte</td>
+                  <td class='text-center'>$valor->fecha_hora</td>
+                  <td class='text-center'>$valor->jefe_fundo</td>
+                  <td class='text-center'>$valor->nombre_fundo</td>
+                  <td class='text-center'>$valor->nombre_lote</td>
+                  <td class='text-center'>$valor->_slote_nombre</td>";
+                  if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
+                  echo "
+                  <td class='text-center'>
+                  <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                    <i class='fas fa-bars'></i>
+                  </a>
+                  </td>";}
+                  if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='Aprobado')||($valor->aprob_jefesanidad=='Aprobado'))){
+                    echo "
+                    <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary alerta_aprobado'>
+                      <i class='fas fa-check'></i>
+                    </a>
+                    </td>";}
+                  if(($_SESSION['nivelacceso'] == 'Administrador')){
+                    echo
+                    "
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                      <i class='fas fa-bars'></i>
+                    </a>
+                  </td>
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
+                      <i class='fas fa-edit'></i>
+                    </a>
+                  </td>
+                  <td class='text-center'>
+                    <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
+                      <i class='fas fa-trash-alt'></i>
+                    </a>
+                  </td> 
+                  ";}
+              echo "</tr>";
+              }
+          $i++;
+        }
+      }
+    }
+    /////////////////////7
+    if($_GET['op'] == 'listarReporteAmodificarFecha'){
+      $id_reporte = $_GET['id_reporte'];      
+      $clave = $Reporte->filtrarFecha([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+      ]);
+      $i = 1;
+      foreach($clave as $valor){
+        if ($valor->id_reporte == $id_reporte){
+          echo "
+          <tr class='table-primary'>
+            <td class='text-center'>$valor->id_reporte</td>
+            <td class='text-center'>$valor->fecha_hora</td>
+            <td class='text-center'>$valor->jefe_fundo</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
+            <td class='text-center'>$valor->nombre_lote</td>
+            <td class='text-center'>$valor->_slote_nombre</td>";
+            if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
+            echo "
+            <td class='text-center'>
+            <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <i class='fas fa-bars'></i>
+            </a>
+            </td>";}
+            if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='Aprobado')||($valor->aprob_jefesanidad=='Aprobado'))){
+              echo "
+              <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary alerta_aprobado'>
+                <i class='fas fa-check'></i>
+              </a>
+              </td>";}
+            if(($_SESSION['nivelacceso'] == 'Administrador')){
+              echo
+              "
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <i class='fas fa-bars'></i>
+              </a>
+            </td>
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
+                <i class='fas fa-edit'></i>
+              </a>
+            </td>
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
+                <i class='fas fa-trash-alt'></i>
+              </a>
+            </td> 
+            ";}
+        echo "</tr>";
+        }else{
+          echo "
+          <tr >
+            <td class='text-center'>$valor->id_reporte</td>
+            <td class='text-center'>$valor->fecha_hora</td>
+            <td class='text-center'>$valor->jefe_fundo</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
+            <td class='text-center'>$valor->nombre_lote</td>
+            <td class='text-center'>$valor->_slote_nombre</td>";
+            if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
+            echo "
+            <td class='text-center'>
+            <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <i class='fas fa-bars'></i>
+            </a>
+            </td>";}
+            if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='Aprobado')||($valor->aprob_jefesanidad=='Aprobado'))){
+              echo "
+              <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary alerta_aprobado'>
+                <i class='fas fa-check'></i>
+              </a>
+              </td>";}
+            if(($_SESSION['nivelacceso'] == 'Administrador')){
+              echo
+              "
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                <i class='fas fa-bars'></i>
+              </a>
+            </td>
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary modificar'>
+                <i class='fas fa-edit'></i>
+              </a>
+            </td>
+            <td class='text-center'>
+              <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary eliminar'>
+                <i class='fas fa-trash-alt'></i>
+              </a>
+            </td> 
+            ";}
+        echo "</tr>";
+        }
+
+        $i++;
+      }
     }
     //op para listar las acciones de los reportes a la hora de crearlos en administrarreportes.php
     //se comtemplo la vista para los usuarios operador como sanidad
@@ -89,7 +286,7 @@ if (isset($_GET['op'])){
                 <td class='text-center'>$valor->id_reporte</td>
                 <td class='text-center'>$valor->fecha_hora</td>
                 <td class='text-center'>$valor->jefe_fundo</td>
-                <td class='text-center'>$valor->nom_fundo</td>
+                <td class='text-center'>$valor->nombre_fundo</td>
                 <td class='text-center'>$valor->nombre_lote</td>
                 <td class='text-center'>$valor->_slote_nombre</td>";
                 if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
@@ -143,7 +340,7 @@ if (isset($_GET['op'])){
           <td class='text-center'>$valor->id_reporte</td>
           <td class='text-center'>$valor->fecha_hora</td>
           <td class='text-center'>$valor->jefe_fundo</td>
-          <td class='text-center'>$valor->nom_fundo</td>
+          <td class='text-center'>$valor->nombre_fundo</td>
           <td class='text-center'>$valor->nombre_lote</td>
           <td class='text-center'>$valor->_slote_nombre</td>";
           if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
@@ -195,7 +392,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->turno</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>{$valor->nombre_lote} ({$valor->_slote_nombre})</td>
               <td class='text-center'>{$valor->nombre_cultivo} ({$valor->nombre_variedad})</td>
               <td class='text-center'>$valor->nombre_motivo</td>
@@ -228,7 +425,7 @@ if (isset($_GET['op'])){
           <td class='text-center'>$valor->fecha_hora</td>
           <td class='text-center'>$valor->turno</td>
           <td class='text-center'>$valor->jefe_fundo</td>
-          <td class='text-center'>$valor->nom_fundo</td>
+          <td class='text-center'>$valor->nombre_fundo</td>
           <td class='text-center'>{$valor->nombre_lote} ({$valor->_slote_nombre})</td>
           <td class='text-center'>{$valor->nombre_cultivo} ({$valor->nombre_variedad})</td>
           <td class='text-center'>$valor->nombre_motivo</td>
@@ -267,7 +464,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
@@ -324,7 +521,7 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->id_reporte</td>
             <td class='text-center'>$valor->fecha_hora</td>
             <td class='text-center'>$valor->jefe_fundo</td>
-            <td class='text-center'>$valor->nom_fundo</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
@@ -380,7 +577,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
@@ -431,7 +628,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
@@ -487,7 +684,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
@@ -553,7 +750,7 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->id_reporte</td>
             <td class='text-center'>$valor->fecha_hora</td>
             <td class='text-center'>$valor->jefe_fundo</td>
-            <td class='text-center'>$valor->nom_fundo</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
@@ -607,7 +804,7 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->jefe_fundo</td>
-              <td class='text-center'>$valor->nom_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
               <td class='text-center align-middle'>
@@ -671,7 +868,7 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->id_reporte</td>
             <td class='text-center'>$valor->fecha_hora</td>
             <td class='text-center'>$valor->jefe_fundo</td>
-            <td class='text-center'>$valor->nom_fundo</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
             <td class='text-center align-middle'>
@@ -709,5 +906,84 @@ if (isset($_GET['op'])){
         $i++;
       }
     }
+
+    if($_GET['op']  == 'ListarReporteAcciones'){              
+      $clave = $Reporte->listarReporteAcciones();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          echo "
+            <tr>
+              <td class='text-center col-2'>$valor->ARfecha</td>
+              <td class='text-center col-4'>$valor->ARnombres</td>
+              <td class='text-center col-1'>$valor->ARcodigo_reporte</td>
+              <td class='text-center col-2'>$valor->ARaccion</td>
+              <td class='text-center col-3'>$valor->ARobservacion</td>
+              </tr>
+              ";
+          $i++;
+        }
+      }
+    }
+    
+    if($_GET['op'] == 'filtrarFechasReportesAcciones'){
+      $clave = $Reporte->filtrarFechaReporteAccion([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+     ]);
+      $i = 1;
+      foreach($clave as $valor){
+        echo "
+        <tr>
+          <td class='text-center col-2'>$valor->ARfecha</td>
+          <td class='text-center col-4'>$valor->ARnombres</td>
+          <td class='text-center col-1'>$valor->ARcodigo_reporte</td>
+          <td class='text-center col-2'>$valor->ARaccion</td>
+          <td class='text-center col-3'>$valor->ARobservacion</td>
+        </tr>
+        ";
+        $i++;
+      }
+    }
+
+    if($_GET['op']  == 'ListarProductosAcciones'){              
+      $clave = $Reporte->listarProductosAcciones();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          echo "
+            <tr>
+              <td class='text-center col-2'>$valor->RDFecha</td>
+              <td class='text-center col-4'>$valor->RDnombres</td>
+              <td class='text-center col-1'>$valor->RDcodigo_reporte</td>
+              <td class='text-center col-2'>$valor->RDaccion</td>
+              <td class='text-center col-3'>$valor->RDobservacion</td>
+              </tr>
+              ";
+          $i++;
+        }
+      }
+    }
+    
+    if($_GET['op'] == 'filtrarFechasProductosAcciones'){
+      $clave = $Reporte->filtrarFechaProductosAccion([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+     ]);
+      $i = 1;
+      foreach($clave as $valor){
+        echo "
+        <tr>
+          <td class='text-center col-2'>$valor->RDFecha</td>
+          <td class='text-center col-4'>$valor->RDnombres</td>
+          <td class='text-center col-1'>$valor->RDcodigo_reporte</td>
+          <td class='text-center col-2'>$valor->RDaccion</td>
+          <td class='text-center col-3'>$valor->RDobservacion</td>
+        </tr>
+        ";
+        $i++;
+      }
+    }
+
 }
 ?>

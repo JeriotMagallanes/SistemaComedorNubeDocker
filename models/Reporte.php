@@ -51,6 +51,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   } 
+
   public function registrarModificacionReporte(array $data){
     try{
         parent::execProcedure($data, "Spu_modificar_reporte_seguimiento", false);
@@ -74,6 +75,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }  
+
   public function filtrarFechaJFundoAdmiinistrar(array $data){
     try{
         return parent::execProcedure($data, "spu_filtrar_fecha_reportes_jfundoAdministrador", true);
@@ -81,6 +83,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   } 
+
   public function filtrarFechaJFundo(array $data){
     try{
         return parent::execProcedure($data, "spu_filtrar_fecha_reportes_jfundo", true);
@@ -88,6 +91,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   } 
+
   public function filtrarFechaAdministrador(array $data){
     try{
         return parent::execProcedure($data, "spu_filtrar_fecha_reportes_administrador", true);
@@ -103,6 +107,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }
+
   public function ListarReportesPorJefeFundo(array $data){
     try{
         return parent::execProcedure($data, "spu_listar_reportes_porJefeFundo", true);
@@ -110,13 +115,45 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }  
+
   public function listarReporteAdministrador(){
     try{
         return parent::getRows("spu_reporte_administrador_listar");
     }catch(Exception $error){
         die($error->getMessage());
     }
-  }
+  }  
 
+  public function listarReporteAcciones(){
+    try{
+        return parent::getRows("spu_listar_reporte_acciones");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
+  
+  public function filtrarFechaReporteAccion(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes_accion", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
+
+  public function listarProductosAcciones(){
+    try{
+        return parent::getRows("spu_listar_producto_acciones");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
+  
+  public function filtrarFechaProductosAccion(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_producto_accion", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
 }
 ?>

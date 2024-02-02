@@ -62,7 +62,6 @@ $(document).ready(function(){
 
     function listardetalles(){
         let id_reporte=$("#id_reporte").val();
-        console.log(id_reporte);
         $.ajax({
             url: 'controllers/Detalle.controller.php',
             type: 'GET',
@@ -106,7 +105,6 @@ $(document).ready(function(){
     }
     function listardetallesOperario(){
         let id_reporte=$("#id_reporte").val();
-        console.log(id_reporte);
         $.ajax({
             url: 'controllers/Detalle.controller.php',
             type: 'GET',
@@ -182,7 +180,7 @@ $(document).ready(function(){
 
     $("#tablaDetalle").on("click", ".eliminar", function(){
         let id_detalle = $(this).attr('data-idproducto');
-    
+        let id_reporte=$("#id_reporte").val();
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
@@ -204,7 +202,8 @@ $(document).ready(function(){
                 var datos = {
                     'op' : 'eliminarDetalles',
                     'id_detallereporte' : id_detalle,
-                    'observacion' : observacion
+                    'observacion' : observacion,
+                    'id_reporte'  : id_reporte
                 };
     
                 $.ajax({

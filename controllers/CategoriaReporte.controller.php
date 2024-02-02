@@ -19,7 +19,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->nombre'>$valor->nombre</option>
+          <option value='$valor->id_fundo_nombre'>$valor->nombre_fundo</option>
           ";
       }
     }

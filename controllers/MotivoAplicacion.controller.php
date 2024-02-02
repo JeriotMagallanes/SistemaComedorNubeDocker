@@ -58,7 +58,13 @@ if (isset($_GET['op'])){
         }
       }
     }
+    if($_GET['op']== 'eliminarMotivo'){
+      $motivo->eliminarMotivo(["motivo_estado" => $_GET["motivo_estado"]]);
+    }
     
+    if($_GET['op'] == 'reactivarMotivo'){
+      $motivo->reactivarMotivo(["motivo_estado" => $_GET['motivo_estado']]);
+    }
     if($_GET['op'] == 'modificarProducto'){
       $motivo->modificarMotivo([
         "id_motivo" => $_GET['id_motivo'],

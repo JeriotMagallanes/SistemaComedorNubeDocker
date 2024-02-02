@@ -141,7 +141,7 @@
             <?php
               if($_SESSION['nivelacceso'] == 'Administrador'){
                 echo "
-                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
+                  <li class='nav-header' style='background-color:#292929'>Administrar sistema</li>
                   <li class='nav-item'>
                     <a href='main.php?view=usuariosadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
@@ -164,6 +164,19 @@
                     <a href='main.php?view=administrarmotivaplicacion.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Administrar Motivo Apli.</p>
+                    </a>
+                  </li>
+                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaAccionesReportes.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Ver Acciones Reportes</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaAccionesProductos.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Ver Acciones Productos</p>
                     </a>
                   </li>
                   <li class='nav-item'>
@@ -221,6 +234,17 @@
                   <a href='main.php?view=vistaReporteJFundo.php' class='nav-link'>
                   <i class='fas fa-users-cog nav-icon'></i>
                     <p>Aprobar Reporte</p>
+                  </a>
+                </li>
+                ";
+              } 
+              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Jefe de Operaciones')){
+                echo "
+                <li class='nav-header' style='background-color:#292929'>Jefe de Operaciones</li>
+                <li class='nav-item'>
+                  <a href='main.php?view=vistaReporteJFundo.php' class='nav-link'>
+                  <i class='fas fa-users-cog nav-icon'></i>
+                    <p>Gestionar Reporte</p>
                   </a>
                 </li>
                 ";

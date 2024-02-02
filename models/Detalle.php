@@ -26,7 +26,13 @@ class Detalle extends ModelMaster{
         die($error->getMessage());
     }
   }
-
+  public function cambiarEstadoReporte(array $data){
+    try{
+      parent::deleteRows($data, "spu_cambiarEstadoReporte");
+    }catch(Exception $error){
+      die($error->getMessage());
+    }
+  }
   public function listardatosreporte(array $data){
     try{
         return parent::execProcedure($data, "spu_listar_datos_reporte", true);

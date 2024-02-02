@@ -1,16 +1,9 @@
 <?php
     require_once 'datatable.php';
     require_once 'acceso-seguro.php';
-    if(($_SESSION['nivelacceso'] != 'Administrador')&&($_SESSION['nivelacceso'] != 'Jefe de Fundo')&&($_SESSION['nivelacceso'] != 'Jefe de Operaciones')){
+    if(($_SESSION['nivelacceso'] != 'Administrador')){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
-    }
-    $idusuario=($_SESSION['idusuario']);
-    if(($_SESSION['nivelacceso'])=='Jefe de Fundo'){
-        $usuario=1;
-    }
-    if((($_SESSION['nivelacceso'])=='Administrador')||(($_SESSION['nivelacceso'])=='Jefe de Operaciones')){
-        $usuario=0;
     }
 ?>
 
@@ -26,9 +19,7 @@
             <div class="card-header">
                 <div class="row col-md-12">
                     <div class="col-md-6">
-                        <p class="card-title" style="font-size: 22px">Lista de Reportes Jefe de Fundo</p>
-                                <input type="hidden" id="idusuario" class="form-control" value="<?php echo $idusuario; ?>">
-                                <input type="hidden" id="estadousuario" class="form-control" value="<?php echo $usuario; ?>">
+                        <p class="card-title" style="font-size: 22px">Registro de acciones a los Reportes</p>
                     </div>
                     <div class="col-md-6 display">
                         <div class="row">
@@ -51,22 +42,17 @@
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablareporteJfundo">
+                <table class="table text-center" id="tablaAccionesReporte">
                     <thead>
                         <tr>
-                            <th class="text-center">Codigo</th>
                             <th class="text-center">Fecha y Hora</th>
-                            <th class="text-center">Jefe de Fundo</th>
-                            <th class="text-center">Fundo</th>
-                            <th class="text-center">Lote</th>
-                            <th class="text-center">Sub Lote</th>
-                            <th class="text-center col-2">Aprob. Fundo</th>
-                            <th class="text-center">Ver Productos</th>
-                            <th class="text-center">Aprobar</th>
-                            <th class="text-center">Reporte Autorizado</th>
+                            <th class="text-center">Nombres</th>
+                            <th class="text-center">Codigo Reporte</th>
+                            <th class="text-center">Accion</th>
+                            <th class="text-center">Observacion</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablareporteJFundoListar">
+                    <tbody class="table" id="tablaAccionesReporteListar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>

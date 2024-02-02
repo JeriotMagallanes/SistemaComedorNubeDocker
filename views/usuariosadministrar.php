@@ -44,6 +44,7 @@
                                     <option value="C">Calidad</option>
                                     <option value="J">Jefe de Fundo</option>
                                     <option value="O">Operario</option>
+                                    <option value="T">Jefe de Operaciones</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">

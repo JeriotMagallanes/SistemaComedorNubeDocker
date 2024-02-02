@@ -36,10 +36,12 @@
                         ?>
                     </p>
                     </div>
-                    <div class="col-md-2">
+                    <div class="row justify-content-end">
+                        <div class="col-md-2 items-center text-end">
                         <button type="button" class="btn btn-secondary" onclick="window.location.href='main.php?view=vistaReporteCalidad.php'">
-                            Regresar <i class="fas fa-undo ml-2"></i>
+                            <i class="fas fa-undo ml-2"></i>
                         </button>
+                        </div>
                     </div>
                 </div>
                 <div class="table-responsive">

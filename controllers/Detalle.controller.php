@@ -52,27 +52,29 @@ if (isset($_GET['op'])){
       }
     }
 
-    if($_GET['op'] == 'listardatosReporte'){
-      $clave = $Detalle->listardatosreporte(['id_reporte' => $_GET['id_reporte']]);
+    if ($_GET['op'] == 'listardatosReporte') {
+      $reporte = $_GET['id_reporte'];
+      $clave = $Detalle->listardatosreporte(['id_reporte' => $reporte]);
       $i = 1;
-      foreach($clave as $valor){
-        echo "
-        <tr>
-            <td class='col-6 mb-0'>Jefe de Fundo: $valor->jefe_fundo</th>
-            <td class='col-6 mb-0'>Fundo: $valor->nom_fundo</th>
-        </tr>
-        <tr>
-            <td class='col-6 mb-0'>Lote: $valor->nombre_lote</th>
-            <td class='col-6 mb-0'>Sub-Lote: $valor->_slote_nombre</th>
-        </tr>
-        <tr>
-            <td class='col-6 mb-0'>Cultivo: $valor->nombre_cultivo</th>
-            <td class='col-6 mb-0'>Variedad: $valor->nombre_variedad</th>
-        </tr>
-        ";
-        $i++;
+      foreach ($clave as $valor) {
+          echo "
+          <tr>
+              <input type='text' id='idreportecambiarEstado' value='{$reporte}'>
+              <td class='col-6 mb-0'>Jefe de Fundo: $valor->jefe_fundo</th>
+              <td class='col-6 mb-0'>Fundo: $valor->nombre_fundo</th>
+          </tr>
+          <tr>
+              <td class='col-6 mb-0'>Lote: $valor->nombre_lote</th>
+              <td class='col-6 mb-0'>Sub-Lote: $valor->_slote_nombre</th>
+          </tr>
+          <tr>
+              <td class='col-6 mb-0'>Cultivo: $valor->nombre_cultivo</th>
+              <td class='col-6 mb-0'>Variedad: $valor->nombre_variedad</th>
+          </tr>
+          ";
+          $i++;
       }
-    }
+  }
     if($_GET['op'] == 'listardetallesOperario'){
       $clave = $Detalle->listardetalle(['id_reporte' => $_GET['id_reporte']]);
       $i = 1;
@@ -106,6 +108,9 @@ if (isset($_GET['op'])){
       'id_detallereporte' => $_GET['id_detallereporte'],
       'observacion' => $_GET['observacion'],
       'nombreapellido' => $nombreapellido
+      ]);
+      $Detalle->cambiarEstadoReporte([
+      'id_reporte' => $_GET['id_reporte']
       ]);
     }
     
