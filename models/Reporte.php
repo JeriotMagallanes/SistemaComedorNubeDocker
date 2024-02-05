@@ -42,6 +42,14 @@ class Reporte extends ModelMaster{
     }catch(Exception $error){
         die($error->getMessage());
     }
+  } 
+  
+  public function aprobarreporteCalidad(array $data){
+    try{
+        parent::deleteRows($data, "spu_aprobar_reporteCalidad");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
   }
 
   public function modificarReporte(array $data){
@@ -91,6 +99,7 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   } 
+
   public function filtrarFechaJOperaciones(array $data){
     try{
         return parent::execProcedure($data, "spu_filtrar_fecha_reportes_joperaciones", true);
@@ -115,6 +124,22 @@ class Reporte extends ModelMaster{
     }
   }
 
+  public function listarReporteCalidad(){
+    try{
+        return parent::getRows("spu_reporte_listar_calidad");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
+
+  public function filtrarFechaCalidad(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_reportes_calidad", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
+
   public function ListarReportesPorJefeFundo(array $data){
     try{
         return parent::execProcedure($data, "spu_listar_reportes_porJefeFundo", true);
@@ -138,6 +163,30 @@ class Reporte extends ModelMaster{
         die($error->getMessage());
     }
   }  
+
+  public function listarReporteLlegadaProductos(){
+    try{
+        return parent::getRows("spu_reporte_listar_llegadaProductos");
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  }
+
+  public function filtrarFechaLlegadaProducto(array $data){
+    try{
+        return parent::execProcedure($data, "spu_filtrar_fecha_LlegadaProductos", true);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
+
+  public function AsignarFechallegada(array $data){
+    try{
+        parent::execProcedure($data, "spu_asignar_fecha_llegada", false);
+    }catch(Exception $error){
+        die($error->getMessage());
+    }
+  } 
 
   public function listarReporteAcciones(){
     try{

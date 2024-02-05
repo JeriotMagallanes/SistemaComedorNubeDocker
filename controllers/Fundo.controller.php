@@ -41,7 +41,7 @@ if (isset($_GET['op'])){
           echo "
             <tr>
               <td class='text-center'>$i</td>
-              <td class='text-center'>$valor->nombre</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>{$valor->nombres} {$valor->apellidos}</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
@@ -92,7 +92,7 @@ if (isset($_GET['op'])){
         echo "
           <tr>
             <td class='text-center'>$i</td>
-            <td class='text-center'>$valor->nombre</td>
+            <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>{$valor->nombres} {$valor->apellidos}</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>

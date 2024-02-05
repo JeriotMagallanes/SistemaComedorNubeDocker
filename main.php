@@ -151,7 +151,7 @@
                   <li class='nav-item'>
                   <a href='main.php?view=administrarJOperaciones.php' class='nav-link'>
                   <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Asignar Jefe Operaciones</p>
+                    <p>Asignar Jefe Operac.</p>
                   </a>
                 </li>
                   <li class='nav-item'>
@@ -169,10 +169,9 @@
                   <li class='nav-item'>
                     <a href='main.php?view=administrarmotivaplicacion.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Administrar Motivo Apli.</p>
+                      <p>Administrar Mot. Apli.</p>
                     </a>
                   </li>
-                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
                   <li class='nav-item'>
                     <a href='main.php?view=vistaAccionesReportes.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
@@ -185,16 +184,29 @@
                       <p>Ver Acciones Productos</p>
                     </a>
                   </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Registros Totales</p>
-                    </a>
-                  </li>
+                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
                   <li class='nav-item'>
                     <a href='main.php?view=vistaReporteSanidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Aprobar Reportes</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=administrarllegadaproductos.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Llegada Productos</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistareportesgenerales.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reportes Totales</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Productos Totales</p>
                     </a>
                   </li>
                 ";
@@ -222,13 +234,19 @@
                   <li class='nav-item'>
                     <a href='main.php?view=vistaReporteCalidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Reportes Generales</p>
+                      <p>Aprobar Reportes</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistareportesgenerales.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reportes Totales</p>
                     </a>
                   </li>
                   <li class='nav-item'>
                     <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Registros Totales</p>
+                      <p>Productos Totales</p>
                     </a>
                   </li>
                 ";

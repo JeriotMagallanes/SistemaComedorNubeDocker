@@ -21,7 +21,7 @@ $(document).ready(function(){
         var ninstructivo = $("#ninstructivo").val();
         var pep = $("#pep").val();
         var etcultivo = $("#etcultivo").val();
-        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""||nreserva== ""|| ninstructivo == ""||pep== ""||etcultivo== ""){
+        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""||cultivo==null  ||nreserva== ""|| ninstructivo == ""||pep== ""||etcultivo== ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -68,7 +68,7 @@ $(document).ready(function(){
 
     $("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
-        var observacionInput = '<label>¿Esta seguro de elminar el reporte?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
+        var observacionInput = '<label>¿Esta seguro de elminar el reporte con codigo '+idproducto+'?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
@@ -163,7 +163,115 @@ $(document).ready(function(){
             }
             });
     });
+
+    $("#tablareporteCalidad").on("click", ".aprobar", function(){
+        let id_reporte = $(this).attr('data-idproducto');
+        Swal.fire({
+            icon: 'question',
+            title: 'AGROINDUSTRIAL BETA',
+            text: 'Esta seguro de Aprobar el Reporte N°'+id_reporte+'?',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
+        }).then((result)=>{
+            if(result.isConfirmed){
+                var datos = {
+                    'op' : 'aprobarreporteCalidad',
+                    'idproducto' : id_reporte
+                };
+                $.ajax({
+                    url: 'controllers/Reporte.controller.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function(e){
+                        mostrarAlerta("success","¡Aprobado correctamente!");
+                        ListarReportesCalidad();
+                    }
+                });
+            }
+            });
+    });
     
+    $("#tablallegadaProductos").on("click", ".fechallegada", function(){
+        let idreporte = $(this).attr('data-idproducto');
+        var observacionInput = '<label>¡Esta por ingresar la fecha de llegada al reporte con codigo '+idreporte+'!</label><input type="date" class="swal2-input" id="fechaLlegada">';
+        Swal.fire({
+            icon: 'question',
+            title: 'AGROINDUSTRIAL BETA',
+            html: observacionInput,
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
+            preConfirm: () => {
+                var fechaLlegada = Swal.getPopup().querySelector('#fechaLlegada').value;
+                if (!fechaLlegada) {
+                    Swal.showValidationMessage('¡La fecha es obligatoria!');
+                }
+                return { fechaLlegada: fechaLlegada };
+            }
+        }).then((result)=>{
+            if(result.isConfirmed){
+                var fechaLlegada = result.value.fechaLlegada;
+    
+                var datos = {
+                    'op' : 'asignarFechaLlegada',
+                    'idreporte' : idreporte,
+                    'fechaLlegada' : fechaLlegada
+                };
+    
+                $.ajax({
+                    url: 'controllers/Reporte.controller.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function(e){
+                        mostrarAlerta("success", "Fecha Asignadda Correctamente!");
+                        ListarReportes();
+                    }
+                });
+            }
+        });
+    });
+
+    $("#tablallegadaProductos").on("click", ".volverasignarfechallegada", function(){
+        let idreporte = $(this).attr('data-idproducto');
+        var observacionInput = '<label>¡Esta por volver a asignar la fecha de llegada del reporte con codigo '+idreporte+'!</label><input type="date" class="swal2-input" id="fechaLlegada">';
+        Swal.fire({
+            icon: 'question',
+            title: 'AGROINDUSTRIAL BETA',
+            html: observacionInput,
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
+            preConfirm: () => {
+                var fechaLlegada = Swal.getPopup().querySelector('#fechaLlegada').value;
+                if (!fechaLlegada) {
+                    Swal.showValidationMessage('¡La fecha es obligatoria!');
+                }
+                return { fechaLlegada: fechaLlegada };
+            }
+        }).then((result)=>{
+            if(result.isConfirmed){
+                var fechaLlegada = result.value.fechaLlegada;
+    
+                var datos = {
+                    'op' : 'asignarFechaLlegada',
+                    'idreporte' : idreporte,
+                    'fechaLlegada' : fechaLlegada
+                };
+    
+                $.ajax({
+                    url: 'controllers/Reporte.controller.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function(e){
+                        mostrarAlerta("success", "Fecha Asignadda Correctamente!");
+                        ListarReportes();
+                    }
+                });
+            }
+        });
+    });
+
     function modificarReporte() {
         let idreporte = $("#idproductomod").attr('data-idproducto');
         var encSanidad = $("#encSanidad").val();
@@ -175,7 +283,11 @@ $(document).ready(function(){
         var s_lote = $("#s_lote").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-        if (encQA=="" || encSanidad=="" ||encAlmacen==""|| variedad == null ) {
+        var nreserva = $("#nreserva").val();
+        var ninstructivo = $("#ninstructivo").val();
+        var pep = $("#pep").val();
+        var etcultivo = $("#etcultivo").val();
+        if (encQA=="" || encSanidad=="" ||encAlmacen==""|| variedad == null || cultivo==null ||nreserva== ""|| ninstructivo == ""||pep== ""||etcultivo== "" ) {
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         } else {
             Swal.fire({
@@ -201,8 +313,13 @@ $(document).ready(function(){
                             's_lote': s_lote,
                             'cultivo': cultivo,
                             'variedad': variedad,
-                            'observacion': observacion
+                            'observacion': observacion,
+                            'nreserva': nreserva,
+                            'ninstructivo': ninstructivo,
+                            'pep': pep,
+                            'etcultivo': etcultivo
                         };
+                        console.log(datos);
                         $.ajax({
                             url: 'controllers/Reporte.controller.php',
                             type: 'GET',
@@ -256,6 +373,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $("#fundo").change(function(){
         let fundo=$("#fundo").val();
         let jefe_fundo=$("#idcategoria").val();
@@ -273,6 +391,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $("#lote").change(function(){
         let lote=$("#lote").val();
         var datos={
@@ -288,6 +407,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $("#s_lote").change(function(){
         let id_sub_lote=$("#s_lote").val();
         var datos={
@@ -303,6 +423,7 @@ $(document).ready(function(){
             }
         });
     });
+
     $("#s_lote").change(function(){
         let id_sub_lote=$("#s_lote").val();
         var datos={
@@ -345,11 +466,90 @@ $(document).ready(function(){
                     $("#encQA").val(resultado[0].enc_QA);
                     $("#encAlmacen").val(resultado[0].enc_almacen);
                     $("#idcategoria").val(resultado[0].fk_jefe_fundo);
-                    $("#fundo").val(resultado[0].nom_fundo);
-                    $("#lote").val(resultado[0].fk_lote);
-                    $("#s_lote").val(resultado[0].fk_slote);
-                    $("#cultivo").val(resultado[0].fk_cutivo);
-                    $("#variedad").val(resultado[0].fk_variedad);
+                    //$("#fundo").val(resultado[0].nom_fundo);
+                    const jefeGET= resultado[0].fk_jefe_fundo;
+                    const fundoGET= resultado[0].nom_fundo;
+                    var datos={
+                        'op'         : 'cargarFundoGET',
+                        'jefeGET'   : jefeGET,
+                        'fundoGET'    : fundoGET
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#fundo").html(e);
+                        }
+                    });
+                    //$("#lote").val(resultado[0].fk_lote);
+                    const fundoE= resultado[0].nom_fundo;
+                    const fundo_lote= resultado[0].fk_lote;
+                    var datos={
+                        'op'         : 'cargarLoteGET',
+                        'id_fundo'   : fundoE,
+                        'id_lote'    : fundo_lote
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#lote").html(e);
+                        }
+                    });
+                    //$("#s_lote").val(resultado[0].fk_slote);
+                    const fundo_lote1= resultado[0].fk_lote;
+                    const sublote= resultado[0].fk_slote;
+                    var datos={
+                        'op'           : 'cargarCategoriaSubLoteGET',
+                        'id_lote'       : fundo_lote1,
+                        'id_sublote'    : sublote
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#s_lote").html(e);
+                        }
+                    });
+                    //$("#cultivo").val(resultado[0].fk_cutivo);
+                    const fundo_slote1= resultado[0].fk_slote;
+                    const cultivo= resultado[0].fk_cutivo;
+                    var datos={
+                        'op'           : 'cargarCategoriaCultivoGET',
+                        'fundo_slote1' : fundo_slote1,
+                        'cultivo'      : cultivo
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#cultivo").html(e);
+                        }
+                    });
+                    //$("#variedad").val(resultado[0].fk_variedad);
+                    let id_cultivo= resultado[0].fk_cutivo;
+                    let variedad_get= resultado[0].fk_variedad;
+                    var datos={
+                        'op'            : 'cargarCategoriaVariedadesGET',
+                        'id_cultivo'    :id_cultivo,
+                        'variedad_get'  :variedad_get
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#variedad").html(e);
+                        }
+                    });
+                    $("#nreserva").val(resultado[0].nrReserva);
+                    $("#ninstructivo").val(resultado[0].nrInstructivo);
+                    $("#pep").val(resultado[0].pep);
+                    $("#etcultivo").val(resultado[0].etapa_cultivo);
                     txtProducto.setAttribute("data-idproducto", resultado[0].id_reporte);
                     $("#idproductomod").hide();
                 }else{
@@ -480,67 +680,89 @@ $(document).ready(function(){
             }
     }
 
-    function ListarReportesGeneralAdministrador(){
+    function ListarReportesGeneralAdministrador() {
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarReportesGeneralAdministrador',
+            success: function (e) {
+                var tabla = $("#tablareporteGeneralAdministrador").DataTable();
+                tabla.destroy();
+                $("#tablareporteGeneralAdministradorListar").html(e);
+    
+                $("#tablareporteGeneralAdministrador").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copy', 'print', {
+                            extend: 'pdfHtml5',
+                            orientation: 'landscape',
+                            pageSize: 'LEGAL'
+                        }, 'excel'
+                    ],
+                    initComplete: function (settings, json) {
+                        // Mover el botón de imprimir al contenedor deseado
+                        var printButton = new $.fn.dataTable.Buttons(settings, {
+                            buttons: ['print']
+                        });
+                        printButton.container().appendTo($('#botonesTabla'));
+                    }
+                });
+            }
+        });
+    }
+    
+    function buscarFechaAdministrador() {
+        var fechafinal = $("#fechafinal").val();
+        var fechainicial = $("#fechainicial").val();
+    
+        if ((fechafinal == "") && (fechainicial == "")) {
+            ListarReportesGeneralAdministrador();
+        } else {
             $.ajax({
                 url: 'controllers/Reporte.controller.php',
                 type: 'GET',
-                data: 'op=ListarReportesGeneralAdministrador',
-                success: function(e){
+                data: {
+                    'op': 'filtrarFechasAdministrador',
+                    'fechainicial': fechainicial,
+                    'fechafinal': fechafinal
+                },
+                success: function (e) {
                     var tabla = $("#tablareporteGeneralAdministrador").DataTable();
                     tabla.destroy();
                     $("#tablareporteGeneralAdministradorListar").html(e);
                     $("#tablareporteGeneralAdministrador").DataTable({
                         language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
                         columnDefs: [
-                        {
-                            visible: true,
-                            searchable: true
-                        }
-                        ],
-                        dom: 'Bfrtip',
-                        buttons: ['copy', 'print', 'pdf', 'excel']
-                    });
-                }
-            });
-    }
-    
-    function buscarFechaAdministrador(){
-        var fechafinal = $("#fechafinal").val();
-        var fechainicial = $("#fechainicial").val();
-        if((fechafinal=="")&&(fechainicial="")){
-            ListarReportesGeneralAdministrador();
-        }else{
-            $.ajax({
-                url: 'controllers/Reporte.controller.php',
-                type: 'GET',
-                data: {
-                    'op': 'filtrarFechasAdministrador',
-                    'fechainicial' : fechainicial,
-                    'fechafinal'   : fechafinal
-                    },
-                    success: function(e){
-                        var tabla = $("#tablareporteGeneralAdministrador").DataTable();
-                        tabla.destroy();
-                        $("#tablareporteGeneralAdministradorListar").html(e);
-                        $("#tablareporteGeneralAdministrador").DataTable({
-                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
-                            columnDefs: [
                             {
                                 visible: true,
                                 searchable: true
                             }
-                            ],
-                            dom: 'Bfrtip',
-                            buttons: ['copy', 'print', 'pdf', 'excel']
-                        });
-                    }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'copy', 'print', {
+                                extend: 'pdfHtml5',
+                                orientation: 'landscape',
+                                pageSize: 'LEGAL'
+                            }, 'excel'
+                        ]
+                    });
+                }
             });
         }
-            if(fechafinal<fechainicial){
-                mostrarAlerta("warning", "¡Rango de fechas invalidos!");
-            }
+    
+        if (fechafinal < fechainicial) {
+            mostrarAlerta("warning", "¡Rango de fechas inválidos!");
+        }
     }
-
+    
     function ListarReportesCalidad(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
@@ -612,7 +834,7 @@ $(document).ready(function(){
             url: 'controllers/Reporte.controller.php',
             type: 'GET',
             data: {
-                'op': 'filtrarFechasCalidad',
+                'op': 'filtrarFechasOperario',
                 'fechainicial' : fechainicial,
                 'fechafinal'   : fechafinal
                 },
@@ -871,6 +1093,30 @@ $(document).ready(function(){
         }
     }
     
+    function ListarReportesFechaLlegada(){
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarLlegadaProductos',
+            success: function(e){
+                var tabla = $("#tablallegadaProductos").DataTable();
+                tabla.destroy();
+                $("#tablallegadaProductosListar").html(e);
+                $("#tablallegadaProductos").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
+
     function ListarReportesAcciones(){
         $.ajax({
             url: 'controllers/Reporte.controller.php',
@@ -993,14 +1239,186 @@ $(document).ready(function(){
         }
     }
 
+    function ListarReportesSanidad(){
+        var idusuario = $("#idusuariosanidad").val();
+        var estadousuario = $("#estadousuariosanidad").val();
+        if(estadousuario==0){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: 'op=ListarReportesSanidadAdministrador',
+                success: function(e){
+                    var tabla = $("#tablareporteSanidad").DataTable();
+                    tabla.destroy();
+                    $("#tablareporteSanidadListar").html(e);
+                    $("#tablareporteSanidad").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
+        }
+        if(estadousuario==1){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'ListarReportesSanidad',
+                    'id_jefe_sanidad' : idusuario
+                    },
+                success: function(e){
+                    var tabla = $("#tablareporteSanidad").DataTable();
+                    tabla.destroy();
+                    $("#tablareporteSanidadListar").html(e);
+                    $("#tablareporteSanidad").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
+        }
+    }
+    
+    function ListarLlegadaProductos(){
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: 'op=ListarLlegadaProductos',
+                success: function(e){
+                    var tabla = $("#tablallegadaProductos").DataTable();
+                    tabla.destroy();
+                    $("#tablallegadaProductosListar").html(e);
+                    $("#tablallegadaProductos").DataTable({
+                        language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                        columnDefs: [
+                        {
+                            visible: true,
+                            searchable: true
+                        }
+                        ],
+                        dom: 'Bfrtip',
+                        buttons: ['copy', 'print', 'pdf', 'excel']
+                    });
+                }
+            });
+    }
+    
+    function buscaFechaLlegadaProductos(){
+        var fechafinal = $("#fechafinal").val();
+        var fechainicial = $("#fechainicial").val();
+        if((fechafinal=="")&&(fechainicial="")){
+            ListarLlegadaProductos();
+        }else{
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'filtrarFechasLlegadaProducto',
+                    'fechainicial' : fechainicial,
+                    'fechafinal'   : fechafinal
+                    },
+                    success: function(e){
+                        var tabla = $("#tablallegadaProductos").DataTable();
+                        tabla.destroy();
+                        $("#tablallegadaProductosListar").html(e);
+                        $("#tablallegadaProductos").DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                            columnDefs: [
+                            {
+                                visible: true,
+                                searchable: true
+                            }
+                            ],
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'print', 'pdf', 'excel']
+                        });
+                    }
+            });
+        }
+        if(fechafinal<fechainicial){
+            mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+        }
+    }
+        
+    function ListarRegistroTotalReportes(){
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: 'op=ListarRegistroTotalProductos',
+            success: function(e){
+                var tabla = $("#tablaregistroTotalesReportes").DataTable();
+                tabla.destroy();
+                $("#tablaregistroTotalesReportesListar").html(e);
+                $("#tablaregistroTotalesReportes").DataTable({
+                    language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                    columnDefs: [
+                    {
+                        visible: true,
+                        searchable: true
+                    }
+                    ],
+                    dom: 'Bfrtip',
+                    buttons: ['copy', 'print', 'pdf', 'excel']
+                });
+            }
+        });
+    }
+    
+    function buscaFechaRegistroTotalesReportes(){
+        var fechafinal = $("#fechafinal").val();
+        var fechainicial = $("#fechainicial").val();
+        if((fechafinal=="")&&(fechainicial="")){
+            ListarRegistroTotalReportes();
+        }else{
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'filtrarFechasReportesTotales',
+                    'fechainicial' : fechainicial,
+                    'fechafinal'   : fechafinal
+                    },
+                    success: function(e){
+                        var tabla = $("#tablaregistroTotalesReportes").DataTable();
+                        tabla.destroy();
+                        $("#tablaregistroTotalesReportesListar").html(e);
+                        $("#tablaregistroTotalesReportes").DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                            columnDefs: [
+                            {
+                                visible: true,
+                                searchable: true
+                            }
+                            ],
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'print', 'pdf', 'excel']
+                        });
+                    }
+            });
+        }
+        if(fechafinal<fechainicial){
+            mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+        }
+    }
+
     $("#tablareporte").on("click", ".detalle", function(e) {
         e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
         window.location.href = 'main.php?view=administrardetallereporte.php?id=' + idreporte;
-    });
-
-    $("#tablareporte").on("click", ".alerta_aprobado", function(e) {
-        mostrarAlerta("warning", "¡Reporte ya aprobado!");
     });
 
     $("#tablareporteOperario").on("click", ".detalle", function(e) {
@@ -1044,6 +1462,9 @@ $(document).ready(function(){
     ListarReportesSanidad();
     ListarReportesAcciones();
     ListarProductosAcciones();
+    ListarLlegadaProductos();
+    ListarReportesFechaLlegada();
+    ListarRegistroTotalReportes();
     $("#registrar").click(registrarReporte);
     $("#actualizar").click(modificarReporte);
     $("#bfecha").click(buscarFecha);
@@ -1052,6 +1473,8 @@ $(document).ready(function(){
     $("#bfecha").click(buscarFechaOperario);
     $("#bfecha").click(buscarFechaJFundo);
     $("#bfecha").click(buscarFechaSanidad);
+    $("#bfecha").click(buscaFechaLlegadaProductos);
     $("#bfecha").click(buscarFechasListarReportesAcciones);
     $("#bfecha").click(buscarFechasListarProductosAcciones);
+    $("#bfecha").click(buscaFechaRegistroTotalesReportes);
 });

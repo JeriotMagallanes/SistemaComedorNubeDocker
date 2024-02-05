@@ -19,7 +19,7 @@
             <div class="card-header">
                 <div class="row col-md-12">
                     <div class="col-md-6">
-                        <p class="card-title" style="font-size: 22px">Lista de Reportes</p>
+                        <p class="card-title" style="font-size: 22px">Registro Totales de Reportes</p>
                     </div>
                     <div class="col-md-6 display">
                         <div class="row">
@@ -42,29 +42,23 @@
                 </div>
             </div>
             <div class="card-body table-responsive">
-                <table class="table text-center" id="tablareporteGeneralAdministrador">
+                <table class="table text-center" id="tablaregistroTotalesReportes">
                     <thead>
                         <tr>
-                            <th class="text-center">Codigo Reporte</th>
-                            <th class="text-center">Fecha Hora</th>
-                            <th class="text-center">Turno</th>
-                            <th class="text-center">Jefe Fundo</th>
+                            <th class="text-center">Codigo</th>
+                            <th class="text-center">Fecha y Hora</th>
+                            <th class="text-center">Jefe de Fundo</th>
                             <th class="text-center">Fundo</th>
-                            <th class="text-center">Lote - SubLote</th>
-                            <th class="text-center">Cultivo - Variedad</th>
+                            <th class="text-center">Lote</th>
+                            <th class="text-center">Sub Lote</th>
+                            <th class="text-center">PEP</th>
+                            <th class="text-center">Etapa Cultivo</th>
                             <th class="text-center">N° Reserva</th>
                             <th class="text-center">N° Instructivo</th>
-                            <th class="text-center">Mot. Aplicacion</th>
-                            <th class="text-center">Producto</th>
-                            <th class="text-center">Dosis CIL</th>
-                            <th class="text-center">N° CIL</th>
-                            <th class="text-center">Dosis Tanque</th>
-                            <th class="text-center">Total Producto</th>
-                            <th class="text-center">Dosis/HA</th>
-                            <th class="text-center">HA Aplicada</th>
+                            <th class="text-center ">Fecha Llegada</th>
                         </tr>
                     </thead>
-                    <tbody class="table" id="tablareporteGeneralAdministradorListar">
+                    <tbody class="table" id="tablaregistroTotalesReportesListar">
                         <!-- Se carga de manera dinamica -->
                     </tbody>
                 </table>

@@ -52,6 +52,12 @@ if (isset($_GET['op'])){
         "id_jefe_sanidad" => $_GET["id_jefe_sanidad"]
       ]);
     }
+    //op para que el jefe de calidad pueda aprobar un reporte 
+    if($_GET['op']== 'aprobarreporteCalidad'){
+      $Reporte->aprobarreporteCalidad([
+        "idproducto" => $_GET["idproducto"]
+      ]);
+    }
     //op para modificar un reporte, opcion solo para sanidad
     if($_GET['op'] == 'modificarReporte'){
       $nombres = $_SESSION['nombres'];
@@ -68,6 +74,10 @@ if (isset($_GET['op'])){
         "s_lote" => $_GET['s_lote'], 
         "cultivo" => $_GET['cultivo'],
         "variedad" => $_GET['variedad'],
+        "nreserva" => $_GET['nreserva'],
+        "ninstructivo" => $_GET['ninstructivo'], 
+        "pep" => $_GET['pep'],
+        "etcultivo" => $_GET['etcultivo']
       ]); 
       $Reporte->registrarModificacionReporte([
           'idreporte' => $_GET['idreporte'],
@@ -95,7 +105,9 @@ if (isset($_GET['op'])){
                   <td class='text-center'>$valor->jefe_fundo</td>
                   <td class='text-center'>$valor->nombre_fundo</td>
                   <td class='text-center'>$valor->nombre_lote</td>
-                  <td class='text-center'>$valor->_slote_nombre</td>";
+                  <td class='text-center'>$valor->_slote_nombre</td>
+                  <td class='text-center'>$valor->nrReserva</td>
+                  <td class='text-center'>$valor->nrInstructivo</td>";
                   if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
                   echo "
                   <td class='text-center'>
@@ -138,7 +150,9 @@ if (isset($_GET['op'])){
                   <td class='text-center'>$valor->jefe_fundo</td>
                   <td class='text-center'>$valor->nombre_fundo</td>
                   <td class='text-center'>$valor->nombre_lote</td>
-                  <td class='text-center'>$valor->_slote_nombre</td>";
+                  <td class='text-center'>$valor->_slote_nombre</td>
+                  <td class='text-center'>$valor->nrReserva</td>
+                  <td class='text-center'>$valor->nrInstructivo</td>";
                   if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
                   echo "
                   <td class='text-center'>
@@ -195,7 +209,9 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->jefe_fundo</td>
             <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
-            <td class='text-center'>$valor->_slote_nombre</td>";
+            <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center'>$valor->nrReserva</td>
+            <td class='text-center'>$valor->nrInstructivo</td>";
             if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
             echo "
             <td class='text-center'>
@@ -238,7 +254,9 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->jefe_fundo</td>
             <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
-            <td class='text-center'>$valor->_slote_nombre</td>";
+            <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center'>$valor->nrReserva</td>
+            <td class='text-center'>$valor->nrInstructivo</td>";
             if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
             echo "
             <td class='text-center'>
@@ -292,7 +310,9 @@ if (isset($_GET['op'])){
                 <td class='text-center'>$valor->jefe_fundo</td>
                 <td class='text-center'>$valor->nombre_fundo</td>
                 <td class='text-center'>$valor->nombre_lote</td>
-                <td class='text-center'>$valor->_slote_nombre</td>";
+                <td class='text-center'>$valor->_slote_nombre</td>
+                <td class='text-center'>$valor->nrReserva</td>
+                <td class='text-center'>$valor->nrInstructivo</td>";
                 if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
                 echo "
                 <td class='text-center'>
@@ -346,7 +366,9 @@ if (isset($_GET['op'])){
           <td class='text-center'>$valor->jefe_fundo</td>
           <td class='text-center'>$valor->nombre_fundo</td>
           <td class='text-center'>$valor->nombre_lote</td>
-          <td class='text-center'>$valor->_slote_nombre</td>";
+          <td class='text-center'>$valor->_slote_nombre</td>
+          <td class='text-center'>$valor->nrReserva</td>
+          <td class='text-center'>$valor->nrInstructivo</td>";
           if(($_SESSION['nivelacceso'] != 'Administrador')&&(($valor->aprob_jefefundo=='No Aprobado')&&($valor->aprob_jefesanidad=='No Aprobado'))){
           echo "
           <td class='text-center'>
@@ -393,22 +415,23 @@ if (isset($_GET['op'])){
         foreach($clave as $valor){
           echo "
             <tr>
+              <td class='text-center'>$valor->id_reporte</td>
               <td class='text-center'>$valor->fecha_hora</td>
               <td class='text-center'>$valor->turno</td>
               <td class='text-center'>$valor->jefe_fundo</td>
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>{$valor->nombre_lote} ({$valor->_slote_nombre})</td>
               <td class='text-center'>{$valor->nombre_cultivo} ({$valor->nombre_variedad})</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center'>$valor->nombre_motivo</td>
               <td class='text-center'>$valor->nombre_producto</td>
-              <td class='text-center'>$valor->diascarencia</td>
               <td class='text-center'>$valor->dosiscil</td>
               <td class='text-center'>$valor->ncil</td>
               <td class='text-center'>$valor->dosistanque</td>
               <td class='text-center'>$valor->totalproducto</td>
               <td class='text-center'>$valor->dosisHA</td>
               <td class='text-center'>$valor->HAaplicada</td>
-              <td class='text-center'>$valor->gastoH2O</td>
               </tr>"
           ;
           $i++;
@@ -426,22 +449,23 @@ if (isset($_GET['op'])){
        
         echo "
         <tr>
+          <td class='text-center'>$valor->id_reporte</td>
           <td class='text-center'>$valor->fecha_hora</td>
           <td class='text-center'>$valor->turno</td>
           <td class='text-center'>$valor->jefe_fundo</td>
           <td class='text-center'>$valor->nombre_fundo</td>
           <td class='text-center'>{$valor->nombre_lote} ({$valor->_slote_nombre})</td>
           <td class='text-center'>{$valor->nombre_cultivo} ({$valor->nombre_variedad})</td>
+          <td class='text-center'>$valor->nrReserva</td>
+          <td class='text-center'>$valor->nrInstructivo</td>
           <td class='text-center'>$valor->nombre_motivo</td>
           <td class='text-center'>$valor->nombre_producto</td>
-          <td class='text-center'>$valor->diascarencia</td>
           <td class='text-center'>$valor->dosiscil</td>
           <td class='text-center'>$valor->ncil</td>
           <td class='text-center'>$valor->dosistanque</td>
           <td class='text-center'>$valor->totalproducto</td>
           <td class='text-center'>$valor->dosisHA</td>
           <td class='text-center'>$valor->HAaplicada</td>
-          <td class='text-center'>$valor->gastoH2O</td>
           </tr>"
       ;
         $i++;
@@ -449,19 +473,14 @@ if (isset($_GET['op'])){
     }
     //op para listar los reportes para el usuario de calidad en la vista vistacalidadreporte.php
     if($_GET['op']  == 'ListarReportesCalidad'){              
-      $clave = $Reporte->listarReporte();
+      $clave = $Reporte->listarReporteCalidad();
       if(count($clave) != 0){
         $i = 1;
         foreach($clave as $valor){
-          if($valor->aprob_jefefundo=='Aprobado'){
-            $estadojefefundo='aprobado.png';
+          if($valor->aprob_jefeCalidad=='Aprobado'){
+            $estadojefeCalidad='aprobado.png';
           }else{
-            $estadojefefundo='no_aprobado.png';
-          }
-          if($valor->aprob_jefesanidad=='Aprobado'){
-            $estadojefesanidad='aprobado.png';
-          }else{
-            $estadojefesanidad='no_aprobado.png';
+            $estadojefeCalidad='no_aprobado.png';
           }
           echo "
             <tr>
@@ -471,50 +490,48 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
-              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
-              </td>
-              <td class='text-center align-middle'>
-              <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
+              <img src='images/$estadojefeCalidad' alt='Aprobado' width='50'>
               </td>
               <td class='text-center'>
                 <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                   <i class='fas fa-bars'></i>
                 </a>
               </td>
+              <td class='text-center'>
+                <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                  <i class='fas fa-check'></i>
+                </a>
+              </td>
               <td class='text-center'>";
-                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                if($valor->aprob_jefeCalidad=='Aprobado'){
                   echo "
-                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdfCalidad.php' method='post' target='_blank'>
                     <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
                     <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
                   </form>";
                 }
                 echo "
               </td>
-              </tr>"
-          ;
+              </tr>";
           $i++;
         }
       }
     }
     //op para filtrar las fechas de la vista de arriba
     if($_GET['op'] == 'filtrarFechasCalidad'){
-      $clave = $Reporte->filtrarFecha([
+      $clave = $Reporte->filtrarFechaCalidad([
       'fechainicial' => $_GET['fechainicial'],
       'fechafinal' => $_GET['fechafinal']
       ]);
       $i = 1;
       foreach($clave as $valor){
-        if($valor->aprob_jefefundo=='Aprobado'){
-          $estadojefefundo='aprobado.png';
+        if($valor->aprob_jefeCalidad=='Aprobado'){
+          $estadojefeCalidad='aprobado.png';
         }else{
-          $estadojefefundo='no_aprobado.png';
-        }
-        if($valor->aprob_jefesanidad=='Aprobado'){
-          $estadojefesanidad='aprobado.png';
-        }else{
-          $estadojefesanidad='no_aprobado.png';
+          $estadojefeCalidad='no_aprobado.png';
         }
         echo "
           <tr>
@@ -524,34 +541,36 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center'>$valor->nrReserva</td>
+            <td class='text-center'>$valor->nrInstructivo</td>
             <td class='text-center align-middle'>
-            <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
-            </td>
-            <td class='text-center align-middle'>
-            <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
+            <img src='images/$estadojefeCalidad' alt='Aprobado' width='50'>
             </td>
             <td class='text-center'>
-              <a  style='margin-top: 20px; href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+              <a style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
                 <i class='fas fa-bars'></i>
               </a>
             </td>
+            <td class='text-center'>
+              <a  style='margin-top: 20px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary aprobar'>
+                <i class='fas fa-check'></i>
+              </a>
+            </td>
             <td class='text-center'>";
-              if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+              if($valor->aprob_jefeCalidad=='Aprobado'){
                 echo "
-                <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdfCalidad.php' method='post' target='_blank'>
                   <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
                   <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
                 </form>";
               }
               echo "
             </td>
-            </tr>
-        ";
+            </tr>";
         $i++;
       }
     }
     //op para listar los reportes para el usuario operador en la vista vistareporte.php
-    //el filtrar fech para operario esta siendo jalado directamente de filtrarfechacalida
     if($_GET['op']  == 'ListarReportesOperario'){              
       $clave = $Reporte->listarReporte();
   
@@ -576,6 +595,64 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
+              <td class='text-center align-middle'>
+              <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
+              </td>
+              <td class='text-center align-middle'>
+              <img src='images/$estadojefesanidad' alt='Aprobado' width='50'>
+              </td>
+              <td class='text-center'>
+                <a  style='margin-top: 20px;' href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary detalle'>
+                  <i class='fas fa-bars'></i>
+                </a>
+              </td>
+              <td class='text-center'>";
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                echo "
+              </td>
+              </tr>"
+          ;
+          $i++;
+        }
+      }
+    }
+    //op para filtrar las fechas de la vista de arriba
+    if($_GET['op'] == 'filtrarFechasOperario'){
+      $clave = $Reporte->filtrarFecha([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+      ]);
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+          if($valor->aprob_jefefundo=='Aprobado'){
+            $estadojefefundo='aprobado.png';
+          }else{
+            $estadojefefundo='no_aprobado.png';
+          }
+          if($valor->aprob_jefesanidad=='Aprobado'){
+            $estadojefesanidad='aprobado.png';
+          }else{
+            $estadojefesanidad='no_aprobado.png';
+          }
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
               <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
@@ -623,6 +700,8 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
               <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
@@ -672,6 +751,8 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
               <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
@@ -721,6 +802,8 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
               <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
@@ -750,6 +833,7 @@ if (isset($_GET['op'])){
           $i++;
         }
     }
+
     //op que filtra las fechas para jefe de funso y administrador segund su nivel de acceso
     if($_GET['op'] == 'filtrarFechasJFundo'){
       $id_jefefundo=$_SESSION['idusuario'] ;
@@ -792,6 +876,8 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center'>$valor->nrReserva</td>
+            <td class='text-center'>$valor->nrInstructivo</td>
             <td class='text-center align-middle'>
             <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
             </td>
@@ -820,6 +906,7 @@ if (isset($_GET['op'])){
         $i++;
       }
     }
+
     //op que lista los reportes para ser aprobado por los de sanidad o administradores
     if($_GET['op']  == 'ListarReportesSanidadAdministrador'){              
       $clave = $Reporte->listarReporte();
@@ -844,6 +931,8 @@ if (isset($_GET['op'])){
               <td class='text-center'>$valor->nombre_fundo</td>
               <td class='text-center'>$valor->nombre_lote</td>
               <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
               <td class='text-center align-middle'>
               <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
               </td>
@@ -861,9 +950,17 @@ if (isset($_GET['op'])){
                 </a>
               </td>
               <td class='text-center'>";
-                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'){
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'&&$valor->aprob_jefeCalidad=='No Aprobado'){
                   echo "
                   <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdf.php' method='post' target='_blank'>
+                    <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
+                    <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
+                  </form>";
+                }
+                
+                if($valor->aprob_jefefundo=='Aprobado'&& $valor->aprob_jefesanidad=='Aprobado'&&$valor->aprob_jefeCalidad=='Aprobado'){
+                  echo "
+                  <form style='margin-top: 20px; id='{$valor->id_reporte}' action='views/generarPdfCalidad.php' method='post' target='_blank'>
                     <input type='hidden' name='reporte_id'  value='{$valor->id_reporte}'>
                     <button class='btn btn-sm btn-outline-secondary' type='submit'><i class='fas fa-file-pdf'></i></button>
                   </form>";
@@ -878,6 +975,7 @@ if (isset($_GET['op'])){
         }
       }
     }
+
     //op que  filtra los reportes por fechas de la vista anterior
     if($_GET['op'] == 'filtrarFechasSanidad'){
       $clave = $Reporte->filtrarFecha([
@@ -904,6 +1002,8 @@ if (isset($_GET['op'])){
             <td class='text-center'>$valor->nombre_fundo</td>
             <td class='text-center'>$valor->nombre_lote</td>
             <td class='text-center'>$valor->_slote_nombre</td>
+            <td class='text-center'>$valor->nrReserva</td>
+            <td class='text-center'>$valor->nrInstructivo</td>
             <td class='text-center align-middle'>
             <img src='images/$estadojefefundo' alt='Aprobado' width='50'>
             </td>
@@ -934,6 +1034,129 @@ if (isset($_GET['op'])){
         ";
         $i++;
       }
+    }
+
+    if($_GET['op']  == 'ListarLlegadaProductos'){              
+      $clave = $Reporte->listarReporteLlegadaProductos();
+      if(count($clave) != 0){
+        foreach($clave as $valor){
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>";
+              if($valor->fecha_llegada==null){
+                echo "
+                <td class='text-center'>
+                  <a style='margin-top: 10px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary fechallegada'>
+                    <i class='fas fa-calendar'></i>
+                  </a>
+                </td> ";
+              } 
+              else{
+              echo"
+              <td class='text-center'>
+                <a style='margin-top: 10px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary volverasignarfechallegada'>
+                  <i class='fas fa-check'></i>
+                </a>
+              </td>
+              ";}
+              echo "</tr>";
+        }
+      }
+    }
+
+    if($_GET['op'] == 'filtrarFechasLlegadaProducto'){
+      $clave = $Reporte->filtrarFechaLlegadaProducto([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+     ]);
+     foreach($clave as $valor){
+       echo "
+         <tr>
+           <td class='text-center'>$valor->id_reporte</td>
+           <td class='text-center'>$valor->fecha_hora</td>
+           <td class='text-center'>$valor->jefe_fundo</td>
+           <td class='text-center'>$valor->nombre_fundo</td>
+           <td class='text-center'>$valor->nombre_lote</td>
+           <td class='text-center'>$valor->_slote_nombre</td>
+           <td class='text-center'>$valor->nrReserva</td>
+           <td class='text-center'>$valor->nrInstructivo</td>";
+           if($valor->fecha_llegada==null){
+             echo "
+             <td class='text-center'>
+               <a style='margin-top: 10px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary fechallegada'>
+                 <i class='fas fa-calendar'></i>
+               </a>
+             </td> ";
+           } 
+           else{
+           echo"
+           <td class='text-center'>
+             <a style='margin-top: 10px;  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary volverasignarfechallegada'>
+               <i class='fas fa-check'></i>
+             </a>
+           </td>
+           ";}
+           echo "</tr>";
+     }
+    }
+    
+    if($_GET['op']  == 'ListarRegistroTotalProductos'){              
+      $clave = $Reporte->listarReporteLlegadaProductos();
+      if(count($clave) != 0){
+        foreach($clave as $valor){
+          echo "
+            <tr>
+              <td class='text-center'>$valor->id_reporte</td>
+              <td class='text-center'>$valor->fecha_hora</td>
+              <td class='text-center'>$valor->jefe_fundo</td>
+              <td class='text-center'>$valor->nombre_fundo</td>
+              <td class='text-center'>$valor->nombre_lote</td>
+              <td class='text-center'>$valor->_slote_nombre</td>
+              <td class='text-center'>$valor->nombre_pep</td>
+              <td class='text-center'>$valor->nombreEcultivo</td>
+              <td class='text-center'>$valor->nrReserva</td>
+              <td class='text-center'>$valor->nrInstructivo</td>
+              <td class='text-center'>$valor->fecha_llegada</td>
+              </tr>";
+        }
+      }
+    }
+
+    if($_GET['op'] == 'filtrarFechasReportesTotales'){
+      $clave = $Reporte->filtrarFechaLlegadaProducto([
+      'fechainicial' => $_GET['fechainicial'],
+      'fechafinal' => $_GET['fechafinal']
+     ]);
+     foreach($clave as $valor){
+       echo "
+         <tr>
+           <td class='text-center'>$valor->id_reporte</td>
+           <td class='text-center'>$valor->fecha_hora</td>
+           <td class='text-center'>$valor->jefe_fundo</td>
+           <td class='text-center'>$valor->nombre_fundo</td>
+           <td class='text-center'>$valor->nombre_lote</td>
+           <td class='text-center'>$valor->nombre_pep</td>
+           <td class='text-center'>$valor->nombreEcultivo</td>
+           <td class='text-center'>$valor->_slote_nombre</td>
+           <td class='text-center'>$valor->nrReserva</td>
+           <td class='text-center'>$valor->nrInstructivo</td>
+           <td class='text-center'>$valor->fecha_llegada</td>
+           </tr>";
+     }
+    }
+
+    if($_GET['op'] == 'asignarFechaLlegada'){
+      $Reporte->AsignarFechallegada([
+          'idreporte' => $_GET['idreporte'],
+          'fechaLlegada' => $_GET['fechaLlegada']
+      ]);
     }
 
     if($_GET['op']  == 'ListarReporteAcciones'){              
@@ -1013,6 +1236,5 @@ if (isset($_GET['op'])){
         $i++;
       }
     }
-
 }
 ?>

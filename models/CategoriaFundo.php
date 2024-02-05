@@ -11,6 +11,14 @@ class Categoria extends ModelMaster{
           die($error->getMessage());
         }
       }
+      
+    public function cargarCategoriaFundo(){
+      try{
+        return parent::getRows("spu_cargar_nombre_fundo_registro");
+      }catch(Exception $error){
+        die($error->getMessage());
+      }
+    }
     public function cargarCategoriaCultivos(){
         try{
           return parent::getRows("spu_cargar_categoria_cultivo");
@@ -27,11 +35,11 @@ class Categoria extends ModelMaster{
         }
     }
     
-    public function cargarCategoriaLote(){
+    public function cargarCategoriaLote(array $data){
       try{
-        return parent::getRows("spu_cargar_categoria_lote");
+          return parent::execProcedure($data, "spu_cargar_categoria_lote", true);
       }catch(Exception $error){
-        die($error->getMessage());
+          die($error->getMessage());
       }
     }
     public function cargarCategoriaSubLotes(array $data){

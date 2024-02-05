@@ -74,7 +74,7 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
     <br>
     <br>
     <div>
-    <table style='float: left; margin-right: 150px;'>
+    <table style='float: left; margin-right: 0px;'>
         <tr>
             <td  style='width: 100px;'>Jefe de Fundo:</td>
             <td>{$reporteData['jefe_fundo']}</td>
@@ -111,7 +111,8 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
         </tr>
     </table>
 	<img src='$imagensello_jfundo64' style='width: 150px; height: 150px;'/>
-	<img src='$imagensello_jsanidadBase64' style='width: 150px; height: 150px; margin-left: 40px;'/>
+	<img src='$imagensello_jsanidadBase64' style='width: 150px; height: 150px; margin-left: 20px;'/>
+    <img src='$imagensello_jcalidadBase64' style='width: 150px; height: 150px; margin-left: 20px;'/>
     </div>
     <div style='text-align: center;'>
     <h4>DETALLE DE PRODUTOS DEL REPORTE</h4>

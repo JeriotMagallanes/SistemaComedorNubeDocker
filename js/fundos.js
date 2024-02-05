@@ -7,7 +7,7 @@ $(document).ready(function(){
 
     function registrarFundo(){
         var idcategoria = $("#idcategoria").val();
-        var nombreproducto = $("#nombreproducto").val();
+        var nombreproducto = $("#fundo").val();
         var lote = $("#lote").val();
         var s_lote = $("#s_lote").val();
         var hectareas = $("#hectareas").val();
@@ -53,7 +53,6 @@ $(document).ready(function(){
         }
     }
     
-
     function listarfundos(){
         $.ajax({
             url: 'controllers/Fundo.controller.php',
@@ -91,6 +90,58 @@ $(document).ready(function(){
             }
         });
     }
+    
+    function cargarFundos(select){
+        var datos ={
+            'op': 'cargarCategoriaFundo'
+        };
+        $.ajax({
+            url : 'controllers/CategoriaFundo.controller.php',
+            type: 'GET',
+            data: datos,
+            success:function(e){
+                $(select).html(e);
+                $("#lote").html(e);
+                $("s_lote").html(e);
+            }
+        });
+    }
+
+    $("#fundo").change(function(){
+        let fundo=$("#fundo").val();
+        var datos={
+            'op'         : 'cargarLoteGET',
+            'id_fundo'   :fundo
+        }
+        $.ajax({
+            url: 'controllers/CategoriaFundo.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#lote").html(e);
+                $("s_lote").html(e);
+            }
+        });
+    });
+
+    $("#lote").change(function(){
+        let lote=$("#lote").val();
+        var datos={
+            'op'           : 'cargarCategoriaSubLote',
+            'id_lote'       : lote
+        }
+        console.log("Recibe" + datos);
+        console.log(datos);
+        $.ajax({
+            url: 'controllers/CategoriaFundo.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(e){
+                $("#s_lote").html(e);
+            }
+        });
+    });
+
     function cargarCategoriaCultivos(select){
         var datos ={
             'op': 'cargarCategoriaCultivos'
@@ -104,7 +155,7 @@ $(document).ready(function(){
             }
         });
     }
-
+    
     $("#cultivo").change(function(){
         let cultivo=$("#cultivo").val();
         var datos={
@@ -121,38 +172,6 @@ $(document).ready(function(){
         });
     });
 
-    function cargarCategoriaLotes(select){
-        var datos ={
-            'op': 'cargarCategoriaLote'
-        };
-        $.ajax({
-            url : 'controllers/CategoriaFundo.controller.php',
-            type: 'GET',
-            data: datos,
-            success:function(e){
-                $(select).html(e);
-            }
-        });
-    }
-
-    $("#lote").change(function(){
-        let lote=$("#lote").val();
-        console.log(datos);
-        var datos={
-            'op'           : 'cargarCategoriaSubLote',
-            'id_lote'       : lote
-        }
-        console.log(datos);
-        $.ajax({
-            url: 'controllers/CategoriaFundo.controller.php',
-            type: 'GET',
-            data: datos,
-            success: function(e){
-                $("#s_lote").html(e);
-            }
-        });
-    });
-
     $("#tablaProducto").on('click', ".modificar", function(){
         let idproducto = $(this).attr('data-idproducto');
         
@@ -165,7 +184,7 @@ $(document).ready(function(){
             url: 'controllers/Fundo.controller.php',
             type: 'GET',
             data: datos,
-            success: function(result){                        
+            success: function(result){           
                 if ($.trim(result) != ""){
                     //Asignamos y quitamos la clase que muestra la caja de texto
                     $("#Aviso").html("Actualizar Producto");
@@ -174,12 +193,54 @@ $(document).ready(function(){
                     botonGuardar.classList.add('asignar');
                     var resultado = JSON.parse(result);
                     $("#idcategoria").val(resultado[0].jefe_fundo);
-                    $("#nombreproducto").val(resultado[0].nombre);
-                    $("#lote").val(resultado[0].lote);
-                    $("#s_lote").val(resultado[0].s_lote);
+                    $("#fundo").val(resultado[0].nombre);
+                    const fundoE= resultado[0].nombre;
+                    const fundo_lote= resultado[0].lote;
+                    var datos={
+                        'op'         : 'cargarLoteGET',
+                        'id_fundo'   : fundoE,
+                        'id_lote'    : fundo_lote
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#lote").html(e);
+                        }
+                    });
+                    const fundo_lote1= resultado[0].lote;
+                    const sublote= resultado[0].s_lote;
+                    var datos={
+                        'op'           : 'cargarCategoriaSubLoteGET',
+                        'id_lote'       : fundo_lote1,
+                        'id_sublote'    : sublote
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#s_lote").html(e);
+                        }
+                    });
                     $("#hectareas").val(resultado[0].hectareas);
                     $("#cultivo").val(resultado[0].cultivo);
-                    $("#variedad").val(resultado[0].variedad);
+                    let id_cultivo= resultado[0].cultivo;
+                    let variedad_get= resultado[0].variedad;
+                    var datos={
+                        'op'            : 'cargarCategoriaVariedadesGET',
+                        'id_cultivo'    :id_cultivo,
+                        'variedad_get'  :variedad_get
+                    }
+                    $.ajax({
+                        url: 'controllers/CategoriaFundo.controller.php',
+                        type: 'GET',
+                        data: datos,
+                        success: function(e){
+                            $("#variedad").html(e);
+                        }
+                    });
                     txtProducto.setAttribute("data-idproducto", resultado[0].id_fundo);
                     $("#idproductomod").hide();
                 }else{
@@ -198,7 +259,7 @@ $(document).ready(function(){
         $("#descripcion").prop('disabled', false);
     });
 
-    function modificarProducto(){
+    function modificarFundo(){
         let idproducto = $("#idproductomod").attr('data-idproducto');
         var idcategoria = $("#idcategoria").val();
         var nombreproducto = $("#nombreproducto").val();
@@ -284,11 +345,10 @@ $(document).ready(function(){
 
     listarfundos();
     $("#registrar").click(registrarFundo);
-    $("#actualizar").click(modificarProducto);
+    $("#actualizar").click(modificarFundo);
+    cargarFundos('#fundo');
     cargarCategorias("#idcategoria");
     cargarCategorias("#categoriaselect");
-    cargarCategoriaLotes("#lote");
     cargarCategoriaCultivos("#cultivo");
     cargarCategoriaSubLotes("#s_lote");
-    cargarCategoriaVariedades("#variedad");
 });

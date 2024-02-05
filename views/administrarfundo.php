@@ -31,8 +31,9 @@
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">
-                                <label for="nombreproducto">Nombre:</label>
-                                <input type="text" id="nombreproducto" class="form-control form-control-border">
+                                <label for="idcategoria">Fundo</label>
+                                <select class="form-control form-control-border" name="fundo" id="fundo" >
+                                </select>
                                 <input type="text" id="idproductomod" class="form-control form-control-border asignar" disabled>
                             </div>
                             <div class="col-md-12 mt-3">
