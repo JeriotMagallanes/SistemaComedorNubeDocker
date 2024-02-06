@@ -110,7 +110,7 @@ $(document).ready(function(){
     $("#fundo").change(function(){
         let fundo=$("#fundo").val();
         var datos={
-            'op'         : 'cargarLoteGET',
+            'op'         : 'cargarCategoriaLote',
             'id_fundo'   :fundo
         }
         $.ajax({
@@ -350,5 +350,4 @@ $(document).ready(function(){
     cargarCategorias("#idcategoria");
     cargarCategorias("#categoriaselect");
     cargarCategoriaCultivos("#cultivo");
-    cargarCategoriaSubLotes("#s_lote");
 });

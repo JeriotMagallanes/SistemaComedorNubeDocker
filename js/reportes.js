@@ -4,7 +4,6 @@ $(document).ready(function(){
     var txtProducto = document.querySelector("#idproductomod");
     var botonActualizar = document.querySelector("#actualizar");
     var botonGuardar = document.querySelector("#registrar");
-    var bitacoraReporte = {};
 
     function registrarReporte(){
         var fechahoraReporte = $("#fechahoraReporte").val();
@@ -272,10 +271,109 @@ $(document).ready(function(){
         });
     });
     
+    var bitacoraReporte1 = {};
+    var bitacoraReporte2 = {};
+    let categoriaMap = {};
+    let fundoMap = {};
+    let loteMap = {};
+    let s_loteMap = {};
+    let cultivoMap = {};
+    let variedadMap = {};
+    let pepMap = {};
+    let etapaCultivoMap = {};
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriabitacora' },
+        success: function(result) {
+            categoriaMap = JSON.parse(result);
+        }
+    });
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaFundoBitacora' },
+        success: function(result) {
+            fundoMap = JSON.parse(result);
+        }
+    });
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaLoteBitacora'},
+        success: function(result) {
+            loteMap = JSON.parse(result);
+        }
+    });
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaCultivosBitacora', },
+        success: function(result) {
+            cultivoMap = JSON.parse(result);
+        }
+    });
+    
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaSLoteBitacora'},
+        success: function(result) {
+            s_loteMap = JSON.parse(result);
+        }
+    });
 
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaCultivosBitacora'},
+        success: function(result) {
+            cultivoMap = JSON.parse(result);
+        }
+    });
+
+    $.ajax({
+        url: 'controllers/CategoriaFundo.controller.php',
+        type: 'GET',
+        data: { op: 'cargarCategoriaVariedadesBitacora'},
+        success: function(result) {
+            variedadMap = JSON.parse(result);
+        }
+    });
+    
+    function bitacora(){
+        var datosAntesLocal1 = bitacoraReporte1;
+        console.log("======================1=================");
+        for (const key in datosAntesLocal1) {
+            if (Object.hasOwnProperty.call(datosAntesLocal1, key)) {
+                const value = datosAntesLocal1[key];
+                console.log(key + ': ' + value);
+            }
+        }
+        var datosAntesLocal2 = bitacoraReporte2;
+        console.log("======================2=================");
+        for (const key in datosAntesLocal2) {
+            if (Object.hasOwnProperty.call(datosAntesLocal2, key)) {
+                const value = datosAntesLocal2[key];
+                console.log(key + ': ' + value);
+            }
+        }
+        //var BitacoraCultivo = cultivoMap[cultivo];
+        /* console.log("======================TENGO=================");
+        var BitacoraCategoria= categoriaMap[datosAntesLocal2.fk_jefe_fundo];
+        var Bitacorafundo = fundoMap[datosAntesLocal2.nom_fundo];
+        var Bitacoralote = loteMap[datosAntesLocal2.fk_lote];
+        var BitacoraSlote = s_loteMap[datosAntesLocal2.fk_slote];
+        var BitacoraCultivo = cultivoMap[datosAntesLocal2.fk_cultivo];
+        var BitacoraVariedad = variedadMap[datosAntesLocal2.fk_variedad];
+        console.log("jefe de fundo: "+BitacoraCategoria);
+        console.log("fundo: "+Bitacorafundo);
+        console.log("lote: "+Bitacoralote);
+        console.log("slote: "+BitacoraSlote); 
+        console.log("cultivo: "+BitacoraCultivo); 
+        console.log("variedad: "+BitacoraVariedad);  */
+    }
     function modificarReporte() {
-        var datosAntesLocal = {bitacoraReporte};
-        console.log(datosAntesLocal);
         let idreporte = $("#idproductomod").attr('data-idproducto');
         var encSanidad = $("#encSanidad").val();
         var encQA = $("#encQA").val();
@@ -322,6 +420,22 @@ $(document).ready(function(){
                             'pep': pep,
                             'etcultivo': etcultivo
                         };
+                        bitacoraReporte2 = {
+                            enc_sanidad:encSanidad,
+                            enc_QA: encQA,
+                            enc_almacen:  encAlmacen,
+                            fk_jefe_fundo: idcategoria,
+                            nom_fundo: fundo,
+                            fk_lote:  lote,
+                            fk_slote:s_lote,
+                            fk_cultivo:cultivo,
+                            fk_variedad: variedad,
+                            nrReserva: nreserva,
+                            nrInstructivo:ninstructivo,
+                            pep:  pep,
+                            etapa_cultivo:  etcultivo,
+                            id_reporte: idreporte
+                        };
                         $.ajax({
                             url: 'controllers/Reporte.controller.php',
                             type: 'GET',
@@ -335,6 +449,7 @@ $(document).ready(function(){
                                 botonGuardar.classList.remove('asignar');
                                 $("#idcategoria").prop('disabled', false);
                                 ListarReportes();
+                                bitacora();
                             }
                         });
                     } else {
@@ -555,22 +670,22 @@ $(document).ready(function(){
                     $("#etcultivo").val(resultado[0].etapa_cultivo);
                     txtProducto.setAttribute("data-idproducto", resultado[0].id_reporte);
                     $("#idproductomod").hide();
-                    bitacoraReporte = {
+                    bitacoraReporte1 = {
                         fecha_hora: $("#fechahoraReporte").val(),
                         turno: $("#turno").val(),
                         enc_sanidad: $("#encSanidad").val(),
                         enc_QA: $("#encQA").val(),
                         enc_almacen: $("#encAlmacen").val(),
-                        fk_jefe_fundo: $("#idcategoria").val(),
-                        nom_fundo: $("#fundo").val(),
-                        fk_lote: $("#lote").val(),
-                        fk_slote: $("#s_lote").val(),
-                        fk_cultivo: $("#cultivo").val(),
-                        fk_variedad: $("#variedad").val(),
+                        fk_jefe_fundo: resultado[0].fk_jefe_fundo,
+                        nom_fundo: resultado[0].nom_fundo,
+                        fk_lote: resultado[0].fk_lote,
+                        fk_slote: resultado[0].fk_slote,
+                        fk_cultivo: resultado[0].fk_cultivo,
+                        fk_variedad: resultado[0].fk_variedad,
                         nrReserva: $("#nreserva").val(),
                         nrInstructivo: $("#ninstructivo").val(),
-                        pep: $("#pep").val(),
-                        etapa_cultivo: $("#etcultivo").val(),
+                        pep: resultado[0].pe,
+                        etapa_cultivo: resultado[0].etapa_cultivo,
                         id_reporte: resultado[0].id_reporte
                     };
                 }else{

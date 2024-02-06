@@ -18,6 +18,27 @@ class Categoria extends ModelMaster{
           die($error->getMessage());
         }
       }
+      public function cargarCategoriaLoteBitacora(){
+        try{
+          return parent::getRows("spu_cargar_lotes_SJefefundo");
+        }catch(Exception $error){
+          die($error->getMessage());
+        }
+      }
+      public function cargarCategoriaSLoteBitacora(){
+        try{
+          return parent::getRows("spu_cargar_slotes_SLote");
+        }catch(Exception $error){
+          die($error->getMessage());
+        }
+      }
+       public function cargarCategoriaVariedadesBitacora(){
+        try{
+          return parent::getRows("spu_cargar_variedadesBitacora");
+        }catch(Exception $error){
+          die($error->getMessage());
+        }
+      }
     public function cargarCategoriaFundoGET(array $data){
       try{
           return parent::execProcedure($data, "spu_cargar_nombre_fundos", true);
