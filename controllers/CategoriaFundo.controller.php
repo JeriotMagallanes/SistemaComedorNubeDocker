@@ -15,7 +15,7 @@ if (isset($_GET['op'])){
     }
 
     if($_GET['op'] == 'cargarCategoriaFundo'){
-      $datosObtenidos = $categoria->cargarCategoriaFundo();
+      $datosObtenidos = $categoria->cargarCategoriaFundoFundos();
         echo "<option value=''>Seleccione</option>";
         foreach($datosObtenidos as $valor){
             echo"
@@ -95,7 +95,7 @@ if (isset($_GET['op'])){
       foreach($datosObtenidos as $valor){
         if($valor->id_cultivo==$cultivoGET){
         echo"
-        <option value='$id_cultivo->id_cultivo'>$valor->nombre_cultivo</option>
+        <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
         ";}
       }
         foreach($datosObtenidos as $valor){

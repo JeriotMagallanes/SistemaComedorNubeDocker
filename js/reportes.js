@@ -4,6 +4,7 @@ $(document).ready(function(){
     var txtProducto = document.querySelector("#idproductomod");
     var botonActualizar = document.querySelector("#actualizar");
     var botonGuardar = document.querySelector("#registrar");
+    var bitacoraReporte = {};
 
     function registrarReporte(){
         var fechahoraReporte = $("#fechahoraReporte").val();
@@ -65,7 +66,6 @@ $(document).ready(function(){
             });
         }
     }
-
     $("#tablareporte").on("click", ".eliminar", function(){
         let idproducto = $(this).attr('data-idproducto');
         var observacionInput = '<label>¿Esta seguro de elminar el reporte con codigo '+idproducto+'?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
@@ -271,8 +271,11 @@ $(document).ready(function(){
             }
         });
     });
+    
 
     function modificarReporte() {
+        var datosAntesLocal = {bitacoraReporte};
+        console.log(datosAntesLocal);
         let idreporte = $("#idproductomod").attr('data-idproducto');
         var encSanidad = $("#encSanidad").val();
         var encQA = $("#encQA").val();
@@ -319,7 +322,6 @@ $(document).ready(function(){
                             'pep': pep,
                             'etcultivo': etcultivo
                         };
-                        console.log(datos);
                         $.ajax({
                             url: 'controllers/Reporte.controller.php',
                             type: 'GET',
@@ -516,7 +518,7 @@ $(document).ready(function(){
                     });
                     //$("#cultivo").val(resultado[0].fk_cutivo);
                     const fundo_slote1= resultado[0].fk_slote;
-                    const cultivo= resultado[0].fk_cutivo;
+                    const cultivo= resultado[0].fk_cultivo;
                     var datos={
                         'op'           : 'cargarCategoriaCultivoGET',
                         'fundo_slote1' : fundo_slote1,
@@ -529,9 +531,10 @@ $(document).ready(function(){
                         success: function(e){
                             $("#cultivo").html(e);
                         }
-                    });
-                    //$("#variedad").val(resultado[0].fk_variedad);
-                    let id_cultivo= resultado[0].fk_cutivo;
+                    }); 
+                    $("#variedad").val(resultado[0].fk_variedad);
+                    console.log(resultado);
+                    let id_cultivo= resultado[0].fk_cultivo;
                     let variedad_get= resultado[0].fk_variedad;
                     var datos={
                         'op'            : 'cargarCategoriaVariedadesGET',
@@ -545,13 +548,31 @@ $(document).ready(function(){
                         success: function(e){
                             $("#variedad").html(e);
                         }
-                    });
+                    }); 
                     $("#nreserva").val(resultado[0].nrReserva);
                     $("#ninstructivo").val(resultado[0].nrInstructivo);
                     $("#pep").val(resultado[0].pep);
                     $("#etcultivo").val(resultado[0].etapa_cultivo);
                     txtProducto.setAttribute("data-idproducto", resultado[0].id_reporte);
                     $("#idproductomod").hide();
+                    bitacoraReporte = {
+                        fecha_hora: $("#fechahoraReporte").val(),
+                        turno: $("#turno").val(),
+                        enc_sanidad: $("#encSanidad").val(),
+                        enc_QA: $("#encQA").val(),
+                        enc_almacen: $("#encAlmacen").val(),
+                        fk_jefe_fundo: $("#idcategoria").val(),
+                        nom_fundo: $("#fundo").val(),
+                        fk_lote: $("#lote").val(),
+                        fk_slote: $("#s_lote").val(),
+                        fk_cultivo: $("#cultivo").val(),
+                        fk_variedad: $("#variedad").val(),
+                        nrReserva: $("#nreserva").val(),
+                        nrInstructivo: $("#ninstructivo").val(),
+                        pep: $("#pep").val(),
+                        etapa_cultivo: $("#etcultivo").val(),
+                        id_reporte: resultado[0].id_reporte
+                    };
                 }else{
                     mostrarAlerta("warning", "¡No encontramos registros!");
                 }
