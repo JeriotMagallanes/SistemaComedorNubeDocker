@@ -82,7 +82,9 @@ if (isset($_GET['op'])){
       $Reporte->registrarModificacionReporte([
           'idreporte' => $_GET['idreporte'],
           'observacion' => $_GET['observacion'],
-          'nombreapellido' => $nombreapellido
+          'nombreapellido' => $nombreapellido,
+          'antes' => $_GET['antes'],
+          'despues' => $_GET['despues']
       ]);
     }
     //op para traer los datos de un reporte, opcion solo para sanidad

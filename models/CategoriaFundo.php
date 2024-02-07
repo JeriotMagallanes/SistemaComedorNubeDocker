@@ -84,5 +84,20 @@ class Categoria extends ModelMaster{
         }
     }
    
+    public function cargarCategoriaPEPBitacora(){
+      try{
+        return parent::getRows("spu_cargarCategoriaPEPBitacora");
+      }catch(Exception $error){
+        die($error->getMessage());
+      }
+    }
+    
+    public function cargarCategoriaEtaCultivoBitacora(){
+      try{
+        return parent::getRows("spu_cargarCategoriaEtaCultivoBitacora");
+      }catch(Exception $error){
+        die($error->getMessage());
+      }
+    }
 }
 ?>

@@ -216,6 +216,21 @@ if (isset($_GET['op'])){
           ";
       }
     }
-        
+    if($_GET['op'] == 'cargarCategoriaPEPBitacora'){
+      $datosObtenidos = $categoria->cargarCategoriaPEPBitacora();
+      $pepMap = []; 
+      foreach($datosObtenidos as $valor){
+          $pepMap[$valor->id_pep] = $valor->nombre_pep;
+      }
+      echo json_encode($pepMap);
+    }
+    if($_GET['op'] == 'cargarCategoriaEtaCultivoBitacora'){
+      $datosObtenidos = $categoria->cargarCategoriaEtaCultivoBitacora();
+      $etapaCultivoMap = []; 
+      foreach($datosObtenidos as $valor){
+          $etapaCultivoMap[$valor->idEcultivo] = $valor->nombreEcultivo;
+      }
+      echo json_encode($etapaCultivoMap);
+    }
 }
 ?>

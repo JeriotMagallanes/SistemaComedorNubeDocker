@@ -41,7 +41,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->id_sub_lote '>$valor->_slote_nombre</option>
+          <option value='$valor->id_sub_lote'>$valor->_slote_nombre</option>
           ";
       }
     }
@@ -51,7 +51,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->id_cultivo '>$valor->nombre_cultivo</option>
+          <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
           ";
       }
     }
@@ -60,7 +60,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->id_variedad '>$valor->nombre_variedad</option>
+          <option value='$valor->id_variedad'>$valor->nombre_variedad</option>
           ";
       }
     }
