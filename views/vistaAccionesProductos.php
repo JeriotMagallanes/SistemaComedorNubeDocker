@@ -58,6 +58,7 @@
                             <th class="text-center">Codigo Reporte</th>
                             <th class="text-center">Accion</th>
                             <th class="text-center">Observacion</th>
+                            <th class="text-center">Detalle</th>
                         </tr>
                     </thead>
                     <tbody class="table" id="tablaAccionesProductosListar">

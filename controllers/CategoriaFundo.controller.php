@@ -9,7 +9,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->idusuario '>$valor->Nombre</option>
+          <option value='$valor->idusuario'>$valor->Nombre</option>
           ";
         }
     }
@@ -28,7 +28,7 @@ if (isset($_GET['op'])){
       echo "<option value=''>Seleccione</option>";
       foreach($datosObtenidos as $valor){
           echo"
-          <option value='$valor->id_fundo_nombre '>$valor->nombre_fundo</option>
+          <option value='$valor->id_fundo_nombre'>$valor->nombre_fundo</option>
           ";
       }
     }
@@ -166,19 +166,20 @@ if (isset($_GET['op'])){
         ["fundo_slote1" => $_GET['fundo_slote1']]
       );
       foreach($datosObtenidos as $valor){
-        if($valor->id_cultivo==$cultivoGET){
+        if($valor->cultivo==$cultivoGET){
         echo"
-        <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
+        <option value='$valor->cultivo'>$valor->nombre_cultivo</option>
         ";}
       }
         foreach($datosObtenidos as $valor){
-            if($valor->id_cultivo!=$cultivoGET){
+            if($valor->cultivo!=$cultivoGET){
             echo"
-            <option value='$valor->id_cultivo'>$valor->nombre_cultivo</option>
+            <option value='$valor->cultivo'>$valor->nombre_cultivo</option>
             ";}
         }
         
     }
+
     if($_GET['op'] == 'cargarCategoriaVariedadesGET'){
       $id_variedadGET = $_GET['variedad_get'];
       $datosObtenidos = $categoria->cargarCategoriaVariedades(

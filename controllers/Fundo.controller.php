@@ -71,7 +71,7 @@ if (isset($_GET['op'])){
       $Fundo->modificarProducto([
         "idproducto" => $_GET['idproducto'],
         "idcategoria" => $_GET['idcategoria'],
-        "nombreproducto" => $_GET['nombreproducto'],
+        "fundo" => $_GET['fundo'],
         "lote" => $_GET['lote'],
         "s_lote" => $_GET['s_lote'],
         "hectareas" => $_GET['hectareas'], 

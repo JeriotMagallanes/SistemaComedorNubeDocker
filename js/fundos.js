@@ -130,8 +130,6 @@ $(document).ready(function(){
             'op'           : 'cargarCategoriaSubLote',
             'id_lote'       : lote
         }
-        console.log("Recibe" + datos);
-        console.log(datos);
         $.ajax({
             url: 'controllers/CategoriaFundo.controller.php',
             type: 'GET',
@@ -174,12 +172,10 @@ $(document).ready(function(){
 
     $("#tablaProducto").on('click', ".modificar", function(){
         let idproducto = $(this).attr('data-idproducto');
-        
         var datos = {
             'op' : 'getProducto',
             'idproducto' : idproducto
         };
-        
         $.ajax({
             url: 'controllers/Fundo.controller.php',
             type: 'GET',
@@ -262,13 +258,13 @@ $(document).ready(function(){
     function modificarFundo(){
         let idproducto = $("#idproductomod").attr('data-idproducto');
         var idcategoria = $("#idcategoria").val();
-        var nombreproducto = $("#nombreproducto").val();
+        var fundo = $("#fundo").val();
         var lote = $("#lote").val();
         var s_lote = $("#s_lote").val();
         var hectareas = $("#hectareas").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-        if(idcategoria == "" ||nombreproducto==""|| lote == "" || s_lote == "" || hectareas == "" || cultivo == "" || variedad == ""){
+        if(idcategoria == "" ||fundo==""|| lote == "" || s_lote == "" || hectareas == "" || cultivo == "" || variedad == ""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -283,7 +279,7 @@ $(document).ready(function(){
                         'op'                     : 'modificarProducto',
                         'idproducto'             : idproducto,
                         'idcategoria'            : idcategoria,
-                        'nombreproducto'         : nombreproducto,
+                        'fundo'                  : fundo,
                         'lote'                   : lote, 
                         's_lote'                 : s_lote,
                         'hectareas'              : hectareas,

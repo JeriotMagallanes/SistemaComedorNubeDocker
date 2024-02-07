@@ -175,13 +175,13 @@
                   <li class='nav-item'>
                     <a href='main.php?view=vistaAccionesReportes.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Acciones Reportes</p>
+                      <p>Bitácora Reporte</p>
                     </a>
                   </li>
                   <li class='nav-item'>
                     <a href='main.php?view=vistaAccionesProductos.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Acciones Productos</p>
+                      <p>Bitácora Producto</p>
                     </a>
                   </li>
                   <li class='nav-header' style='background-color:#292929'>Sanidad</li>

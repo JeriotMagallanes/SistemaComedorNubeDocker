@@ -66,7 +66,41 @@ $(document).ready(function(){
         }
     }
     $("#tablareporte").on("click", ".eliminar", function(){
+        let  bitacoraReporteEliminar ={};
+        var  datosConcatenados="";
         let idproducto = $(this).attr('data-idproducto');
+        var datos = {
+            'op' : 'getReporte',
+            'id_reporte' : idproducto
+        };
+        $.ajax({
+            url: 'controllers/Reporte.controller.php',
+            type: 'GET',
+            data: datos,
+            success: function(result){                        
+                if ($.trim(result) != ""){
+                    var resultado = JSON.parse(result);
+                    bitacoraReporteEliminar = {
+                        enc_sanidad: resultado[0].enc_sanidad,
+                        enc_QA: resultado[0].enc_QA,
+                        enc_almacen:resultado[0].enc_almacen,
+                        fk_jefe_fundo: resultado[0].nombresJF,
+                        nom_fundo: resultado[0].nombre_fundo,
+                        fk_lote: resultado[0].nombre_lote,
+                        fk_slote: resultado[0]._slote_nombre,
+                        fk_cultivo: resultado[0].nombre_cultivo,
+                        fk_variedad: resultado[0].nombre_variedad,
+                        nrReserva: resultado[0].nrReserva,
+                        nrInstructivo: resultado[0].nrInstructivo,
+                        pep: resultado[0].nombre_pep,
+                        etapa_cultivo: resultado[0].nombreEcultivo,
+                    };
+                    for (var prop in bitacoraReporteEliminar) {
+                        datosConcatenados += prop + ": " + bitacoraReporteEliminar[prop] + "<br>";
+                    }
+                    }
+            }
+        });
         var observacionInput = '<label>¿Esta seguro de elminar el reporte con codigo '+idproducto+'?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
         Swal.fire({
             icon: 'question',
@@ -84,12 +118,11 @@ $(document).ready(function(){
             }
         }).then((result)=>{
             if(result.isConfirmed){
-                var observacion = result.value.observacion;
-    
                 var datos = {
                     'op' : 'eliminarReporte',
                     'idproducto' : idproducto,
-                    'observacion' : observacion
+                    'observacion' : observacion,
+                    'datosEliminados' : datosConcatenados,
                 };
     
                 $.ajax({
@@ -375,10 +408,10 @@ $(document).ready(function(){
         
         for (const prop in bitacora1) {
             if (bitacora1.hasOwnProperty(prop) && bitacora2.hasOwnProperty(prop)) {
-                if (bitacora1[prop] !== undefined && bitacora2[prop] !== undefined &&
-                    bitacora1[prop] !== bitacora2[prop]) {
-                    diferenciasBitacora1 += `${prop}=${bitacora1[prop]}\n`;
-                    diferenciasBitacora2 += `${prop}=${bitacora2[prop]}\n`;
+                // Verificar si ambos valores son del mismo tipo antes de comparar
+                if (bitacora1[prop] !== bitacora2[prop]) {
+                    diferenciasBitacora1 += `${prop}=${bitacora1[prop]}<br>`;
+                    diferenciasBitacora2 += `${prop}=${bitacora2[prop]}<br>`;
                 }
             }
         }
@@ -388,7 +421,8 @@ $(document).ready(function(){
             bitacora2: diferenciasBitacora2
         };
     }
-
+    
+    
     function modificarReporte() {
         let idreporte = $("#idproductomod").attr('data-idproducto');
         var encSanidad = $("#encSanidad").val();
@@ -431,7 +465,8 @@ $(document).ready(function(){
                 html: '<input type="text" id="observacion" class="swal2-input" placeholder="Observación">'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    var observacion = $('#observacion').val();bitacora();
+                    var observacion = $('#observacion').val();
+                    bitacora();
                     let diferenciasEnBitacoras = compararBitacoras(bitacoraReporte1, bitacoraReporte2);
                     if (observacion.trim() !== "") {
                         var datos = {
@@ -467,6 +502,8 @@ $(document).ready(function(){
                                 botonGuardar.classList.remove('asignar');
                                 $("#idcategoria").prop('disabled', false);
                                 ListarReportes();
+                                console.log(diferenciasEnBitacoras.bitacora1);
+                                console.log(diferenciasEnBitacoras.bitacora2);
                             }
                         });
                     } else {
@@ -601,8 +638,8 @@ $(document).ready(function(){
                     $("#encAlmacen").val(resultado[0].enc_almacen);
                     $("#idcategoria").val(resultado[0].fk_jefe_fundo);
                     //$("#fundo").val(resultado[0].nom_fundo);
-                    const jefeGET= resultado[0].fk_jefe_fundo;
-                    const fundoGET= resultado[0].nom_fundo;
+                    let jefeGET= resultado[0].fk_jefe_fundo;
+                    let fundoGET= resultado[0].nom_fundo;
                     var datos={
                         'op'         : 'cargarFundoGET',
                         'jefeGET'   : jefeGET,
@@ -617,8 +654,8 @@ $(document).ready(function(){
                         }
                     });
                     //$("#lote").val(resultado[0].fk_lote);
-                    const fundoE= resultado[0].nom_fundo;
-                    const fundo_lote= resultado[0].fk_lote;
+                    let fundoE= resultado[0].nom_fundo;
+                    let fundo_lote= resultado[0].fk_lote;
                     var datos={
                         'op'         : 'cargarLoteGET',
                         'id_fundo'   : fundoE,
@@ -633,8 +670,8 @@ $(document).ready(function(){
                         }
                     });
                     //$("#s_lote").val(resultado[0].fk_slote);
-                    const fundo_lote1= resultado[0].fk_lote;
-                    const sublote= resultado[0].fk_slote;
+                    let fundo_lote1= resultado[0].fk_lote;
+                    let sublote= resultado[0].fk_slote;
                     var datos={
                         'op'           : 'cargarCategoriaSubLoteGET',
                         'id_lote'       : fundo_lote1,
@@ -649,8 +686,8 @@ $(document).ready(function(){
                         }
                     });
                     //$("#cultivo").val(resultado[0].fk_cutivo);
-                    const fundo_slote1= resultado[0].fk_slote;
-                    const cultivo= resultado[0].fk_cultivo;
+                    let fundo_slote1= resultado[0].fk_slote;
+                    let cultivo= resultado[0].fk_cultivo;
                     var datos={
                         'op'           : 'cargarCategoriaCultivoGET',
                         'fundo_slote1' : fundo_slote1,
@@ -665,7 +702,6 @@ $(document).ready(function(){
                         }
                     }); 
                     $("#variedad").val(resultado[0].fk_variedad);
-                    console.log(resultado);
                     let id_cultivo= resultado[0].fk_cultivo;
                     let variedad_get= resultado[0].fk_variedad;
                     var datos={
@@ -1290,7 +1326,66 @@ $(document).ready(function(){
             }
         });
     }
+    $("#tablaAccionesReporte").on('click', ".bitacoraModificar", function(){
+        let antes = $(this).attr('data-antes');
+        let despues = $(this).attr('data-despues');
+    
+        // Crear una tabla HTML con los valores de antes y después
+        let htmlContent = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Antes</th>
+                        <th style="text-align:left;">Después</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left;">${antes}</td>
+                        <td style="text-align:left;">${despues}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    
+        // Mostrar la alerta de SweetAlert con la tabla HTML y el botón Aceptar
+        Swal.fire({
+            title: 'Valores Antes y Después',
+            html: htmlContent,
+            showCloseButton: false, // Eliminamos el botón para cerrar
+            showConfirmButton: true, // Agregamos el botón de Aceptar
+            confirmButtonText: 'Aceptar'
+        });
+    });
 
+    $("#tablaAccionesReporte").on('click', ".bitacoraEliminar", function(){
+        let eliminar = $(this).attr('data-eliminar');
+    
+        // Crear una tabla HTML con los valores de antes y después
+        let htmlContent = `
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th style="text-align:left;">Datos Eliminados</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align:left;">${eliminar}</td>
+                    </tr>
+                </tbody>
+            </table>
+        `;
+    
+        // Mostrar la alerta de SweetAlert con la tabla HTML y el botón Aceptar
+        Swal.fire({
+            title: 'Valores Antes y Después',
+            html: htmlContent,
+            showCloseButton: false, // Eliminamos el botón para cerrar
+            showConfirmButton: true, // Agregamos el botón de Aceptar
+            confirmButtonText: 'Aceptar'
+        });
+    });
     function buscarFechasListarReportesAcciones(){
         var fechafinal = $("#fechafinal").val();
         var fechainicial = $("#fechainicial").val();

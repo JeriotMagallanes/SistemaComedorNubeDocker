@@ -38,7 +38,8 @@ if (isset($_GET['op'])){
       $Reporte->registrarEliminacionReporte([
           'idproducto' => $_GET['idproducto'],
           'observacion' => $_GET['observacion'],
-          'nombreapellido' => $nombreapellido
+          'nombreapellido' => $nombreapellido,
+          'datosEliminados' => $_GET['datosEliminados'],
       ]);
     }
     //op para que el jefe de fundo pueda aprobar un reporte 
@@ -60,9 +61,6 @@ if (isset($_GET['op'])){
     }
     //op para modificar un reporte, opcion solo para sanidad
     if($_GET['op'] == 'modificarReporte'){
-      $nombres = $_SESSION['nombres'];
-      $apellidos = $_SESSION['apellidos'];
-      $nombreapellido = $nombres . ' ' . $apellidos; // Concatenación de nombres y apellidos
       $Reporte->modificarReporte([
         "idreporte" => $_GET['idreporte'],
         "encSanidad" => $_GET['encSanidad'],
@@ -79,6 +77,11 @@ if (isset($_GET['op'])){
         "pep" => $_GET['pep'],
         "etcultivo" => $_GET['etcultivo']
       ]); 
+    }
+    if($_GET['op'] == 'modificarReporte'){
+      $nombres = $_SESSION['nombres'];
+      $apellidos = $_SESSION['apellidos'];
+      $nombreapellido = $nombres . ' ' . $apellidos; // Concatenación de nombres y apellidos
       $Reporte->registrarModificacionReporte([
           'idreporte' => $_GET['idreporte'],
           'observacion' => $_GET['observacion'],
@@ -1172,7 +1175,24 @@ if (isset($_GET['op'])){
               <td class='text-center col-4'>$valor->ARnombres</td>
               <td class='text-center col-1'>$valor->ARcodigo_reporte</td>
               <td class='text-center col-2'>$valor->ARaccion</td>
-              <td class='text-center col-3'>$valor->ARobservacion</td>
+              <td class='text-center col-3'>$valor->ARobservacion</td>";
+              if($valor->ARaccion=='Modificar'){
+                echo "
+                <td class='text-center'>
+                  <a style='margin-top: 10px;  href='#' data-antes='{$valor->antes}' data-despues='{$valor->despues}' class='btn btn-sm btn-outline-secondary bitacoraModificar'>
+                    <i class='fas fa-eye'></i>
+                  </a>
+                </td>";
+              }
+              if($valor->ARaccion=='Eliminar'){
+                echo "
+                <td class='text-center'>
+                  <a style='margin-top: 10px;  href='#' data-eliminar='{$valor->eliminar}' class='btn btn-sm btn-outline-secondary bitacoraEliminar'>
+                    <i class='fas fa-eye'></i>
+                  </a>
+                </td>";
+              }
+              echo "
               </tr>
               ";
           $i++;
@@ -1194,6 +1214,13 @@ if (isset($_GET['op'])){
           <td class='text-center col-1'>$valor->ARcodigo_reporte</td>
           <td class='text-center col-2'>$valor->ARaccion</td>
           <td class='text-center col-3'>$valor->ARobservacion</td>
+          <td class='text-center'>
+            <a style='margin-top: 10px;  href='#' data-bitacoraReporte='{$valor->ARcodigo_reporte}' class='btn btn-sm btn-outline-secondary bitacora'>
+              <i class='fas fa-eye'></i>
+            </a>
+            <input type='hidden' id='antes' value='$valor->antes'>
+            <input type='hidden' id='despues' value='$valor->despues'>
+          </td>
         </tr>
         ";
         $i++;
@@ -1212,6 +1239,11 @@ if (isset($_GET['op'])){
               <td class='text-center col-1'>$valor->RDcodigo_reporte</td>
               <td class='text-center col-2'>$valor->RDaccion</td>
               <td class='text-center col-3'>$valor->RDobservacion</td>
+              <td class='text-center'>
+                <a style='margin-top: 10px;  href='#' data-bitacoraProducto='{$valor->RDcodigo_reporte}' class='btn btn-sm btn-outline-secondary bitacora'>
+                  <i class='fas fa-eye'></i>
+                </a>
+              </td>
               </tr>
               ";
           $i++;
@@ -1233,6 +1265,11 @@ if (isset($_GET['op'])){
           <td class='text-center col-1'>$valor->RDcodigo_reporte</td>
           <td class='text-center col-2'>$valor->RDaccion</td>
           <td class='text-center col-3'>$valor->RDobservacion</td>
+          <td class='text-center'>
+            <a style='margin-top: 10px;  href='#' data-bitacoraProducto='{$valor->RDcodigo_reporte}' class='btn btn-sm btn-outline-secondary bitacora'>
+              <i class='fas fa-eye'></i>
+            </a>
+          </td>
         </tr>
         ";
         $i++;
