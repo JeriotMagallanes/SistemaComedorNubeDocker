@@ -20,28 +20,31 @@
             $fechaHoraActual = date('Y-m-d H:i:s'); // Formato de fecha y hora para almacenar en base de datos
             $fechaActual = date('Y-m-d');
             $horaActual = date('H:i');
-
-            // Determinar el turno
-            if ($horaActual >= '05:00' && $horaActual < '12:00') {
-                $turno = 'Mañana';
-            } elseif ($horaActual >= '12:00' && $horaActual < '18:00') {
-                $turno = 'Tarde';
-            } else {
-                $turno = 'Noche';
-            }
             ?>
         <div class=" card card-outline card-info">
+            <form action="" id="formularioReporte">
             <div class="card-header row">
-                <div class="col-md-7">
+                <div class="col-md-4">
                     <p class="card-title mt-1" style="font-size: 22px" id="Aviso">Registro de Reportes</p>
                 </div>
                 <div class="col-md-3 col-sm-6">
                     <div class="row">
+                        <div class="col-5 col-sm-6">
+                            <label for="fechaReporte">F Requeri:</label>
+                        </div>
+                        <div class="col-7 col-sm-6">
+                            <input type="text" id="fechaReporte" class="form-control " value="<?php echo $fechaHoraActual; // Formato de fecha y hora para almacenar en base de datos
+; ?>" readonly disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <div class="row">
                         <div class="col-5 col-sm-4">
-                            <label for="fechaReporte">Fecha:</label>
+                            <label for="fechallegada">F Llegada:</label>
                         </div>
                         <div class="col-7 col-sm-8">
-                            <input type="text" class="form-control " value="<?php echo $fechaActual; ?>" readonly disabled>
+                            <input type="date" id="fechallegada" class="form-control" >
                         </div>
                     </div>
                 </div>
@@ -50,14 +53,16 @@
                         <div class="col-5 col-sm-4">
                             <label for="turno">Turno:</label>
                         </div>
-                        <div class="col-7 col-sm-8">
-                            <input type="text" class="form-control" value="<?php echo $turno; ?>" disabled>
+                        <div class="col-8 col-sm-8">
+                            <select id="turno" class="form-control ">
+                                <option value="Mañana">Mañana</option>
+                                <option value="Noche">Noche</option>
+                            </select>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="">
-            <form action="" id="formularioReporte">
                 <div class="form-group">
                     <div class="row mt-3 mr-2 ml-2">
                         <div class="col-md-4 col-12">
@@ -68,9 +73,7 @@
                                     </div>
                                     <div class="col-7 col-sm-8">
                                         <input type="text" id="encSanidad" class="form-control "placeholder="Encargado de Sanidad">
-                                        <input type="hidden" id="turno" value="<?php echo $turno; ?>">
                                         <input type="hidden" id="idproductomod" class=" asignar">
-                                        <input type="hidden" id="fechahoraReporte" value="<?php echo $fechaHoraActual; ?>" readonly >
                                     </div>
                                 </div>
                             </div>
@@ -91,16 +94,6 @@
                                     </div>
                                     <div class="col-7 col-sm-8">
                                         <input type="text" id="encQA" class="form-control "placeholder="Encargado de QA">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-6 col-sm-6">
-                                        <input type="number" id="nreserva" class="form-control" placeholder="N° Reserva">
-                                    </div>
-                                    <div class="col-6 col-sm-6">
-                                        <input type="number" id="ninstructivo" class="form-control" placeholder="N° Instructivo">
                                     </div>
                                 </div>
                             </div>
@@ -174,7 +167,6 @@
                                         </div>
                                         <div class="col-8 col-sm-8">
                                             <select id="pep" class="form-control ">
-                                                <option value="">Seleccione</option>
                                                 <option value="3">Foliar</option>
                                                 <option value="4">Fumigacion</option>
                                                 <option value="5">Control Etológico</option>
@@ -190,7 +182,6 @@
                                         </div>
                                         <div class="col-8 col-sm-8">
                                             <select id="etcultivo" class="form-control ">
-                                                <option value="">Seleccione</option>
                                                 <option value="1">Cosecha</option>
                                                 <option value="2">Mantenimiento</option>
                                             </select>
@@ -208,8 +199,8 @@
                         </div>
                     </div>
                 </div>
-            </form>
             </div>
+            </form>
         </div>
     </div>
     <div class="col-md-12">
@@ -268,23 +259,6 @@
         </div>
     </div>
 </div>
-<div class="modal" tabindex="-1" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <p>Modal body text goes here.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
-      </div>
-    </div>
-  </div>
 <script src="js/reportes.js"></script>
 
 

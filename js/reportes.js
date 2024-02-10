@@ -6,7 +6,7 @@ $(document).ready(function(){
     var botonGuardar = document.querySelector("#registrar");
 
     function registrarReporte(){
-        var fechahoraReporte = $("#fechahoraReporte").val();
+        var fechahoraReporte = $("#fechaReporte").val();
         var turno = $("#turno").val();
         var encSanidad = $("#encSanidad").val();
         var encQA = $("#encQA").val();
@@ -17,11 +17,10 @@ $(document).ready(function(){
         var s_lote = $("#s_lote").val();
         var cultivo = $("#cultivo").val();
         var variedad = $("#variedad").val();
-        var nreserva = $("#nreserva").val();
-        var ninstructivo = $("#ninstructivo").val();
         var pep = $("#pep").val();
         var etcultivo = $("#etcultivo").val();
-        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""||cultivo==null  ||nreserva== ""|| ninstructivo == ""||pep== ""||etcultivo== ""){
+        var fechallegada = $("#fechallegada").val();
+        if(encSanidad == "" || encQA == "" || encAlmacen == ""|| variedad == ""||cultivo==null ||pep== ""||etcultivo== ""||fechallegada==""){
             mostrarAlerta("warning", "¡Completar los campos necesarios!");
         }else{
             Swal.fire({
@@ -46,11 +45,11 @@ $(document).ready(function(){
                         's_lote'                 : s_lote,
                         'cultivo'                : cultivo,
                         'variedad'               : variedad,
-                        'nreserva'               : nreserva,
-                        'ninstructivo'           : ninstructivo,
                         'pep'                    : pep,
-                        'etcultivo'              : etcultivo
+                        'etcultivo'              : etcultivo,
+                        'fechallegada'           : fechallegada
                     };
+                    console.log(datos);
                     $.ajax({
                         url : 'controllers/Reporte.controller.php',
                         type: 'GET',
@@ -65,6 +64,7 @@ $(document).ready(function(){
             });
         }
     }
+
     $("#tablareporte").on("click", ".eliminar", function(){
         let  bitacoraReporteEliminar ={};
         var  datosConcatenados="";
@@ -303,7 +303,7 @@ $(document).ready(function(){
             }
         });
     });
-    
+
     var bitacoraReporte1 = {};
     var bitacoraReporte2 = {};
     let categoriaMap = {};
@@ -314,6 +314,7 @@ $(document).ready(function(){
     let variedadMap = {};
     let pepMap = {};
     let etapaCultivoMap = {};
+
     $.ajax({
         url: 'controllers/CategoriaFundo.controller.php',
         type: 'GET',
@@ -322,6 +323,7 @@ $(document).ready(function(){
             categoriaMap = JSON.parse(result);
         }
     });
+
     $.ajax({
         url: 'controllers/CategoriaFundo.controller.php',
         type: 'GET',
@@ -330,6 +332,7 @@ $(document).ready(function(){
             fundoMap = JSON.parse(result);
         }
     });
+
     $.ajax({
         url: 'controllers/CategoriaFundo.controller.php',
         type: 'GET',
@@ -338,6 +341,7 @@ $(document).ready(function(){
             loteMap = JSON.parse(result);
         }
     });
+
     $.ajax({
         url: 'controllers/CategoriaFundo.controller.php',
         type: 'GET',
@@ -438,6 +442,7 @@ $(document).ready(function(){
         var ninstructivo = $("#ninstructivo").val();
         var pep = $("#pep").val();
         var etcultivo = $("#etcultivo").val();
+        var fechallegada = $("#fechallegada").val();
         bitacoraReporte2 = {
             enc_sanidad: $("#encSanidad").val(),
             enc_QA: $("#encQA").val(),
@@ -486,6 +491,7 @@ $(document).ready(function(){
                             'ninstructivo': ninstructivo,
                             'pep': pep,
                             'etcultivo': etcultivo,
+                            'fechallegada': fechallegada,
                             'antes':diferenciasEnBitacoras.bitacora1,
                             'despues':diferenciasEnBitacoras.bitacora2
                         };
@@ -495,15 +501,13 @@ $(document).ready(function(){
                             data: datos,
                             success: function (e) {
                                 mostrarAlerta("success", "¡Modificado con éxito!");
-                                $("#formularioReporte")[0].reset();
                                 $("#Aviso").html("Registrar Producto");
                                 txtProducto.classList.add('asignar');
                                 botonActualizar.classList.add('asignar');
                                 botonGuardar.classList.remove('asignar');
                                 $("#idcategoria").prop('disabled', false);
                                 ListarReportes();
-                                console.log(diferenciasEnBitacoras.bitacora1);
-                                console.log(diferenciasEnBitacoras.bitacora2);
+                                $("#formularioReporte")[0].reset();
                             }
                         });
                     } else {
@@ -637,6 +641,7 @@ $(document).ready(function(){
                     $("#encQA").val(resultado[0].enc_QA);
                     $("#encAlmacen").val(resultado[0].enc_almacen);
                     $("#idcategoria").val(resultado[0].fk_jefe_fundo);
+                    $("#fechallegada").val(resultado[0].fecha_llegada);
                     //$("#fundo").val(resultado[0].nom_fundo);
                     let jefeGET= resultado[0].fk_jefe_fundo;
                     let fundoGET= resultado[0].nom_fundo;
@@ -1659,6 +1664,35 @@ $(document).ready(function(){
             mostrarAlerta("warning", "¡Rango de fechas invalidos!");
         }
     }
+     
+    function ListarReportesreservaintructivo(){
+        $.ajax({
+        url: 'controllers/Reporte.controller.php',
+        type: 'GET',
+        data: 'op=ListarReportesreservainstructivo',
+        success: function(e){
+            var tabla = $("#tablareservaintructivo").DataTable();
+            tabla.destroy();
+            $("#tablareservaintructivolistar").html(e);
+            $("#tablareservaintructivo").DataTable({
+                language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                columnDefs: [
+                {
+                    visible: true,
+                    searchable: true
+                }
+                ],
+                dom: 'Bfrtip',
+                buttons: ['copy', 'print', 'pdf', 'excel']
+            });
+        }
+    });
+    }
+    $("#tablareservaintructivo").on("click", ".reservainstructivo", function(e) {
+        e.preventDefault(); 
+        let idreporte = $(this).data('idproducto');
+        window.location.href = 'main.php?view=administrarreservainstructivo.php?id=' + idreporte;
+    });
 
     $("#tablareporte").on("click", ".detalle", function(e) {
         e.preventDefault(); 
@@ -1710,6 +1744,7 @@ $(document).ready(function(){
     ListarLlegadaProductos();
     ListarReportesFechaLlegada();
     ListarRegistroTotalReportes();
+    ListarReportesreservaintructivo();
     $("#registrar").click(registrarReporte);
     $("#actualizar").click(modificarReporte);
     $("#bfecha").click(buscarFecha);

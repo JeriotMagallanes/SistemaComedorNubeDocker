@@ -177,7 +177,85 @@ $(document).ready(function(){
             }
         });
     });
-
+    function asignarReservaInstructivo(){
+        let nreserva = $("#nreserva").val();
+        let ninstructivo = $("#ninstructivo").val();
+        let id_reporte = $("#id_reporte").val();
+        if(nreserva==""||ninstructivo==""){
+            mostrarAlerta("warning", "¡Completar los campos necesarios!");
+        }
+        else{
+            Swal.fire({
+                icon:'question',
+                title:'¿Está seguro de asignar N° Reserva y N° Instructivo?',
+                showCancelButton: true,
+                cancelButtonText:'Cancelar',
+                confirmButtonText:'Aceptar'
+            }).then((result) =>{
+                if(result.isConfirmed){
+                    var datos = {
+                        'op'      : 'actualizarReservaInstructivo',
+                        'nrreserva': nreserva,
+                        'nrinstructivo': ninstructivo,
+                        'id_reporte': id_reporte
+                    };  
+                    console.log(datos);
+                    $.ajax({
+                        url: 'controllers/Detalle.controller.php',
+                        type:'GET',
+                        data: datos,
+                        success:function(le){
+                            listardetalles();
+                            $("#formularioreservainstructivo")[0].reset();
+                            mostrarAlerta("success", "¡Asignado con exito con éxito!");
+                            location.reload();
+                        }
+                    });
+                    listardatosreporte();
+                }
+            });
+        }
+    }
+    $("#tablaDetalle").on("click", ".eliminar", function(){
+        let id_detalle = $(this).attr('data-idproducto');
+        let id_reporte=$("#id_reporte").val();
+        Swal.fire({
+            icon: 'question',
+            title: 'AGROINDUSTRIAL BETA',
+            html: '<label>¿Está seguro de eliminar?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observación">',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonText: 'Confirmar',
+            preConfirm: () => {
+                var observacion = Swal.getPopup().querySelector('#observacion').value;
+                if (!observacion) {
+                    Swal.showValidationMessage('¡La observación es obligatoria!');
+                }
+                return { observacion: observacion };
+            }
+        }).then((result) => {
+            if(result.isConfirmed){
+                var observacion = result.value.observacion;
+    
+                var datos = {
+                    'op' : 'eliminarDetalles',
+                    'id_detallereporte' : id_detalle,
+                    'observacion' : observacion,
+                    'id_reporte'  : id_reporte
+                };
+    
+                $.ajax({
+                    url: 'controllers/Detalle.controller.php',
+                    type: 'GET',
+                    data: datos,
+                    success: function(e){
+                        mostrarAlerta("success", "¡Eliminado correctamente!");
+                        listardetalles();
+                    }
+                });
+            }
+        });
+    });
     $("#tablaDetalle").on("click", ".eliminar", function(){
         let id_detalle = $(this).attr('data-idproducto');
         let id_reporte=$("#id_reporte").val();
@@ -225,4 +303,5 @@ $(document).ready(function(){
     cargarMotivoAplicacion("#motaplicacion");
     cargarProducto("#producto_san");
     $("#registrar").click(registrardetalle);
+    $("#asignarReservaInstructivo").click(asignarReservaInstructivo);
 });

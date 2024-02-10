@@ -192,12 +192,6 @@
                     </a>
                   </li>
                   <li class='nav-item'>
-                    <a href='main.php?view=administrarllegadaproductos.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Llegada Productos</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
                     <a href='main.php?view=vistareportesgenerales.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
                       <p>Reportes Totales</p>
@@ -231,6 +225,12 @@
               if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Calidad')){
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Calidad</li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaReservaInstructivo.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reserva e Intructivo</p>
+                    </a>
+                  </li>
                   <li class='nav-item'>
                     <a href='main.php?view=vistaReporteCalidad.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>

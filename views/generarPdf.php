@@ -109,6 +109,12 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
             <td  style='width: 150px;'>Encargado Almacen:</td>
             <td>{$reporteData['enc_almacen']}</td>
         </tr>
+        <tr>
+            <td  style='width: 100px;'>PEP:</td>
+            <td>{$reporteData['nombre_pep']}</td>
+            <td  style='width: 70px;'>Sub-Lote:</td>
+            <td>{$reporteData['nombreEcultivo']}</td>
+        </tr>
     </table>
 	<img src='$imagensello_jfundo64' style='width: 150px; height: 150px;'/>
 	<img src='$imagensello_jsanidadBase64' style='width: 150px; height: 150px; margin-left: 40px;'/>

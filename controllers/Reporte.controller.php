@@ -21,10 +21,9 @@ if (isset($_GET['op'])){
             's_lote' => $_GET['s_lote'],
             'cultivo' => $_GET['cultivo'],
             'variedad' => $_GET['variedad'],
-            'nreserva' => $_GET['nreserva'],
-            'ninstructivo' => $_GET['ninstructivo'],
             'pep' => $_GET['pep'],
-            'etcultivo' => $_GET['etcultivo']
+            'etcultivo' => $_GET['etcultivo'],
+            'fechallegada' => $_GET['fechallegada']
         ]);
     }
     //op para eliminar un reporte, opcion solo para sanidad
@@ -75,7 +74,8 @@ if (isset($_GET['op'])){
         "nreserva" => $_GET['nreserva'],
         "ninstructivo" => $_GET['ninstructivo'], 
         "pep" => $_GET['pep'],
-        "etcultivo" => $_GET['etcultivo']
+        "etcultivo" => $_GET['etcultivo'],
+        "fechallegada" => $_GET['fechallegada']
       ]); 
     }
     if($_GET['op'] == 'modificarReporte'){
@@ -1163,7 +1163,31 @@ if (isset($_GET['op'])){
           'fechaLlegada' => $_GET['fechaLlegada']
       ]);
     }
-
+        if($_GET['op']  == 'ListarReportesreservainstructivo'){              
+      $clave = $Reporte->listarReporte();
+      if(count($clave) != 0){
+        $i = 1;
+        foreach($clave as $valor){
+              echo "
+              <tr>
+                <td class='text-center'>$valor->id_reporte</td>
+                <td class='text-center'>$valor->fecha_hora</td>
+                <td class='text-center'>$valor->jefe_fundo</td>
+                <td class='text-center'>$valor->nombre_fundo</td>
+                <td class='text-center'>$valor->nombre_lote</td>
+                <td class='text-center'>$valor->_slote_nombre</td>
+                <td class='text-center'>$valor->nrReserva</td>
+                <td class='text-center'>$valor->nrInstructivo</td>
+                <td class='text-center'>
+                <a  href='#' data-idproducto='{$valor->id_reporte}' class='btn btn-sm btn-outline-secondary reservainstructivo'>
+                  <i class='fas fa-bars'></i>
+                </a>
+                </td>
+                </tr>";
+          $i++;
+        }
+      }
+    }
     if($_GET['op']  == 'ListarReporteAcciones'){              
       $clave = $Reporte->listarReporteAcciones();
       if(count($clave) != 0){

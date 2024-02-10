@@ -25,6 +25,14 @@ if (isset($_GET['op'])){
         ]);
     }
 
+    if($_GET['op'] == 'actualizarReservaInstructivo'){
+      $Detalle->actualizarReservaInstructivo([
+          'nrreserva' => $_GET['nrreserva'],
+          'nrinstructivo' => $_GET['nrinstructivo'],
+          'id_reporte' => $_GET['id_reporte'],
+      ]);
+    }
+
     if($_GET['op'] == 'listardetalles'){
       $clave = $Detalle->listardetalle(['id_reporte' => $_GET['id_reporte']]);
       $i = 1;
@@ -60,21 +68,28 @@ if (isset($_GET['op'])){
           echo "
           <tr>
               <input type='text' id='idreportecambiarEstado' value='{$reporte}'>
-              <td class='col-6 mb-0'>Jefe de Fundo: $valor->jefe_fundo</th>
-              <td class='col-6 mb-0'>Fundo: $valor->nombre_fundo</th>
+              <td class='col-3 mb-0'>Jefe de Fundo: $valor->jefe_fundo</th>
+              <td class='col-3 mb-0'>Fundo: $valor->nombre_fundo</th>
+              <td class='col-3 mb-0'>Lote: $valor->nombre_lote</th>
+              <td class='col-3 mb-0'>Sub-Lote: $valor->_slote_nombre</th>
           </tr>
           <tr>
-              <td class='col-6 mb-0'>Lote: $valor->nombre_lote</th>
-              <td class='col-6 mb-0'>Sub-Lote: $valor->_slote_nombre</th>
+              <td class='col-3 mb-0'>Cultivo: $valor->nombre_cultivo</th>
+              <td class='col-3 mb-0'>Variedad: $valor->nombre_variedad</th>
+              <td class='col-3 mb-0'>Eta. cultivo: $valor->nombreEcultivo</th>
+              <td class='col-3 mb-0'>PEP: $valor->nombre_pep</th>
           </tr>
           <tr>
-              <td class='col-6 mb-0'>Cultivo: $valor->nombre_cultivo</th>
-              <td class='col-6 mb-0'>Variedad: $valor->nombre_variedad</th>
+              <td class='col-3 mb-0'>N° Reserva: $valor->nrReserva</th>
+              <td class='col-3 mb-0'>N° Instructivo: $valor->nrInstructivo</th>
+              <td class='col-3 mb-0'></th>
+              <td class='col-3 mb-0'></th>
           </tr>
           ";
           $i++;
       }
   }
+  
     if($_GET['op'] == 'listardetallesOperario'){
       $clave = $Detalle->listardetalle(['id_reporte' => $_GET['id_reporte']]);
       $i = 1;

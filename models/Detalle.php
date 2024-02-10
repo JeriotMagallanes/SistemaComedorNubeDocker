@@ -11,7 +11,13 @@ class Detalle extends ModelMaster{
         die($error->getMessage());
       }
     }
-    
+    public function actualizarReservaInstructivo(array $data){
+      try{
+        parent::execProcedure($data, "spu_actualizarReservaInstructivo", false);
+      }catch(Exception $error){
+        die($error->getMessage());
+      }
+    }
   public function eliminarDetalle(array $data){
     try{
         parent::deleteRows($data, "spu_eliminar_detalle");
