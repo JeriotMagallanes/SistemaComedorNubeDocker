@@ -26,6 +26,7 @@ if (isset($_GET['op'])){
             'fechallegada' => $_GET['fechallegada']
         ]);
     }
+    //ops
     //op para eliminar un reporte, opcion solo para sanidad
     if ($_GET['op'] == 'eliminarReporte') {
       $nombres = $_SESSION['nombres'];

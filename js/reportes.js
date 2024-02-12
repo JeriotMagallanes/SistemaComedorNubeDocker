@@ -110,7 +110,7 @@ $(document).ready(function(){
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Confirmar',
             preConfirm: () => {
-                var observacion = Swal.getPopup().querySelector('#observacion').value;
+                var observacion = "hahahah";
                 if (!observacion) {
                     Swal.showValidationMessage('¡La observación es obligatoria!');
                 }
@@ -124,13 +124,14 @@ $(document).ready(function(){
                     'observacion' : observacion,
                     'datosEliminados' : datosConcatenados,
                 };
-    
+                //console.log(datos);
                 $.ajax({
                     url: 'controllers/Reporte.controller.php',
                     type: 'GET',
                     data: datos,
                     success: function(e){
                         mostrarAlerta("success", "¡Eliminado correctamente!");
+                        console.log(datos);
                         ListarReportes();
                     }
                 });
