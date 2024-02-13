@@ -1213,7 +1213,7 @@ if (isset($_GET['op'])){
                 echo "
                 <td class='text-center'>
                   <a style='margin-top: 10px;  href='#' data-eliminar='{$valor->eliminar}' class='btn btn-sm btn-outline-secondary bitacoraEliminar'>
-                    <i class='fas fa-eye'></i>
+                    <i class='fas fa-trash'></i>
                   </a>
                 </td>";
               }
@@ -1231,23 +1231,32 @@ if (isset($_GET['op'])){
       'fechafinal' => $_GET['fechafinal']
      ]);
       $i = 1;
-      foreach($clave as $valor){
-        echo "
+      foreach($clave as $valor){echo "
         <tr>
           <td class='text-center col-2'>$valor->ARfecha</td>
           <td class='text-center col-4'>$valor->ARnombres</td>
           <td class='text-center col-1'>$valor->ARcodigo_reporte</td>
           <td class='text-center col-2'>$valor->ARaccion</td>
-          <td class='text-center col-3'>$valor->ARobservacion</td>
-          <td class='text-center'>
-            <a style='margin-top: 10px;  href='#' data-bitacoraReporte='{$valor->ARcodigo_reporte}' class='btn btn-sm btn-outline-secondary bitacora'>
-              <i class='fas fa-eye'></i>
-            </a>
-            <input type='hidden' id='antes' value='$valor->antes'>
-            <input type='hidden' id='despues' value='$valor->despues'>
-          </td>
-        </tr>
-        ";
+          <td class='text-center col-3'>$valor->ARobservacion</td>";
+          if($valor->ARaccion=='Modificar'){
+            echo "
+            <td class='text-center'>
+              <a style='margin-top: 10px;  href='#' data-antes='{$valor->antes}' data-despues='{$valor->despues}' class='btn btn-sm btn-outline-secondary bitacoraModificar'>
+                <i class='fas fa-eye'></i>
+              </a>
+            </td>";
+          }
+          if($valor->ARaccion=='Eliminar'){
+            echo "
+            <td class='text-center'>
+              <a style='margin-top: 10px;  href='#' data-eliminar='{$valor->eliminar}' class='btn btn-sm btn-outline-secondary bitacoraEliminar'>
+                <i class='fas fa-trash'></i>
+              </a>
+            </td>";
+          }
+          echo "
+          </tr>
+          ";
         $i++;
       }
     }

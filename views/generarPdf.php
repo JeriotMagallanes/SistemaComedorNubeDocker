@@ -55,22 +55,13 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
     // Construir el HTML con los datos obtenidos del procedimiento almacenado
     $html = "
     <html>
+    <head>
+    <link rel='icon' href='../images/favicon.png'>
+    </head>
     <body>
     <div style='text-align: center;'>
-	<img src='$imagenlogobetaBase64' style='width: 160px; height: 65px; margin-right: 120px;'/>
-    <h4 style='display: inline-block;'> ORDEN DE SALIDA DE PRODUCTOS DEL REPORTE N° $reporteId </h4>
-    
-    <table style='float: right; border-collapse: collapse;'>
-        <tr>
-            <td style='width: 100px; border: 1px solid #000;'>Fecha y Hora:</td>
-            <td style='border: 1px solid #000;'>{$reporteData['fecha_hora']}</td>
-        </tr>
-        <tr>
-            <td style='width: 100px; border: 1px solid #000;'>Turno:</td>
-            <td style='border: 1px solid #000;'>{$reporteData['turno']}</td>
-        </tr>
-    </table>
-    </div>
+	<img src='$imagenlogobetaBase64' style='width: 160px; height: 65px;margin-left:-300px; margin-right:150px;'/>
+    <h4 style='display: inline-block;'> ORDEN DE SALIDA DE PRODUCTOS DEL REPORTE N° $reporteId </h4></div>
     <br>
     <br>
     <div>
@@ -88,14 +79,26 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
         <tr>
             <td  style='width: 100px;'>Lote:</td>
             <td>{$reporteData['nombre_lote']}</td>
-            <td  style='width: 70px;'>Sub-Lote:</td>
+            <td  style='width: 80px;'>Sub-Lote:</td>
             <td>{$reporteData['_slote_nombre']}</td>
         </tr>
         <tr>
             <td  style='width: 100px;'>Cultivo:</td>
             <td>{$reporteData['nombre_cultivo']}</td>
-            <td  style='width: 70px;'>Variedad:</td>
+            <td  style='width: 80px;'>Variedad:</td>
             <td>{$reporteData['nombre_variedad']}</td>
+        </tr>
+        <tr>
+            <td  style='width: 100px;'>PEP:</td>
+            <td>{$reporteData['nombre_pep']}</td>
+            <td  style='width: 80px;'>Sub-Lote:</td>
+            <td>{$reporteData['nombreEcultivo']}</td>
+        </tr>
+        <tr>
+            <td  style='width: 100px;'>N° Instructivo:</td>
+            <td>{$reporteData['nrInstructivo']}</td>
+            <td  style='width: 80px;'>N° Reserva:</td>
+            <td>{$reporteData['nrReserva']}</td>
         </tr>
         <tr>
             <td  style='width: 100px;'>Encargado de Sanidad</td>
@@ -109,16 +112,28 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
             <td  style='width: 150px;'>Encargado Almacen:</td>
             <td>{$reporteData['enc_almacen']}</td>
         </tr>
-        <tr>
-            <td  style='width: 100px;'>PEP:</td>
-            <td>{$reporteData['nombre_pep']}</td>
-            <td  style='width: 70px;'>Sub-Lote:</td>
-            <td>{$reporteData['nombreEcultivo']}</td>
-        </tr>
     </table>
 	<img src='$imagensello_jfundo64' style='width: 150px; height: 150px;'/>
 	<img src='$imagensello_jsanidadBase64' style='width: 150px; height: 150px; margin-left: 40px;'/>
+        
+    <table style='float: right; border-collapse: collapse;'>
+        <tr>
+            <td style='width: 120px; border: 1px solid #000;'>Fecha y Hora:</td>
+            <td style='border: 1px solid #000;'>{$reporteData['fecha_hora']}</td>
+        </tr>
+        <tr>
+            <td style='width: 120px; border: 1px solid #000;'>Fecha Llegada:</td>
+            <td style='border: 1px solid #000;'>{$reporteData['fecha_llegada']}</td>
+        </tr>
+        <tr>
+            <td style='width: 120px; border: 1px solid #000;'>Turno:</td>
+            <td style='border: 1px solid #000;'>{$reporteData['turno']}</td>
+        </tr>
+    </table>
     </div>
+    <br>
+    <br>
+    <br>
     <div style='text-align: center;'>
     <h4>DETALLE DE PRODUTOS DEL REPORTE</h4>
     </div>

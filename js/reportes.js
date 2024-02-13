@@ -64,22 +64,23 @@ $(document).ready(function(){
             });
         }
     }
-
+    
     $("#tablareporte").on("click", ".eliminar", function(){
-        let  bitacoraReporteEliminar ={};
-        var  datosConcatenados="";
+        let bitacoraReporteEliminar = {};
+        let datosConcatenados = "";
         let idproducto = $(this).attr('data-idproducto');
-        var datos = {
+        let datos = {
             'op' : 'getReporte',
             'id_reporte' : idproducto
         };
+        
         $.ajax({
             url: 'controllers/Reporte.controller.php',
             type: 'GET',
             data: datos,
             success: function(result){                        
                 if ($.trim(result) != ""){
-                    var resultado = JSON.parse(result);
+                    let resultado = JSON.parse(result);
                     bitacoraReporteEliminar = {
                         enc_sanidad: resultado[0].enc_sanidad,
                         enc_QA: resultado[0].enc_QA,
@@ -95,49 +96,50 @@ $(document).ready(function(){
                         pep: resultado[0].nombre_pep,
                         etapa_cultivo: resultado[0].nombreEcultivo,
                     };
-                    for (var prop in bitacoraReporteEliminar) {
+                    for (let prop in bitacoraReporteEliminar) {
                         datosConcatenados += prop + ": " + bitacoraReporteEliminar[prop] + "<br>";
                     }
-                    }
+                }
             }
         });
-        var observacionInput = '<label>¿Esta seguro de elminar el reporte con codigo '+idproducto+'?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">';
+    
         Swal.fire({
             icon: 'question',
             title: 'AGROINDUSTRIAL BETA',
-            html: observacionInput,
+            html: '<label>¿Está seguro de eliminar el reporte con código '+idproducto+'?</label><input type="text" class="swal2-input" id="observacion" placeholder="Observacion">',
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             confirmButtonText: 'Confirmar',
             preConfirm: () => {
-                var observacion = "hahahah";
+                let observacion = $('#observacion').val();
                 if (!observacion) {
-                    Swal.showValidationMessage('¡La observación es obligatoria!');
+                    mostrarAlerta("warning", "¡La observación es obligatoria para la modificación!");
                 }
                 return { observacion: observacion };
             }
         }).then((result)=>{
             if(result.isConfirmed){
-                var datos = {
+                let observacion = result.value.observacion;
+                let datos = {
                     'op' : 'eliminarReporte',
                     'idproducto' : idproducto,
                     'observacion' : observacion,
                     'datosEliminados' : datosConcatenados,
                 };
-                //console.log(datos);
+    
                 $.ajax({
                     url: 'controllers/Reporte.controller.php',
                     type: 'GET',
                     data: datos,
                     success: function(e){
                         mostrarAlerta("success", "¡Eliminado correctamente!");
-                        console.log(datos);
                         ListarReportes();
                     }
                 });
             }
         });
     });
+    
 
     $("#tablareporteJfundo").on("click", ".aprobar", function(){
         let id_reporte = $(this).attr('data-idproducto');
@@ -387,6 +389,7 @@ $(document).ready(function(){
             pepMap = JSON.parse(result);
         }
     });
+
     $.ajax({
         url: 'controllers/CategoriaFundo.controller.php',
         type: 'GET',
@@ -1733,6 +1736,7 @@ $(document).ready(function(){
         botonGuardar.classList.remove('asignar');
         $("#descripcion").prop('disabled', false);
     });
+
     cargarCategorias("#idcategoria");
     ListarReportes();
     ListarReportesGeneralAdministrador();
