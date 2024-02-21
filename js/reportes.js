@@ -1692,6 +1692,43 @@ $(document).ready(function(){
         }
     });
     }
+    
+    function buscaFechaListarReportesreservaintructivo(){
+        var fechafinal = $("#fechafinal").val();
+        var fechainicial = $("#fechainicial").val();
+        if((fechafinal=="")&&(fechainicial="")){
+            ListarReportesreservaintructivo();
+        }else{
+            $.ajax({
+                url: 'controllers/Reporte.controller.php',
+                type: 'GET',
+                data: {
+                    'op': 'filtrarFechasReportesreservaintructivo',
+                    'fechainicial' : fechainicial,
+                    'fechafinal'   : fechafinal
+                    },
+                    success: function(e){
+                        var tabla = $("#tablareservaintructivo").DataTable();
+                        tabla.destroy();
+                        $("#tablareservaintructivolistar").html(e);
+                        $("#tablareservaintructivo").DataTable({
+                            language: { url: '//cdn.datatables.net/plug-ins/1.10.24/i18n/Spanish.json' },
+                            columnDefs: [
+                            {
+                                visible: true,
+                                searchable: true
+                            }
+                            ],
+                            dom: 'Bfrtip',
+                            buttons: ['copy', 'print', 'pdf', 'excel']
+                        });
+                    }
+            });
+        }
+        if(fechafinal<fechainicial){
+            mostrarAlerta("warning", "¡Rango de fechas invalidos!");
+        }
+    }
     $("#tablareservaintructivo").on("click", ".reservainstructivo", function(e) {
         e.preventDefault(); 
         let idreporte = $(this).data('idproducto');
@@ -1762,4 +1799,5 @@ $(document).ready(function(){
     $("#bfecha").click(buscarFechasListarReportesAcciones);
     $("#bfecha").click(buscarFechasListarProductosAcciones);
     $("#bfecha").click(buscaFechaRegistroTotalesReportes);
+    $("#bfecha").click(buscaFechaListarReportesreservaintructivo);
 });

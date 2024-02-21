@@ -201,25 +201,20 @@
                       <p>Productos Totales</p>
                     </a>
                   </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=administrarreporte.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Crear Reporte</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=vistaReporte.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Ver Estado de Reportes</p>
+                    </a>
+                  </li>
                 ";
-              } 
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Operario')){
-                echo "
-                <li class='nav-header' style='background-color:#292929'>Operario</li>
-                <li class='nav-item'>
-                  <a href='main.php?view=administrarreporte.php' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Crear Reporte</p>
-                  </a>
-                </li>
-                <li class='nav-item'>
-                  <a href='main.php?view=vistaReporte.php' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Ver Estado de Reportes</p>
-                  </a>
-                </li>
-                ";
-              } 
+              }  
               if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Calidad')){
                 echo "
                   <li class='nav-header' style='background-color:#292929'>Calidad</li>
