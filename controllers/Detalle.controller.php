@@ -41,7 +41,6 @@ if (isset($_GET['op'])){
           <tr>
             <td class='text-center'>$valor->nombre_motivo</td>
             <td class='text-center'>$valor->nombre_producto</td>
-            <td class='text-center'>$valor->diascarencia</td>
             <td class='text-center'>$valor->dosiscil</td>
             <td class='text-center'>$valor->ncil</td>
             <td class='text-center'>$valor->dosistanque</td>
@@ -98,7 +97,6 @@ if (isset($_GET['op'])){
           <tr>
             <td class='text-center'>$valor->nombre_motivo</td>
             <td class='text-center'>$valor->nombre_producto</td>
-            <td class='text-center'>$valor->diascarencia</td>
             <td class='text-center'>$valor->dosiscil</td>
             <td class='text-center'>$valor->ncil</td>
             <td class='text-center'>$valor->dosistanque</td>

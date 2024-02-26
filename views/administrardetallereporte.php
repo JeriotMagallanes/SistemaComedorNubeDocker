@@ -52,11 +52,8 @@
                         ?>" >
                             </div>
                             <div class="col-md-12 mt-3">
-                                <label for="diascarencia">Dias de carencia</label>
-                                <input type="number" id="diascarencia" class="form-control form-control-border" >
-                            </div>
-                            <div class="col-md-12 mt-3">
                                 <label for="dosiscil">Dosis CIL</label>
+                                <input type="hidden" id="diascarencia" class="form-control form-control-border" >
                                 <input type="text" id="dosiscil" class="form-control form-control-border" >
                             </div>
                             <div class="col-md-12 mt-3">
@@ -134,7 +131,6 @@
                         <tr>
                             <th class="text-center">Motivo</th>
                             <th class="text-center">Producto</th>
-                            <th class="text-center">Carencia (dias)</th>
                             <th class="text-center">Dosis CIL</th>
                             <th class="text-center">N° CIL</th>
                             <th class="text-center">Dosis Tanque</th>

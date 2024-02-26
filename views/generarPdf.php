@@ -143,7 +143,6 @@ if ($reporteId !== null && $resultsql1 && $resultsql2) {
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>Motivo</th>
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>Producto</th>
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>Unidad</th>
-                <th style='border: 1px solid #000; background-color: #e6e6e6;'>Carencia (d)</th>
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>Dosis Cil</th>
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>N° CIL</th>
                 <th style='border: 1px solid #000; background-color: #e6e6e6;'>Dosis Tanque</th>
@@ -167,7 +166,6 @@ while ($fila = $resultsql2->fetch_assoc()) {
     $html .= "<td style='border: 1px solid #000; width: 200px;'>{$fila['nombre_motivo']}</td>";
     $html .= "<td style='border: 1px solid #000; width: 200px;'>{$fila['nombre_producto']}</td>";
     $html .= "<td style='text-align: center; border: 1px solid #000; width: 50px;'>{$fila['unidad']}</td>";
-    $html .= "<td style='text-align: center; border: 1px solid #000; width: 75px;'>{$fila['diascarencia']}</td>";
     $html .= "<td style='text-align: center; border: 1px solid #000; width: 75px;'>{$fila['dosiscil']}</td>";
     $html .= "<td style='text-align: center; border: 1px solid #000; width: 75px;'>{$fila['ncil']}</td>";
     $html .= "<td style='text-align: center; border: 1px solid #000; width: 75px;'>{$fila['dosistanque']}</td>";
