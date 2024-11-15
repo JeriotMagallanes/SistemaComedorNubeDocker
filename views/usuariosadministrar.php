@@ -1,6 +1,6 @@
 <?php
+    require_once 'acceso_seguro.php';
     require_once 'datatable.php';
-    require_once 'acceso-seguro.php';
     if($_SESSION['nivelacceso']!= "Administrador"){
         echo "<strong>No tiene el nivel de acceso requerido</strong>";
         exit();
@@ -38,13 +38,12 @@
                             </div>
                             <div class="col-md-12 mt-3">
                                 <label for="nivelacceso">Nivel de acceso:</label>
-                                <select id="nivelacceso" class="form-control form-control-border" onchange="mostrarOcultarInput()">
+                                <select id="nivelacceso" class="form-control form-control-border">
                                     <option value="">Seleccione</option>
                                     <option value="A">Administrador</option>
-                                    <option value="C">Calidad</option>
-                                    <option value="J">Jefe de Fundo</option>
-                                    <option value="O">Operario</option>
-                                    <option value="T">Jefe de Operaciones</option>
+                                    <option value="C">Concesionario</option>
+                                    <option value="R">Registro</option>
+                                    <option value="D">DBU</option>
                                 </select>
                             </div>
                             <div class="col-md-12 mt-3">

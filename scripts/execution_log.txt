@@ -1,0 +1,11 @@
+vie. 18/10/2024 12:02:29.11 - Iniciando la ejecuci√≥n de scripts 
+vie. 18/10/2024 12:02:29.12 - Ejecutando subidaalmuerzos.py 
+2024-10-18 12:02:29,994 - INFO - No hay m·s registros para procesar.
+vie. 18/10/2024 12:02:30.00 - subidaalmuerzos.py completado 
+vie. 18/10/2024 12:02:30.01 - Ejecutando subidadesayunos.py 
+2024-10-18 12:02:30,583 - INFO - No hay m·s registros para procesar.
+vie. 18/10/2024 12:02:30.59 - subidadesayunos.py completado 
+vie. 18/10/2024 12:02:30.61 - Ejecutando subidacenas.py 
+2024-10-18 12:02:31,276 - INFO - Datos de estudiante con ID 949 sincronizados correctamente.
+vie. 18/10/2024 12:02:31.29 - subidacenas.py completado 
+vie. 18/10/2024 12:02:31.29 - Ejecuci√≥n de scripts completada 

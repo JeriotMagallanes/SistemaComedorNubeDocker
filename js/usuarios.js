@@ -185,54 +185,6 @@ $(document).ready(function(){
         $("#apellidos").prop('disabled', false);
     });
 
-
-    function resetearFormulario(){
-        $("#formularioActualizarContraseña")[0].reset();
-    }
-
-    function actualizarClave(){
-        const claveActual = $("#claveactual").val();
-        const claveNueva = $("#clavenueva").val();
-        const claveNuevaConfirmada = $("#clavenuevaconfirmada").val();
-
-        if(claveActual == "" || claveNueva == "" || claveNuevaConfirmada == ""){
-            mostrarAlerta("warning", "¡Completar los campos necesarios!");
-        }else{
-            if(claveNueva != claveNuevaConfirmada){ // faltaria validacion para cuando la clave actual no es correcta
-                mostrarAlerta("warning", "¡Las nuevas contraseñas no coinciden!");
-            }else{
-                Swal.fire({
-                    icon: 'question',
-                    title: '¿Está seguro de cambiar la contraseña?',
-                    showCancelButton: true,
-                    cancelButtonText: 'Cancelar',
-                    confirmButtonText: 'Aceptar'
-                }).then((result) => {
-                    if (result.isConfirmed){
-                        $.ajax({
-                            url: 'controllers/Usuario.controller.php',
-                            type: 'GET',
-                            data: {
-                                'op' : 'actualizarClave',
-                                'claveActual' : claveActual,
-                                'claveNueva' : claveNueva 
-                            },
-                            success: function(result){
-                                if($.trim(result) == "OK"){
-                                    mostrarAlerta("success", "¡Actualizado correctamente!");
-                                    resetearFormulario();
-                                }else{
-                                    mostrarAlerta("warning", "¡La contraseña actual es incorrecta");
-                                    $("#claveactual").focus();
-                                }
-                            }
-                        });
-                    }
-                });
-            }
-        }
-    }
-
     function nombreusuarioYaExiste(){
         let nombreusuarioYaExiste = $("#nombreusuario").val();
         
@@ -260,8 +212,7 @@ $(document).ready(function(){
             });
         }
     }
-    
-    $("#cambiarclave").click(actualizarClave);
+
     $("#registrar").click(nombreusuarioYaExiste);
     $("#actualizar").click(modificarUsuarios);
     listarUsuarios();

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Sistema Sanidad</title>
+	<title>Comedor UNDC</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
@@ -36,91 +36,37 @@
 
 <!--===============================================================================================-->
 </head>
-<body style="background-color: #666666;">
+<body style="background-color: #09b451;">
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form">
-					<div class="" data-validate = "">
-						<img class="img-fluid" src="images/logobeta.png">
-					</div>
+				
+			<div class="login100-more" style="background-image: url('images/comedor.png');">
+				</div>
+				<form class="login100-form validate-form" style="background-color: #808280;">
+						<img class="img-fluid" src="images/logoundc.png" style=" margin-top: -80px;">
 					<div class="wrap-input100 validate-input" data-validate = "Por favor escriba su usuario">
-						<input class="input100" type="text" name="email" id="usuario">
+					<input class="input100" type="text" name="email" id="usuario">
 						<span class="focus-input100"></span>
-						<span class="label-input100">Usuario</span>
+						<span class="label-input100" style="color:#ffffff">Usuario</span>
 					</div>
 					
 					
 					<div class="wrap-input100 validate-input" data-validate="Por favor escriba su contraseña">
 						<input class="input100" type="password" id="clave" name="pass">
 						<span class="focus-input100"></span>
-						<span class="label-input100">Contraseña</span>
+						<span class="label-input100" style="color:#ffffff">Contraseña</span>
 					</div>
-			
-					<!--<div class="flex-sb-m w-full p-t-3 mb-3">
-						<div></div>
-						<div>
-							<button href="#" style="color:#545454" id="recuperaracceso" data-toggle="modal" data-target="#modelId" class="text1">¿Olvidaste tu contraseña?</button>
-						</div>
-					</div>-->
-
 					<div class="container-login100-form-btn">
 						<a type="btn" class="login100-form-btn" style="background-color:#648BE4; color: white" id="login">Ingresar</a>
 					</div>
 					
 				</form>
 
-				<div class="login100-more" style="background-image: url('images/beta.png');">
-				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="modal fade" id="modelId" tabindex="0" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Recuperar contraseña</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-            </div>
-            <div class="modal-body">
-                <div>
-                    <form action="" id="modificar-persona">
-						<label for="correo">Correo</label>
-						<div class="input-group">
-							<input type="text" class="form-control" id="correoverificacion" placeholder="Escriba su correo">
-							<div class="input-group-append">
-								<div type="button" class="btn"  id="verificarCorreo" style="background-color:#648BE4; color: white">Enviar</div>
-							</div>
-						</div>
-						<br>
-                        <div id="cajavalidacioncodigo" style="display: none;">
-							<div class="row">
-								<label for="verificacion" class="mt-3 ml-3 mr-2">Código de verificación</label>
-								<div id="count-down-timer" class="mt-3"></div>
-							</div>
-							<div class="input-group">
-								<div class="input-group-append">
-									<input type="text" class="form-control" id="caja1" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-									<input type="text" class="form-control" id="caja2" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-									<input type="text" class="form-control" id="caja3" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-									
-									<input type="text" class="form-control" id="caja4" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-									<input type="text" class="form-control" id="caja5" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-									<input type="text" class="form-control" id="caja6" style="text-align:center; font-size:1em;" maxlength="1">&nbsp;
-								</div>
-							</div>
-								<button type="button" id="validar" class="btn-block btn btn-md mt-3" style="background-color:#648BE4; color: white">Validar</button>
-							<br>
-						</div>
-					</form>
-                </div>
-
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -139,9 +85,9 @@
 	<script src="vendor/countdowntime/countdowntime.js"></script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 </body>
 </html>
 
@@ -151,35 +97,6 @@
 
 <script>	
 	$(document).ready(function(){
-		function cambiarCaja(nombrecaja, destino){
-			$(nombrecaja).keyup(function(e){
-				$tecla= e.keyCode;
-				// console.log($tecla);
-				if($tecla >  64  && $tecla < 91){
-					$(destino).focus();
-					console.log("esta es una letra");
-				}else if($tecla > 191 && $tecla < 193){
-					$(destino).focus();
-					console.log("esta es la letra ñ");
-				}else if($tecla > 47 && $tecla < 58){
-					$(destino).focus();
-					console.log("esta son numeros");
-				}else if($tecla > 95 && $tecla < 106){
-					$(destino).focus();
-					console.log("esta son numeros de la derecha");
-				}else{
-					console.log("esta tecla no vale");
-				}
-			});
-		}
-
-		$("#caja1").keyup(cambiarCaja("#caja1","#caja2"));
-		$("#caja2").keyup(cambiarCaja("#caja2","#caja3"));
-		$("#caja3").keyup(cambiarCaja("#caja3","#caja4"));
-		$("#caja4").keyup(cambiarCaja("#caja4","#caja5"));
-		$("#caja5").keyup(cambiarCaja("#caja5","#caja6"));
-		$("#caja6").keyup(cambiarCaja("#caja6","#validar"));
-
 		function iniciarSesion(){
 			if ($("#usuario").val() == "" || $("#clave").val() == ""){
 				Swal.fire({

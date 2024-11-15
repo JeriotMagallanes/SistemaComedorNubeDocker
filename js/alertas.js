@@ -2,7 +2,7 @@ function mostrarAlerta(icon,title){
     Swal.fire({
         icon: icon,
         title: title,
-        position: 'bottom-end',
+        position: 'top-end',
         timerProgressBar: true,
         timer: 1000,
         toast:true,

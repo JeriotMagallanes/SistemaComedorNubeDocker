@@ -1,17 +1,17 @@
-<?php 
-  session_start();
-  
-  if ($_SESSION['acceso'] == false){
-    //Login
-    header('Location:index.php');
-  }
+<?php
+session_start();
+if (!isset($_SESSION['acceso']) || $_SESSION['acceso'] == false) {
+    header('Location: index.php');
+    exit();
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema Sanidad</title>
+  <title>Comedor UNDC</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -57,20 +57,6 @@
           </div>
         </li>
       </ul>
-     <!-- <script type="text/javascript">
-        n=120;
-        var l=document.getElementById("numero");
-        var id=window.setInterval(function(){
-          document.onmousemove=function(){
-            n=120
-          };
-          l.innerText=n;
-          n--;
-          if(n<=-1){
-            location.href="controllers/Usuario.controller.php?op=cerrar-sesion";
-          }
-        },1000);
-      </script>-->
       <!-- Right navbar links -->
       <ul class="navbar-nav ml-auto">
         <!-- User Account: style can be found in dropdown.less -->
@@ -90,22 +76,12 @@
             </li>
             <!-- Menu Footer-->
             <li class="user-footer row-flex">
-              <!--<div class="pull-left">
-                <a href="main.php?view=usuariocambiarcontrasena" class="btn btn-default btn-flat">Contraseña</a>
-              </div> -->
               <div >
                 <a href="controllers/Usuario.controller.php?op=cerrar-sesion" class="btn btn-default btn-flat">Cerrar sesión</a>
               </div>
             </li>
           </ul>
         </li>
-
-        <!-- Config 
-        <li class="nav-item">
-          <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-            <i class="fas fa-th-large"></i>
-          </a>
-        </li>-->
       </ul>
     </nav>
     <!-- /.navbar -->
@@ -115,7 +91,7 @@
       <!-- Brand Logo -->
       <a href="main.php?view=home" class="brand-link">
         <img src="images/favicon.png" class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-bold">Sistema Sanidad</span>
+        <span class="brand-text font-weight-bold">Sistema Comedor</span>
       </a>
 
       <!-- Sidebar -->
@@ -149,125 +125,78 @@
                     </a>
                   </li>
                   <li class='nav-item'>
-                  <a href='main.php?view=administrarJOperaciones.php' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Asignar Jefe Operac.</p>
-                  </a>
-                </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=administrarfundo.php' class='nav-link'>
+                    <a href='main.php?view=estudiantesadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Administrar Fundos</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=administrarproductosanidad.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Administrar Productos</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=administrarmotivaplicacion.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Administrar Mot. Apli.</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaAccionesReportes.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Bitácora Reporte</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaAccionesProductos.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Bitácora Producto</p>
-                    </a>
-                  </li>
-                  <li class='nav-header' style='background-color:#292929'>Sanidad</li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaReporteSanidad.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Aprobar Reportes</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistareportesgenerales.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Reportes Totales</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Productos Totales</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=administrarreporte.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Crear Reporte</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaReporte.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Ver Estado de Reportes</p>
+                      <p>Administrar Estudiantes</p>
                     </a>
                   </li>
                 ";
               } 
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Calidad')){
+              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Concesionario')){
                 echo "
-                  <li class='nav-header' style='background-color:#292929'>Calidad</li>
+                  <li class='nav-header' style='background-color:#292929'>Nuticionista</li>
                   <li class='nav-item'>
-                    <a href='main.php?view=vistaReservaInstructivo.php' class='nav-link'>
+                    <a href='main.php?view=almuerzosadministrar.php' class='nav-link'>
                     <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Reserva e Intructivo</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaReporteCalidad.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Aprobar Reportes</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistareportesgenerales.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Reportes Totales</p>
-                    </a>
-                  </li>
-                  <li class='nav-item'>
-                    <a href='main.php?view=vistaGenerlaProductos.php' class='nav-link'>
-                    <i class='fas fa-users-cog nav-icon'></i>
-                      <p>Productos Totales</p>
+                      <p>Registrar Comidas</p>
                     </a>
                   </li>
                 ";
               }
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Jefe de Fundo')){
+              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'DBU')){
                 echo "
-                <li class='nav-header' style='background-color:#292929'>Jefe de Fundo</li>
-                <li class='nav-item'>
-                  <a href='main.php?view=vistaReporteJFundo.php' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Aprobar Reporte</p>
-                  </a>
-                </li>
+                <li class='nav-header' style='background-color:#292929'>DBU</li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=almuerzosadministrar.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Registrar Comidas</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=inasistenciascomedor.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Inasistencias Comedor</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=asistenciadesayuno.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Asistencias Desayuno</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=asistenciacena.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Asistencias Almuerzo</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=asistenciaalmuerzo.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Asistencias Cena</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=reportedesayuno.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reporte Desayuno</p>
+                    </a>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=reportealmuerzo.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reporte Almuerzo</p>
+                    </a>
+                  </li>
+                  </li>
+                  <li class='nav-item'>
+                    <a href='main.php?view=reportecena.php' class='nav-link'>
+                    <i class='fas fa-users-cog nav-icon'></i>
+                      <p>Reporte Cena</p>
+                    </a>
+                  </li>
                 ";
-              } 
-              if(($_SESSION['nivelacceso'] == 'Administrador')||($_SESSION['nivelacceso'] == 'Jefe de Operaciones')){
-                echo "
-                <li class='nav-header' style='background-color:#292929'>Jefe de Operaciones</li>
-                <li class='nav-item'>
-                  <a href='main.php?view=vistaReporteJFundo.php' class='nav-link'>
-                  <i class='fas fa-users-cog nav-icon'></i>
-                    <p>Gestionar Reporte</p>
-                  </a>
-                </li>
-                ";
-              } 
+              }
             ?>
           </ul>
         </nav>
@@ -339,7 +268,7 @@
 
     <!-- Main Footer -->
     <footer class="main-footer text-sm">
-      <strong>Copyright &copy; 2024 <a href="https://beta.com.pe">Complejo Agroindustrial Beta</a>.</strong>
+      <strong>Copyright &copy; 2024 <a href="https://portal.undc.edu.pe/">Sistema Comedor UNDC</a>.</strong>
     </footer>
   </div>
   <!-- ./wrapper -->

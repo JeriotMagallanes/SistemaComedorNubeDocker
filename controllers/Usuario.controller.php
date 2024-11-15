@@ -97,54 +97,34 @@ if (isset($_GET['op'])){
     header('Location:../');
   }
 
-
-  if($_GET['op']  == 'listarUsuarios'){
+  if ($_GET['op'] == 'listarUsuarios') {
     $clave = $usuario->listarUsuarios();
 
-    if(count($clave) != 0){
-      $i = 1;
-      foreach($clave as $valor){
-        $estado="";
-        if($valor->estado=="A"){
-          $estado="<label class='switch'><input id='on'data-idusuario2='$valor->idusuario' type='checkbox' checked><div class='slider round'></label>";
-        }else{
-          $estado="<label class='switch'><input id='on'data-idusuario2='$valor->idusuario' type='checkbox'><div class='slider round'></label>";
+    if (count($clave) != 0) {
+        $i = 1;
+        foreach ($clave as $valor) {
+            $estado = "";
+            if ($valor->estado == "A") {
+                $estado = "<label class='switch'><input id='on' data-idusuario2='$valor->idusuario' type='checkbox' checked><div class='slider round'></div></label>";
+            } else {
+                $estado = "<label class='switch'><input id='on' data-idusuario2='$valor->idusuario' type='checkbox'><div class='slider round'></div></label>";
+            }
+            echo "
+            <tr>
+                <td class='text-center'>$i</td>
+                <td class='text-center'>$valor->apellidos</td>
+                <td class='text-center'>$valor->nombres</td>
+                <td class='text-center'>$valor->nombreusuario</td>
+                <td class='text-center'>$valor->nivelacceso</td>
+                <td class='text-center'>
+                    <a href='#' class='btn btn-sm btn-outline-secondary modificar mr-2' data-idusuariomod='{$valor->idusuario}' data-toggle='modal' data-target='#modelId'>
+                    <i class='fas fa-edit'></i></a>
+                    {$estado}
+                </td>
+            </tr>
+            ";
+            $i++;
         }
-        echo "
-          <tr>
-            <td class='text-center'>$i</td>
-            <td class='text-center'>$valor->apellidos</td>
-            <td class='text-center'>$valor->nombres</td>
-            <td class='text-center'>$valor->nombreusuario</td>
-            <td class='text-center'>$valor->nivelacceso</td>
-            <td class='text-center'>
-              <a href='#' class='btn btn-sm btn-outline-secondary modificar mr-2 'data-idusuariomod='{$valor->idusuario}' data-toggle='modal' data-target='#modelId'>
-              <i class='fas fa-edit'></i></a>
-              {$estado}
-            </td>
-          </tr>
-        ";
-        $i++;
-      }
-    }
-  }
-
-  if ($_GET['op'] == 'actualizarClave'){
-
-    $claveActual = $_GET['claveActual'];
-    $claveNueva = $_GET['claveNueva'];
-
-    if(password_verify($claveActual, $_SESSION['clave'])){
-      $datos = [
-        "idusuario" => $_SESSION['idusuario'],
-        "clave"     => password_hash($claveNueva, PASSWORD_BCRYPT)
-      ];
-
-      $usuario->actualizarClave($datos);
-
-      echo "OK";
-    }else{
-      echo "La clave actual no es correcta";
     }
   }
 
@@ -174,49 +154,6 @@ if (isset($_GET['op'])){
       return false;
     }
   }
-  
-  if($_GET['op'] == 'codverificacion'){
-    $usuario->codverificacion([
-      "idusuario" => $_GET['idusuario'], 
-      "codverificacion" => $_GET['codverificacion']
-    ]);
-  }
 
-  if($_GET['op'] == 'eliminarCodverificacion'){
-    $usuario->eliminarCodverificacion(["idusuario" => $_GET['idusuario']]);
-  }
-
-  if ($_GET['op'] == 'recuperarClave'){
-
-      $clavenueva = $_GET['clave'];
-
-      $datos = [
-        "idusuario" => $_GET['idusuario'],
-        "clave"     => password_hash($clavenueva, PASSWORD_BCRYPT)
-      ];
-
-      $usuario->actualizarClave($datos);
-  }
-
-  if($_GET['op'] == 'validarCorreoContraseña'){
-    $clave = $usuario->validarCorreoContraseña(["email" => $_GET["email"]]);
-
-    echo json_encode($clave);
-  }
-
-  if ($_GET['op'] == 'emailNoRegistrado'){
-      $datosObtenidos = $usuario->emailNoRegistrado([
-          "email"           => $_GET['email']
-      ]);
-
-      if(count($datosObtenidos) == 0){
-          echo 2;
-          return true;
-      }
-      else{
-          echo 1;
-          return false;
-      }
-  }
 }
 ?>

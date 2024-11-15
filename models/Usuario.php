@@ -78,7 +78,7 @@ class Usuario extends ModelMaster{
 
     public function nombreusuarioYaRegistrado(array $data){
         try{
-            return parent::execProcedureLogin($data, "spu_nombreusuario_registrado", true);
+            return parent::execProcedureLogin($data, "spu_usuario_YaRegistrado", true);
         }
         catch (Exception $error){
             die($error->getMessage());
